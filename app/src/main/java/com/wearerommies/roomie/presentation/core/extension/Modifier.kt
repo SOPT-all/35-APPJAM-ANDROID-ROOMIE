@@ -88,7 +88,7 @@ fun Modifier.roundedBackgroundWithBorder(
     borderWidth: Dp = 0.dp,
 ): Modifier {
     return this
-        .clip(RoundedCornerShape(8.dp))
+        .clip(RoundedCornerShape(cornerRadius))
         .background(backgroundColor, shape = RoundedCornerShape(size = cornerRadius))
         .border(
             width = borderWidth,

@@ -3,7 +3,6 @@ package com.wearerommies.roomie.data.di
 import com.wearerommies.roomie.data.service.UserService
 import com.wearerommies.roomie.data.service.HouseService
 import com.wearerommies.roomie.data.service.MapService
-import com.wearerommies.roomie.data.service.ReqresService
 import com.wearerommies.roomie.data.service.RoomService
 import dagger.Module
 import dagger.Provides
@@ -15,11 +14,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object ServiceModule {
-    @Provides
-    @Singleton
-    fun provideReqresService(retrofit: Retrofit): ReqresService =
-        retrofit.create(ReqresService::class.java)
-
     @Provides
     @Singleton
     fun provideUserService(retrofit: Retrofit): UserService =
