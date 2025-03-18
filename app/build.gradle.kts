@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.util.Properties
 
 plugins {
@@ -25,6 +26,9 @@ android {
         versionName = libs.versions.versionName.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "KAKAO_NATIVE_KEY", gradleLocalProperties(rootDir, providers).getProperty("KAKAO_NATIVE_KEY"))
+        manifestPlaceholders["KAKAO_NATIVE_KEY"] = gradleLocalProperties(rootDir, providers).getProperty("kakaoNativeKey")
     }
 
     buildTypes {
@@ -98,4 +102,7 @@ dependencies {
 
     // Web View
     implementation(libs.accompanist.webview)
+
+    // kakao
+    implementation(libs.kakao.user)
 }
