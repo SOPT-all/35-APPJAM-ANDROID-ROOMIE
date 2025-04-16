@@ -20,6 +20,7 @@ import com.wearerommies.roomie.presentation.core.component.RoomieDatePicker
 import com.wearerommies.roomie.presentation.core.component.RoomieDatePickerField
 import com.wearerommies.roomie.presentation.ui.filter.component.ColumnWithTitle
 import com.wearerommies.roomie.presentation.ui.filter.component.FilterChip
+import com.wearerommies.roomie.presentation.ui.filter.screen.Date.ONEMONTH
 import com.wearerommies.roomie.presentation.ui.filter.screen.Date.ONEYEAR
 import com.wearerommies.roomie.presentation.ui.filter.screen.Date.SIXMONTH
 import com.wearerommies.roomie.presentation.ui.filter.screen.Date.THREEMONTH
@@ -31,6 +32,7 @@ import kotlinx.collections.immutable.toPersistentList
 
 object Date {
     const val ONEYEAR: Int = 1
+    const val ONEMONTH: Int = 1
     const val THREEMONTH: Int = 3
     const val SIXMONTH: Int = 6
 }
@@ -86,6 +88,7 @@ fun ContractTypeScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     val contractPeriodOptions = listOf(
+                        ONEMONTH,
                         THREEMONTH,
                         SIXMONTH,
                         ONEYEAR
@@ -94,7 +97,7 @@ fun ContractTypeScreen(
                     contractPeriodOptions.forEach { option ->
                         val isSelected = contractPeriod.contains(option)
                         FilterChip(
-                            text = if (option == 1) stringResource(
+                            text = if (option == ONEYEAR) stringResource(
                                 R.string.year,
                                 option
                             ) else stringResource(R.string.month, option),

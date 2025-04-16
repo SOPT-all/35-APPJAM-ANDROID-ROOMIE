@@ -37,7 +37,7 @@
     <string name="desired_move_in_date">희망 입주 날짜</string>
     <string name="birth_date">생년월일</string>
     <string name="room_type">형태</string>
-    <string name="desired_contract_period">희망계약기간</string>
+    <string name="desired_contract_period">희망 계약 기간</string>
     <string name="filter">필터</string>
     <string name="man_only">남성전용</string>
     <string name="woman_only">여성전용</string>
