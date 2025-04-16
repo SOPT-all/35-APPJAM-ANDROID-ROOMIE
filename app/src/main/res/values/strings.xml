@@ -7,9 +7,6 @@
     <string name="mypage">마이페이지</string>
 
     //home
-    <string name="mood_tag_calm">차분한</string>
-    <string name="mood_tag_active">활기찬</string>
-    <string name="mood_tag_clean">깔끔한</string>
     <string name="mood_card_sub_text">분위기의\n방이 궁금하신가요?</string>
     <string name="home_location">연남동</string>
     <string name="home_banner_message">1분만에 나만의 분위기 알아보기</string>
@@ -39,7 +36,7 @@
     // filter
     <string name="desired_move_in_date">희망 입주 날짜</string>
     <string name="birth_date">생년월일</string>
-    <string name="room_type">룸 타입</string>
+    <string name="room_type">형태</string>
     <string name="desired_contract_period">희망계약기간</string>
     <string name="filter">필터</string>
     <string name="man_only">남성전용</string>
@@ -49,11 +46,10 @@
     <string name="one_person">1인실</string>
     <string name="two_person">2인실</string>
     <string name="three_person">3인실</string>
-    <string name="four_person">4인실</string>
-    <string name="five_person">5인실</string>
-    <string name="six_person">6인실</string>
+    <string name="more_than_four_person">4인실 이상</string>
     <string name="year">%1$s년</string>
     <string name="month">%1$s개월</string>
+    <string name="mood_type">분위기</string>
 
     //my
     <string name="profile_image">프로필 이미지</string>
@@ -171,4 +167,7 @@
     <string name="hashtag">#</string>
     <string name="contract_period">계약기간</string>
     <string name="error">error</string>
+    <string name="mood_tag_calm">차분한</string>
+    <string name="mood_tag_active">활기찬</string>
+    <string name="mood_tag_clean">깔끔한</string>
 </resources>

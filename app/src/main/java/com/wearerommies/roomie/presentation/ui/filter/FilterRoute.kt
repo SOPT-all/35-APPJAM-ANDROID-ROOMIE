@@ -82,6 +82,7 @@ fun FilterRoute(
         genderPolicy = state.genderPolicy,
         preferredDate = state.preferredDate,
         occupancyType = state.occupancyType,
+        moodType = state.moodType,
         contractPeriod = state.contractType,
         setDepositRangeStart = viewModel::setDepositRangeStart,
         setDepositRangeEnd = viewModel::setDepositRangeEnd,
@@ -90,6 +91,7 @@ fun FilterRoute(
         setGenderPolicy = viewModel::setGenderPolicy,
         setPreferredDate = viewModel::setPreferredDate,
         setOccupancyType = viewModel::setOccupancyType,
+        setMoodType = viewModel::setMoodType,
         setContractPeriod = viewModel::setContractPeriod,
         resetAll = viewModel::resetAll,
         applyCondition = viewModel::applyCondition
@@ -110,6 +112,7 @@ fun FilterScreen(
     genderPolicy: PersistentList<String>,
     preferredDate: String,
     occupancyType: PersistentList<String>,
+    moodType: PersistentList<String>,
     contractPeriod: PersistentList<Int>,
     setDepositRangeStart: (String) -> Unit,
     setDepositRangeEnd: (String) -> Unit,
@@ -118,6 +121,7 @@ fun FilterScreen(
     setGenderPolicy: (PersistentList<String>) -> Unit,
     setPreferredDate: (Long?) -> Unit,
     setOccupancyType: (PersistentList<String>) -> Unit,
+    setMoodType: (PersistentList<String>) -> Unit,
     setContractPeriod: (PersistentList<Int>) -> Unit,
     resetAll: () -> Unit,
     applyCondition: () -> Unit,
@@ -204,8 +208,10 @@ fun FilterScreen(
                     1 -> RoomTypeScreen(
                         genderPolicy = genderPolicy,
                         occupancyType = occupancyType,
+                        moodType = moodType,
                         setGenderPolicy = setGenderPolicy,
                         setOccupancyType = setOccupancyType,
+                        setMoodType = setMoodType
                     )
 
                     2 -> ContractTypeScreen(
@@ -245,6 +251,7 @@ fun FilterScreenPreview() {
             genderPolicy = persistentListOf(),
             preferredDate = "",
             occupancyType = persistentListOf(),
+            moodType = persistentListOf(),
             contractPeriod = persistentListOf(),
             setDepositRangeStart = {},
             setDepositRangeEnd = {},
@@ -253,6 +260,7 @@ fun FilterScreenPreview() {
             setGenderPolicy = {},
             setPreferredDate = {},
             setOccupancyType = {},
+            setMoodType = {},
             setContractPeriod = {},
             resetAll = {},
             applyCondition = {}
