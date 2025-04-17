@@ -31,10 +31,10 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 
 object Date {
-    const val ONEYEAR: Int = 1
     const val ONEMONTH: Int = 1
     const val THREEMONTH: Int = 3
     const val SIXMONTH: Int = 6
+    const val ONEYEAR: Int = 12
 }
 
 @Composable
@@ -97,10 +97,10 @@ fun ContractTypeScreen(
                     contractPeriodOptions.forEach { option ->
                         val isSelected = contractPeriod.contains(option)
                         FilterChip(
-                            text = if (option == ONEYEAR) stringResource(
-                                R.string.year,
-                                option
-                            ) else stringResource(R.string.month, option),
+                            text = if (option == ONEYEAR)
+                                stringResource(R.string.year, option / 12)
+                            else
+                                stringResource(R.string.month, option),
                             isSelected = isSelected,
                             onClick = {
                                 setContractPeriod(
