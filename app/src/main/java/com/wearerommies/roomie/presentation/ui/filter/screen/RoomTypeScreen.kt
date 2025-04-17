@@ -126,7 +126,11 @@ fun RoomTypeScreen(
             title = R.string.mood_type,
             spacerValue = 12.dp,
             content = {
-                Column {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     val moodTypeOptions = listOf(
                         stringResource(R.string.mood_tag_calm),
                         stringResource(R.string.mood_tag_active),
