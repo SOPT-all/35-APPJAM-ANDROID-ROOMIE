@@ -96,6 +96,12 @@ class FilterViewModel @Inject constructor(
         )
     }
 
+    fun setMoodType(value: PersistentList<String>) {
+        _state.value = _state.value.copy(
+            moodType = value
+        )
+    }
+
     fun setContractPeriod(value: PersistentList<Int>) {
         _state.value = _state.value.copy(
             contractType = value

@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.android.gms.common.util.CollectionUtils.listOf
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.presentation.ui.filter.component.ColumnWithTitle
 import com.wearerommies.roomie.presentation.ui.filter.component.FilterChip
@@ -28,8 +29,10 @@ import kotlinx.collections.immutable.toPersistentList
 fun RoomTypeScreen(
     genderPolicy: PersistentList<String>,
     occupancyType: PersistentList<String>,
+    moodType: PersistentList<String>,
     setGenderPolicy: (PersistentList<String>) -> Unit,
     setOccupancyType: (PersistentList<String>) -> Unit,
+    setMoodType: (PersistentList<String>) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -62,10 +65,9 @@ fun RoomTypeScreen(
                             isSelected = isSelected,
                             onClick = {
                                 setGenderPolicy(
-                                    if(genderPolicy.contains(option)){
+                                    if (genderPolicy.contains(option)) {
                                         genderPolicy.remove(option).toPersistentList()
-                                    }
-                                    else {
+                                    } else {
                                         genderPolicy.add(option).toPersistentList()
                                     }
                                 )
@@ -87,9 +89,7 @@ fun RoomTypeScreen(
                         stringResource(R.string.one_person),
                         stringResource(R.string.two_person),
                         stringResource(R.string.three_person),
-                        stringResource(R.string.four_person),
-                        stringResource(R.string.five_person),
-                        stringResource(R.string.six_person),
+                        stringResource(R.string.more_than_four_person)
                     )
 
                     roomTypeOptions.chunked(4).forEach { chunk ->
@@ -105,7 +105,7 @@ fun RoomTypeScreen(
                                     isSelected = isSelected,
                                     onClick = {
                                         setOccupancyType(
-                                            if (occupancyType.contains(option)){
+                                            if (occupancyType.contains(option)) {
                                                 occupancyType.remove(option).toPersistentList()
                                             } else {
                                                 occupancyType.add(option).toPersistentList()
@@ -121,6 +121,41 @@ fun RoomTypeScreen(
                 }
             }
         )
+
+        ColumnWithTitle(
+            title = R.string.mood_type,
+            spacerValue = 12.dp,
+            content = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    val moodTypeOptions = listOf(
+                        stringResource(R.string.mood_tag_calm),
+                        stringResource(R.string.mood_tag_active),
+                        stringResource(R.string.mood_tag_clean)
+                    )
+
+                    moodTypeOptions.forEach { option ->
+                        val isSelected = moodType.contains(option)
+                        FilterChip(
+                            text = option,
+                            isSelected = isSelected,
+                            onClick = {
+                                setMoodType(
+                                    if (moodType.contains(option)) {
+                                        moodType.remove(option).toPersistentList()
+                                    } else {
+                                        moodType.add(option).toPersistentList()
+                                    }
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+        )
     }
 }
 
@@ -131,8 +166,10 @@ fun RoomTypeScreenPreview() {
         RoomTypeScreen(
             genderPolicy = persistentListOf(),
             occupancyType = persistentListOf(),
+            moodType = persistentListOf(),
             setGenderPolicy = {},
             setOccupancyType = {},
+            setMoodType = {}
         )
     }
 }

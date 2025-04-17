@@ -14,5 +14,6 @@ data class FilterState(
     val genderPolicy: PersistentList<String> = persistentListOf(),
     val preferredDate: String = "",
     val occupancyType: PersistentList<String> = persistentListOf(),
+    val moodType: PersistentList<String> = persistentListOf(),
     val contractType: PersistentList<Int> = persistentListOf()
 )
