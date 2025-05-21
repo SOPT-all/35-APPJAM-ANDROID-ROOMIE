@@ -7,6 +7,8 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.wearerommies.roomie.domain.entity.SocialLoginEntity
+import com.wearerommies.roomie.domain.repository.TokenRepository
 import com.wearerommies.roomie.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LoginState())
@@ -89,4 +92,28 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    private fun sendTokenToServer(
+        accessToken: String,
+        provider: String = KAKAO
+    ) {
+        viewModelScope.launch {
+            userRepository.postSocialLogin(
+                loginData = SocialLoginEntity(
+                    accessToken = accessToken,
+                    provider = provider
+                )
+            ).onSuccess { response ->
+                tokenRepository.setTokens(response.accessToken, response.refreshToken)
+                _sideEffect.emit(LoginSideEffect.LoginSuccess(response.accessToken))
+            }
+                .onFailure { error ->
+                    val errorMessage = error.localizedMessage ?: "Unknown error"
+                    handleLoginError(errorMessage = errorMessage)
+                }
+        }
+    }
+
+    companion object {
+        const val KAKAO = "KAKAO"
+    }
 }
