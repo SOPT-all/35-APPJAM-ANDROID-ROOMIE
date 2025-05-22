@@ -51,8 +51,13 @@ fun LoginRoute(
                         // 필요 시 StartLogin 추가 처리
                     }
 
-                    //todo: onboarding 또는 home으로 navigate
-                    is LoginSideEffect.LoginSuccess -> navigateToHome()
+                    is LoginSideEffect.LoginSuccess -> {
+                        if (sideEffect.isRegistered) {
+                            navigateToHome()
+                        } else {
+                            //todo: navigateToOnboarding()
+                        }
+                    }
 
                     is LoginSideEffect.LoginError -> {
                         // 필요 시 LoginError 추가 처리

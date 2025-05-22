@@ -54,41 +54,8 @@ class LoginViewModel @Inject constructor(
                     handleLoginError("카카오계정으로 로그인 실패: ${error.localizedMessage}")
                 }
             } else if (token != null) {
-                handleLoginSuccess(token.accessToken)
+                sendTokenToServer(token.accessToken)
             }
-        }
-    }
-
-    private fun handleLoginSuccess(accessToken: String) {
-        Timber.tag("loginSuccees").d(accessToken)
-
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-                _state.value = _state.value.copy(
-                    errorMessage = error.message
-                )
-            } else if (user != null) {
-                _state.value = _state.value.copy(
-                    isLoggedIn = true,
-                    accessToken = accessToken,
-                    nickname = user.kakaoAccount?.profile?.nickname,
-                    errorMessage = null
-                )
-            }
-        }
-        viewModelScope.launch {
-            _sideEffect.emit(LoginSideEffect.LoginSuccess(accessToken))
-        }
-    }
-
-    private fun handleLoginError(errorMessage: String) {
-        _state.value = _state.value.copy(
-            isLoggedIn = false,
-            accessToken = null,
-            errorMessage = errorMessage
-        )
-        viewModelScope.launch {
-            _sideEffect.emit(LoginSideEffect.LoginError(errorMessage))
         }
     }
 
@@ -104,12 +71,22 @@ class LoginViewModel @Inject constructor(
                 )
             ).onSuccess { response ->
                 tokenRepository.setTokens(response.accessToken, response.refreshToken)
-                _sideEffect.emit(LoginSideEffect.LoginSuccess(response.accessToken))
+                //todo: isRegistered 관련 논의
+                _sideEffect.emit(LoginSideEffect.LoginSuccess(response.accessToken, isRegistered = true))
+                Timber.tag("sendTokenToServer").d(accessToken)
             }
                 .onFailure { error ->
                     val errorMessage = error.localizedMessage ?: "Unknown error"
                     handleLoginError(errorMessage = errorMessage)
+                    Timber.tag("sendTokenToServer").e(error)
                 }
+        }
+    }
+
+
+    private fun handleLoginError(errorMessage: String) {
+        viewModelScope.launch {
+            _sideEffect.emit(LoginSideEffect.LoginError(errorMessage))
         }
     }
 
