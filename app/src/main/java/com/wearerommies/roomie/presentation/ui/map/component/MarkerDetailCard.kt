@@ -177,7 +177,7 @@ fun MarkerDetailCard(
         Spacer(modifier = Modifier.width(4.dp))
 
         Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_right_line_black_24px),
+            imageVector = ImageVector.vectorResource(id = R.drawable.btn_like_mapcard),
             contentDescription = stringResource(R.string.navigate_to_house_detail),
             modifier = Modifier
                 .padding(8.dp),
