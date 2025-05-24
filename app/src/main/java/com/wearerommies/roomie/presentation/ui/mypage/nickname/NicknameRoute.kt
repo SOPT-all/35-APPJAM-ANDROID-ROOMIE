@@ -1,12 +1,12 @@
 package com.wearerommies.roomie.presentation.ui.mypage.nickname
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,6 +34,8 @@ import com.wearerommies.roomie.presentation.core.extension.bottomBorder
 import com.wearerommies.roomie.presentation.core.extension.noRippleClickable
 import com.wearerommies.roomie.presentation.core.extension.showToast
 import com.wearerommies.roomie.presentation.core.util.convertDpToFloat
+import com.wearerommies.roomie.presentation.type.MyAccountType
+import com.wearerommies.roomie.presentation.ui.mypage.component.MyTextField
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 
@@ -51,10 +53,6 @@ fun NicknameRoute(
 
     val currentCounter by rememberUpdatedState(counter)
 
-    LaunchedEffect(currentCounter) {
-        viewModel.getUserInformation()
-    }
-
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -68,71 +66,82 @@ fun NicknameRoute(
     NicknameScreen(
         paddingValues = paddingValues,
         navigateUp = navigateUp,
-        navigateToBookmark = viewModel::navigateToBookmark,
         state = state.uiState
     )
 
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NicknameScreen(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
-    navigateToBookmark: () -> Unit,
     state: MyPageEntity,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
+    Column(
         modifier = modifier
             .fillMaxSize()
             .background(RoomieTheme.colors.grayScale1)
             .padding(paddingValues),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        stickyHeader {
-            RoomieTopBar(
-                modifier = Modifier
-                    .bottomBorder(
-                        height = convertDpToFloat(1.dp),
-                        color = RoomieTheme.colors.grayScale4
-                    ),
-                leadingIcon = {
-                    Icon(
-                        modifier = Modifier
-                            .noRippleClickable { navigateUp() }
-                            .padding(all = 10.dp),
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_left_line_black_24px),
-                        contentDescription = stringResource(R.string.move_back)
-                    )
-                },
-                title = "닉네임 수정하기"
-            )
-        }
+        RoomieTopBar(
+            modifier = Modifier
+                .bottomBorder(
+                    height = convertDpToFloat(1.dp),
+                    color = RoomieTheme.colors.grayScale4
+                ),
+            leadingIcon = {
+                Icon(
+                    modifier = Modifier
+                        .noRippleClickable { navigateUp() }
+                        .padding(all = 10.dp),
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_left_line_black_24px),
+                    contentDescription = stringResource(R.string.move_back)
+                )
+            },
+            title = "닉네임 수정하기"
+        )
 
-        item {
-            RoomieButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 20.dp,
-                        end = 20.dp,
-                        top = 8.dp,
-                        bottom = 20.dp
-                    ),
-                verticalPadding = 12.dp,
-                text = "로그아웃",
-                backgroundColor = RoomieTheme.colors.grayScale1,
-                textColor = RoomieTheme.colors.grayScale7,
-                textStyle = RoomieTheme.typography.body2Sb14,
-                onClick = {
-                    //todo: logout
-                },
-                borderColor = RoomieTheme.colors.grayScale5,
-                borderWidth = 1.dp
-            )
-        }
+        MyTextField(
+            paddingValues = PaddingValues(16.dp),
+            textFieldValue = state.name,
+            placeHolder = stringResource(MyAccountType.NICKNAME.title),
+            onValueChange = {},
+            modifier = Modifier
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 20.dp,
+                    bottom = 12.dp
+                ),
+        )
 
+        Spacer(
+            modifier = Modifier
+                .weight(1f)
+        )
+
+        RoomieButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 20.dp,
+                    end = 20.dp,
+                    top = 8.dp,
+                    bottom = 20.dp
+                ),
+            verticalPadding = 12.dp,
+            text = "수정하기",
+            backgroundColor = RoomieTheme.colors.grayScale1,
+            textColor = RoomieTheme.colors.grayScale7,
+            textStyle = RoomieTheme.typography.body2Sb14,
+            onClick = {
+                //todo: nickname edit
+            },
+            borderColor = RoomieTheme.colors.grayScale5,
+            borderWidth = 1.dp
+        )
     }
 }
 
@@ -143,7 +152,6 @@ fun NicknameScreenPreview() {
         NicknameScreen(
             paddingValues = PaddingValues(),
             navigateUp = {},
-            navigateToBookmark = {},
             state = MyPageEntity(
                 name = "루미"
             )
