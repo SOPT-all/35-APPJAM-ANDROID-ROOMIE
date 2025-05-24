@@ -161,11 +161,11 @@ fun GenderScreen(
             verticalPadding = 12.dp,
             text = "수정하기",
             backgroundColor = RoomieTheme.colors.grayScale1,
-            textColor = RoomieTheme.colors.grayScale7,
+            textColor = if (state.isEnabled) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale7,
             textStyle = RoomieTheme.typography.body2Sb14,
             onClick = onClickEditButton,
             isEnabled = state.isEnabled,
-            borderColor = RoomieTheme.colors.grayScale5,
+            borderColor = if (state.isEnabled) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5,
             borderWidth = 1.dp
         )
     }
