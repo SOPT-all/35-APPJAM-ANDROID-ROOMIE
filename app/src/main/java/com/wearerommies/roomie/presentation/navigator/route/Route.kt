@@ -2,9 +2,9 @@ package com.wearerommies.roomie.presentation.navigator.route
 
 import android.os.Bundle
 import androidx.navigation.NavType
-import com.wearerommies.roomie.domain.entity.TourEntity
 import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.SearchResultEntity
+import com.wearerommies.roomie.domain.entity.TourEntity
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlin.reflect.typeOf
@@ -75,6 +75,24 @@ sealed interface Route {
     data class WebView(
         val webViewUrl: String
     ) : Route
+
+    @Serializable
+    data object MyAccount : Route
+
+    @Serializable
+    data object Name : Route
+
+    @Serializable
+    data object Nickname : Route
+
+    @Serializable
+    data object Birth : Route
+
+    @Serializable
+    data object Gender : Route
+
+    @Serializable
+    data object Contact : Route
 }
 
 sealed interface MainTabRoute : Route {
@@ -91,7 +109,7 @@ sealed interface MainTabRoute : Route {
     data object My : MainTabRoute
 }
 
-val tourApplyType = object: NavType<TourEntity>(isNullableAllowed = false){
+val tourApplyType = object : NavType<TourEntity>(isNullableAllowed = false) {
     override fun get(bundle: Bundle, key: String): TourEntity? {
         return bundle.getString(key)?.let {
             Json.decodeFromString(it)

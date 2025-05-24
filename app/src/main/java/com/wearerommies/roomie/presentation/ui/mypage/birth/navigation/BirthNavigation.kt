@@ -6,23 +6,19 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.wearerommies.roomie.presentation.navigator.route.Route
-import com.wearerommies.roomie.presentation.ui.mypage.nickname.NicknameRoute
 
-fun NavController.navigateToNickname(navOptions: NavOptions? = null) {
+fun NavController.navigateToBirth(navOptions: NavOptions? = null) {
     navigate(
-        route = Route.Nickname,
+        route = Route.Birth,
         navOptions = navOptions
     )
 }
 
-fun NavGraphBuilder.nicknameNavGraph(
+fun NavGraphBuilder.birthNavGraph(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
     ) {
-    composable<Route.Nickname> {
-        NicknameRoute(
-            paddingValues = paddingValues,
-            navigateUp = navigateUp,
-        )
+    composable<Route.Birth> {
+
     }
 }

@@ -45,6 +45,7 @@ import com.wearerommies.roomie.ui.theme.RoomieTheme
 fun MyRoute(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
+    navigateToMyAccount: () -> Unit,
     navigateToBookmark: () -> Unit,
     viewModel: MyViewModel = hiltViewModel()
 ) {
@@ -65,6 +66,7 @@ fun MyRoute(
                 when (sideEffect) {
                     is MySideEffect.ShowToast -> context.showToast(message = sideEffect.message)
                     is MySideEffect.NavigateToBookMark -> navigateToBookmark()
+                    is MySideEffect.NavigateToMyAccount -> navigateToMyAccount()
                 }
             }
     }
@@ -72,6 +74,7 @@ fun MyRoute(
     MyScreen(
         paddingValues = paddingValues,
         navigateUp = navigateUp,
+        navigateToMyAccount = viewModel::navigateToMyAccount,
         navigateToBookmark = viewModel::navigateToBookmark,
         state = state.uiState
     )
@@ -83,6 +86,7 @@ fun MyRoute(
 fun MyScreen(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
+    navigateToMyAccount: () -> Unit,
     navigateToBookmark: () -> Unit,
     state: MyPageEntity,
     modifier: Modifier = Modifier
@@ -112,7 +116,7 @@ fun MyScreen(
                     ),
                 profileImgUrl = "",
                 nickname = state.name,
-                onClick = {}
+                onClick = navigateToMyAccount
             )
 
             Spacer(
@@ -187,6 +191,7 @@ fun MyScreenPreview() {
         MyScreen(
             paddingValues = PaddingValues(),
             navigateUp = {},
+            navigateToMyAccount = {},
             navigateToBookmark = {},
             state = MyPageEntity(
                 name = "루미"

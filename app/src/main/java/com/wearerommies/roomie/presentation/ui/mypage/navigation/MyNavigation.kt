@@ -17,12 +17,14 @@ fun NavController.navigateToMy(navOptions: NavOptions) {
 
 fun NavGraphBuilder.myNavGraph(
     paddingValues: PaddingValues,
+    navigateToMyAccount: () -> Unit,
     navigateToBookmark: () -> Unit
 ) {
     composable<MainTabRoute.My> {
         MyRoute(
             paddingValues = paddingValues,
             navigateUp = {},
+            navigateToMyAccount = navigateToMyAccount,
             navigateToBookmark = navigateToBookmark
         )
     }

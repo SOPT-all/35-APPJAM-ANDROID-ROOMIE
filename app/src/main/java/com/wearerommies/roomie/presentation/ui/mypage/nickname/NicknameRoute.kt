@@ -43,7 +43,6 @@ import com.wearerommies.roomie.ui.theme.RoomieTheme
 fun NicknameRoute(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
-    navigateToBookmark: () -> Unit,
     viewModel: NicknameViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -58,7 +57,6 @@ fun NicknameRoute(
             .collect { sideEffect ->
                 when (sideEffect) {
                     is NicknameSideEffect.ShowToast -> context.showToast(message = sideEffect.message)
-                    is NicknameSideEffect.NavigateToBookMark -> navigateToBookmark()
                 }
             }
     }

@@ -7,9 +7,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.wearerommies.roomie.domain.entity.TourEntity
 import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.SearchResultEntity
+import com.wearerommies.roomie.domain.entity.TourEntity
 import com.wearerommies.roomie.presentation.navigator.route.MainTabRoute
 import com.wearerommies.roomie.presentation.navigator.route.Route
 import com.wearerommies.roomie.presentation.type.MainTabType
@@ -21,7 +21,13 @@ import com.wearerommies.roomie.presentation.ui.filter.navigation.navigateToFilte
 import com.wearerommies.roomie.presentation.ui.home.navigation.navigateToHome
 import com.wearerommies.roomie.presentation.ui.map.navigation.navigateToMap
 import com.wearerommies.roomie.presentation.ui.mood.navigation.navigateToMood
+import com.wearerommies.roomie.presentation.ui.mypage.myaccount.navigation.navigateToMyAccount
+import com.wearerommies.roomie.presentation.ui.mypage.name.navigation.navigateToName
 import com.wearerommies.roomie.presentation.ui.mypage.navigation.navigateToMy
+import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.navigateToBirth
+import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.navigateToContact
+import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.navigateToGender
+import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.navigateToNickname
 import com.wearerommies.roomie.presentation.ui.search.navigation.navigateToSearch
 import com.wearerommies.roomie.presentation.ui.tour.navigation.navigateToTourFirstStep
 import com.wearerommies.roomie.presentation.ui.tour.navigation.navigateToTourSecondStep
@@ -74,7 +80,7 @@ class MainNavigator(
         }
     }
 
-    fun navigateToHome(){
+    fun navigateToHome() {
         navController.navigate(MainTabRoute.Home)
     }
 
@@ -130,7 +136,7 @@ class MainNavigator(
 
     fun navigateToTourSecondStep(tourApply: TourEntity) {
         navController.navigateToTourSecondStep(tourApply, navOptions = navOptions {
-            popUpTo<Route.TourFirstStep>{
+            popUpTo<Route.TourFirstStep> {
                 saveState = true
             }
             restoreState = true
@@ -142,13 +148,37 @@ class MainNavigator(
     }
 
     fun navigateToCompleteStep() {
-        navController.navigateTourCompleteStep(navOptions = navOptions{
+        navController.navigateTourCompleteStep(navOptions = navOptions {
             popUpTo<Route.Detail>()
         })
     }
 
     fun navigateToWebView(webViewUrl: String) {
         navController.navigateToWebView(webViewUrl = webViewUrl)
+    }
+
+    fun navigateToMyAccount() {
+        navController.navigateToMyAccount()
+    }
+
+    fun navigateToName() {
+        navController.navigateToName()
+    }
+
+    fun navigateToNickname() {
+        navController.navigateToNickname()
+    }
+
+    fun navigateToBirth() {
+        navController.navigateToBirth()
+    }
+
+    fun navigateToGender() {
+        navController.navigateToGender()
+    }
+
+    fun navigateToContact() {
+        navController.navigateToContact()
     }
 
     private inline fun <reified T : Route> isSameCurrentDestination(): Boolean =

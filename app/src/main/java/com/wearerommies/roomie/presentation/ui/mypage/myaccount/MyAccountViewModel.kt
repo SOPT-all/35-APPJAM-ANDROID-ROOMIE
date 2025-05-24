@@ -42,10 +42,33 @@ class MyAccountViewModel @Inject constructor(
             }
     }
 
-
-    fun navigateToBookmark() {
+    fun navigateToName() {
         viewModelScope.launch {
-            _sideEffect.emit(MyAccountSideEffect.NavigateToBookMark)
+            _sideEffect.emit(MyAccountSideEffect.NavigateToName)
+        }
+    }
+
+    fun navigateToNickname() {
+        viewModelScope.launch {
+            _sideEffect.emit(MyAccountSideEffect.NavigateToNickname)
+        }
+    }
+
+    fun navigateToBirth() {
+        viewModelScope.launch {
+            _sideEffect.emit(MyAccountSideEffect.NavigateToBirth)
+        }
+    }
+
+    fun navigateToGender() {
+        viewModelScope.launch {
+            _sideEffect.emit(MyAccountSideEffect.NavigateToGender)
+        }
+    }
+
+    fun navigateToContact() {
+        viewModelScope.launch {
+            _sideEffect.emit(MyAccountSideEffect.NavigateToContact)
         }
     }
 }

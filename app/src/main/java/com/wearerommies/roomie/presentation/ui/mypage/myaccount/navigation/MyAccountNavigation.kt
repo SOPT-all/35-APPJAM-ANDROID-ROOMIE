@@ -5,26 +5,34 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.wearerommies.roomie.presentation.navigator.route.MainTabRoute
+import com.wearerommies.roomie.presentation.navigator.route.Route
 import com.wearerommies.roomie.presentation.ui.mypage.myaccount.MyAccountRoute
 
-fun NavController.navigateToMyAccount(navOptions: NavOptions) {
+fun NavController.navigateToMyAccount(navOptions: NavOptions? = null) {
     navigate(
-        route = MainTabRoute.My,
+        route = Route.MyAccount,
         navOptions = navOptions
     )
 }
 
 fun NavGraphBuilder.myAccountNavGraph(
     paddingValues: PaddingValues,
-    navigateToBookmark: () -> Unit
+    navigateUp: () -> Unit,
+    navigateToName: () -> Unit,
+    navigateToNickname: () -> Unit,
+    navigateToBirth: () -> Unit,
+    navigateToGender: () -> Unit,
+    navigateToContact: () -> Unit,
 ) {
-    //todo: route 수정
-    composable<MainTabRoute.My> {
+    composable<Route.MyAccount> {
         MyAccountRoute(
             paddingValues = paddingValues,
-            navigateUp = {},
-            navigateToBookmark = navigateToBookmark
+            navigateUp = navigateUp,
+            navigateToName = navigateToName,
+            navigateToNickname = navigateToNickname,
+            navigateToBirth = navigateToBirth,
+            navigateToGender = navigateToGender,
+            navigateToContact = navigateToContact,
         )
     }
 }

@@ -13,7 +13,13 @@ import com.wearerommies.roomie.presentation.ui.filter.navigation.filterNavGraph
 import com.wearerommies.roomie.presentation.ui.home.navigation.homeNavGraph
 import com.wearerommies.roomie.presentation.ui.map.navigation.mapNavGraph
 import com.wearerommies.roomie.presentation.ui.mood.navigation.moodNavGraph
+import com.wearerommies.roomie.presentation.ui.mypage.myaccount.navigation.myAccountNavGraph
+import com.wearerommies.roomie.presentation.ui.mypage.name.navigation.nameNavGraph
 import com.wearerommies.roomie.presentation.ui.mypage.navigation.myNavGraph
+import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.birthNavGraph
+import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.contactNavGraph
+import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.genderNavGraph
+import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.nicknameNavGraph
 import com.wearerommies.roomie.presentation.ui.search.navigation.searchNavGraph
 import com.wearerommies.roomie.presentation.ui.splash.navigation.splashNavGraph
 import com.wearerommies.roomie.presentation.ui.tour.navigation.tourNavGraph
@@ -49,7 +55,37 @@ fun RoomieNavHost(
         )
         myNavGraph(
             paddingValues = padding,
+            navigateToMyAccount = navigator::navigateToMyAccount,
             navigateToBookmark = navigator::navigateToBookmark
+        )
+        myAccountNavGraph(
+            paddingValues = padding,
+            navigateUp = navigator::popBackStackIfNotHome,
+            navigateToNickname = navigator::navigateToNickname,
+            navigateToName = navigator::navigateToName,
+            navigateToBirth = navigator::navigateToBirth,
+            navigateToGender = navigator::navigateToGender,
+            navigateToContact = navigator::navigateToContact
+        )
+        nameNavGraph(
+            paddingValues = padding,
+            navigateUp = navigator::popBackStackIfNotHome,
+        )
+        nicknameNavGraph(
+            paddingValues = padding,
+            navigateUp = navigator::popBackStackIfNotHome,
+        )
+        birthNavGraph(
+            paddingValues = padding,
+            navigateUp = navigator::popBackStackIfNotHome,
+        )
+        genderNavGraph(
+            paddingValues = padding,
+            navigateUp = navigator::popBackStackIfNotHome,
+        )
+        contactNavGraph(
+            paddingValues = padding,
+            navigateUp = navigator::popBackStackIfNotHome,
         )
         searchNavGraph(
             paddingValues = padding,
