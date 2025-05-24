@@ -13,12 +13,12 @@ import com.wearerommies.roomie.presentation.ui.filter.navigation.filterNavGraph
 import com.wearerommies.roomie.presentation.ui.home.navigation.homeNavGraph
 import com.wearerommies.roomie.presentation.ui.map.navigation.mapNavGraph
 import com.wearerommies.roomie.presentation.ui.mood.navigation.moodNavGraph
+import com.wearerommies.roomie.presentation.ui.mypage.birth.navigation.birthNavGraph
+import com.wearerommies.roomie.presentation.ui.mypage.gender.navigation.genderNavGraph
 import com.wearerommies.roomie.presentation.ui.mypage.myaccount.navigation.myAccountNavGraph
 import com.wearerommies.roomie.presentation.ui.mypage.name.navigation.nameNavGraph
 import com.wearerommies.roomie.presentation.ui.mypage.navigation.myNavGraph
-import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.birthNavGraph
 import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.contactNavGraph
-import com.wearerommies.roomie.presentation.ui.mypage.gender.navigation.genderNavGraph
 import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.nicknameNavGraph
 import com.wearerommies.roomie.presentation.ui.search.navigation.searchNavGraph
 import com.wearerommies.roomie.presentation.ui.splash.navigation.splashNavGraph
