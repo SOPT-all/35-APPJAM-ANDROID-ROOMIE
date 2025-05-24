@@ -2,24 +2,26 @@ package com.wearerommies.roomie.presentation.ui.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -83,24 +85,42 @@ fun LoginScreen(
     onLoginClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val screenWeigth = LocalConfiguration.current.screenWidthDp
-    val height = (screenWeigth * 0.5).dp
-
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(RoomieTheme.colors.grayScale1)
             .padding(paddingValues),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
+        Icon(
+            modifier = Modifier
+                .padding(top = 105.dp),
+            imageVector = ImageVector.vectorResource(R.drawable.ic_roomie_logo),
+            contentDescription = stringResource(R.string.roomie_logo),
+            tint = Color.Unspecified
+        )
+        Text(
+            modifier = Modifier
+                .padding(top = 20.dp),
+            text = stringResource(R.string.login_title),
+            style = RoomieTheme.typography.title2Sb16,
+            color = RoomieTheme.colors.gradientPrimary
+        )
+
+        //todo: image 추가 예정
+
+        Spacer(
+            modifier = Modifier
+                .weight(1f)
+        )
+
         Image(
             modifier = Modifier
-                .size(60.dp)
-                .clip(CircleShape)
+                .fillMaxWidth()
+                .padding(start = 20.dp, end = 20.dp, bottom = 42.dp)
                 .noRippleClickable { onLoginClick() },
-            painter = painterResource(R.drawable.img_profile),
-            contentDescription = stringResource(R.string.profile_image),
+            painter = painterResource(R.drawable.img_kakao_login),
+            contentDescription = stringResource(R.string.kakao_login),
             contentScale = ContentScale.Crop
         )
     }
