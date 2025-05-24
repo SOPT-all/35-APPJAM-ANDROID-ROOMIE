@@ -18,7 +18,7 @@ import com.wearerommies.roomie.presentation.ui.mypage.name.navigation.nameNavGra
 import com.wearerommies.roomie.presentation.ui.mypage.navigation.myNavGraph
 import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.birthNavGraph
 import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.contactNavGraph
-import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.genderNavGraph
+import com.wearerommies.roomie.presentation.ui.mypage.gender.navigation.genderNavGraph
 import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.nicknameNavGraph
 import com.wearerommies.roomie.presentation.ui.search.navigation.searchNavGraph
 import com.wearerommies.roomie.presentation.ui.splash.navigation.splashNavGraph
