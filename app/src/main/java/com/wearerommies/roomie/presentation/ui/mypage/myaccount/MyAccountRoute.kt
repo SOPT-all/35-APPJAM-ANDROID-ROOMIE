@@ -2,6 +2,7 @@ package com.wearerommies.roomie.presentation.ui.mypage.myaccount
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,9 +20,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,16 +32,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.MyPageEntity
-import com.wearerommies.roomie.presentation.core.component.RoomieNavigateButton
+import com.wearerommies.roomie.presentation.core.component.RoomieButton
 import com.wearerommies.roomie.presentation.core.component.RoomieTopBar
+import com.wearerommies.roomie.presentation.core.extension.bottomBorder
+import com.wearerommies.roomie.presentation.core.extension.noRippleClickable
 import com.wearerommies.roomie.presentation.core.extension.showToast
-import com.wearerommies.roomie.presentation.core.extension.topBorder
 import com.wearerommies.roomie.presentation.core.util.convertDpToFloat
-import com.wearerommies.roomie.presentation.type.MyType
-import com.wearerommies.roomie.presentation.type.NavigateButtonType
-import com.wearerommies.roomie.presentation.ui.mypage.component.MyButtonWithHelperText
-import com.wearerommies.roomie.presentation.ui.mypage.component.MyProfileCard
-import com.wearerommies.roomie.presentation.ui.mypage.component.MyTitleBox
+import com.wearerommies.roomie.presentation.type.MyAccountType
+import com.wearerommies.roomie.presentation.ui.mypage.myaccount.component.MyAccountBox
+import com.wearerommies.roomie.presentation.ui.mypage.myaccount.component.MyAccountButton
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 
@@ -87,9 +90,6 @@ fun MyAccountScreen(
     state: MyPageEntity,
     modifier: Modifier = Modifier
 ) {
-    val screenWeigth = LocalConfiguration.current.screenWidthDp
-    val height = (screenWeigth * 0.5).dp
-
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -99,83 +99,92 @@ fun MyAccountScreen(
     ) {
         stickyHeader {
             RoomieTopBar(
-                title = stringResource(R.string.mypage)
+                modifier = Modifier
+                    .bottomBorder(
+                        height = convertDpToFloat(1.dp),
+                        color = RoomieTheme.colors.grayScale4
+                    ),
+                leadingIcon = {
+                    Icon(
+                        modifier = Modifier
+                            .noRippleClickable { navigateUp() }
+                            .padding(all = 10.dp),
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_left_line_black_24px),
+                        contentDescription = stringResource(R.string.move_back)
+                    )
+                },
+                title = "나의 계정 정보"
             )
         }
 
         item {
-            MyProfileCard(
-                modifier = Modifier
-                    .topBorder(
-                        convertDpToFloat(1.dp),
-                        color = RoomieTheme.colors.grayScale4
-                    ),
-                profileImgUrl = "",
-                nickname = state.name,
-                onClick = {}
+            MyAccountBox()
+
+            MyAccountButton(
+                myAccountType = MyAccountType.NAME,
+                userInformation = "이루미",
+                onClick = {},
+            )
+            MyAccountButton(
+                myAccountType = MyAccountType.NICKNAME,
+                userInformation = "카드값줘체리",
+                onClick = {},
+            )
+            MyAccountButton(
+                myAccountType = MyAccountType.BIRTH,
+                userInformation = "2025.03.21",
+                onClick = {},
+            )
+            MyAccountButton(
+                myAccountType = MyAccountType.GENDER,
+                userInformation = "여성",
+                onClick = {},
+            )
+            MyAccountButton(
+                myAccountType = MyAccountType.PHONE_NUMBER,
+                userInformation = "010-0000-0000",
+                onClick = {},
             )
 
             Spacer(
+                modifier = Modifier.height(68.dp)
+            )
+
+            RoomieButton(
                 modifier = Modifier
-                    .topBorder(
-                        convertDpToFloat(1.dp),
-                        color = RoomieTheme.colors.grayScale4
-                    )
-                    .background(color = RoomieTheme.colors.grayScale3)
                     .fillMaxWidth()
-                    .height(12.dp)
-            )
-
-            MyTitleBox(
-                modifier = Modifier
-                    .topBorder(
-                        convertDpToFloat(1.dp),
-                        color = RoomieTheme.colors.grayScale4
+                    .padding(
+                        start = 20.dp,
+                        end = 20.dp,
+                        top = 8.dp,
+                        bottom = 20.dp
                     ),
-                text = stringResource(R.string.show_more_roomie)
+                verticalPadding = 12.dp,
+                text = "로그아웃",
+                backgroundColor = RoomieTheme.colors.grayScale1,
+                textColor = RoomieTheme.colors.grayScale7,
+                textStyle = RoomieTheme.typography.body2Sb14,
+                onClick = {
+                    //todo: logout
+                },
+                borderColor = RoomieTheme.colors.grayScale5,
+                borderWidth = 1.dp
             )
 
-            RoomieNavigateButton(
-                type = NavigateButtonType.MY,
-                text = stringResource(R.string.bookmark_list),
-                onClick = navigateToBookmark
-            )
-
-            MyButtonWithHelperText(
-                mainText = stringResource(R.string.find_sharehouses),
-                helperText = stringResource(R.string.request_new_room),
-                onClick = {}
-            )
-
-            MyButtonWithHelperText(
-                mainText = stringResource(R.string.add_new_room),
-                helperText = stringResource(R.string.register_sharehouse_owner),
-                onClick = {}
-            )
-
-            RoomieNavigateButton(
-                type = NavigateButtonType.MY,
-                text = stringResource(R.string.send_feedback)
+            Text(
+                modifier = Modifier
+                    .clickable {
+                        //todo: withdraw
+                    }
+                    .padding(horizontal = 4.dp),
+                text = "탈퇴 하기",
+                style = RoomieTheme.typography.body5Sb12,
+                color = RoomieTheme.colors.grayScale7
             )
 
             Spacer(
-                modifier = Modifier
-                    .padding(horizontal = 20.dp, vertical = 8.dp)
-                    .fillMaxWidth()
-                    .height(1.dp)
-                    .background(color = RoomieTheme.colors.grayScale4)
+                modifier = Modifier.height(30.dp)
             )
-
-            MyTitleBox(
-                text = stringResource(R.string.service_infomation)
-            )
-
-            MyType.entries.forEach { type ->
-                RoomieNavigateButton(
-                    type = NavigateButtonType.MY,
-                    text = stringResource(type.title)
-                )
-            }
         }
     }
 }
