@@ -1,7 +1,9 @@
 package com.wearerommies.roomie.presentation.ui.map.component;
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,13 +15,16 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wearerommies.roomie.R
@@ -67,6 +72,28 @@ fun MapBottomSheet(
                     color = RoomieTheme.colors.grayScale12,
                     modifier = Modifier.padding(bottom = 9.dp)
                 )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(RoomieTheme.colors.actionError)
+                        .topBorder(convertDpToFloat(1.dp), RoomieTheme.colors.grayScale4)
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_circle_gray_16px),
+                        tint = RoomieTheme.colors.grayScale7,
+                        contentDescription = null
+                    )
+                    Text(
+                        text = stringResource(R.string.exclude_full),
+                        style = RoomieTheme.typography.body1R14,
+                        color = RoomieTheme.colors.grayScale10,
+                        modifier = Modifier.padding(start = 6.dp)
+                    )
+                }
             }
         },
         sheetContent = {
@@ -85,7 +112,6 @@ fun MapBottomSheet(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .topBorder(convertDpToFloat(1.dp), RoomieTheme.colors.grayScale4)
                         .padding(start = 11.dp, end = 13.dp)
                         .heightIn(max = (LocalConfiguration.current.screenHeightDp * 0.67).dp)
                 ) {
