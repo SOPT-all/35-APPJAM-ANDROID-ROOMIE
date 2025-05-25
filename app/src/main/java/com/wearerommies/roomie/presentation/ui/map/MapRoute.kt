@@ -43,7 +43,7 @@ import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.FilterResultEntity
 import com.wearerommies.roomie.domain.entity.SearchResultEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieSnackbar
-import com.wearerommies.roomie.presentation.ui.map.component.MapBotomSheet
+import com.wearerommies.roomie.presentation.ui.map.component.MapBottomSheet
 import com.wearerommies.roomie.presentation.ui.map.component.MapTopBar
 import com.wearerommies.roomie.presentation.ui.map.component.MarkerDetailCard
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
@@ -242,7 +242,7 @@ fun MapScreen(
                     .padding(bottom = 16.dp),
             )
 
-        if (isBottomSheetOpened) MapBotomSheet(
+        if (isBottomSheetOpened) MapBottomSheet(
             onLikeClick = bookMarkHouse,
             navigateToDetail = navigateToDetail,
             houseList = houseList
