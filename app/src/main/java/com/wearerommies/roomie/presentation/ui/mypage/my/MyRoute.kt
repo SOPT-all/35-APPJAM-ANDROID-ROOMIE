@@ -1,4 +1,4 @@
-package com.wearerommies.roomie.presentation.ui.mypage
+package com.wearerommies.roomie.presentation.ui.mypage.my
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -35,9 +35,9 @@ import com.wearerommies.roomie.presentation.core.extension.topBorder
 import com.wearerommies.roomie.presentation.core.util.convertDpToFloat
 import com.wearerommies.roomie.presentation.type.MyType
 import com.wearerommies.roomie.presentation.type.NavigateButtonType
-import com.wearerommies.roomie.presentation.ui.mypage.component.MyButtonWithHelperText
-import com.wearerommies.roomie.presentation.ui.mypage.component.MyProfileCard
-import com.wearerommies.roomie.presentation.ui.mypage.component.MyTitleBox
+import com.wearerommies.roomie.presentation.ui.mypage.my.component.MyButtonWithHelperText
+import com.wearerommies.roomie.presentation.ui.mypage.my.component.MyProfileCard
+import com.wearerommies.roomie.presentation.ui.mypage.my.component.MyTitleBox
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 

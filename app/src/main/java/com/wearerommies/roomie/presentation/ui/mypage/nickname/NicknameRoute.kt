@@ -33,7 +33,7 @@ import com.wearerommies.roomie.presentation.core.extension.noRippleClickable
 import com.wearerommies.roomie.presentation.core.extension.showToast
 import com.wearerommies.roomie.presentation.core.util.convertDpToFloat
 import com.wearerommies.roomie.presentation.type.MyAccountType
-import com.wearerommies.roomie.presentation.ui.mypage.component.MyTextField
+import com.wearerommies.roomie.presentation.ui.mypage.my.component.MyTextField
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 

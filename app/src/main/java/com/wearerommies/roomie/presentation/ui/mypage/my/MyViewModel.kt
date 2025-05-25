@@ -1,4 +1,4 @@
-package com.wearerommies.roomie.presentation.ui.mypage
+package com.wearerommies.roomie.presentation.ui.mypage.my
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package com.wearerommies.roomie.presentation.ui.mypage.component
+package com.wearerommies.roomie.presentation.ui.mypage.my.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
