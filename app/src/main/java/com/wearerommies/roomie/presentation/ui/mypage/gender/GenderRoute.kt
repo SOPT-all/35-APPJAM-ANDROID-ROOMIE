@@ -102,7 +102,7 @@ fun GenderScreen(
                     contentDescription = stringResource(R.string.move_back)
                 )
             },
-            title = "성별 수정하기"
+            title = stringResource(R.string.gender_edit)
         )
 
         Row(
@@ -159,7 +159,7 @@ fun GenderScreen(
                     bottom = 20.dp
                 ),
             verticalPadding = 12.dp,
-            text = "수정하기",
+            text = stringResource(R.string.edit),
             backgroundColor = RoomieTheme.colors.grayScale1,
             textColor = if (state.isEnabled) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale7,
             textStyle = RoomieTheme.typography.body2Sb14,

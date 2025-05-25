@@ -128,7 +128,7 @@ fun MyAccountScreen(
                         contentDescription = stringResource(R.string.move_back)
                     )
                 },
-                title = "나의 계정 정보"
+                title = stringResource(R.string.my_account_information)
             )
         }
 
@@ -175,7 +175,7 @@ fun MyAccountScreen(
                         bottom = 20.dp
                     ),
                 verticalPadding = 12.dp,
-                text = "로그아웃",
+                text = stringResource(R.string.logout),
                 backgroundColor = RoomieTheme.colors.grayScale1,
                 textColor = RoomieTheme.colors.grayScale7,
                 textStyle = RoomieTheme.typography.body2Sb14,
@@ -192,7 +192,7 @@ fun MyAccountScreen(
                         //todo: withdraw
                     }
                     .padding(horizontal = 4.dp),
-                text = "탈퇴 하기",
+                text = stringResource(R.string.withdraw),
                 style = RoomieTheme.typography.body5Sb12,
                 color = RoomieTheme.colors.grayScale7
             )

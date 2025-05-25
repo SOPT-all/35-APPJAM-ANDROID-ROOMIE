@@ -116,7 +116,7 @@ fun BirthScreen(
                     contentDescription = stringResource(R.string.move_back)
                 )
             },
-            title = "생년월일 수정하기"
+            title = stringResource(R.string.birth_edit)
         )
 
         RoomieDatePickerField(
@@ -148,7 +148,7 @@ fun BirthScreen(
                     bottom = 20.dp
                 ),
             verticalPadding = 12.dp,
-            text = "수정하기",
+            text = stringResource(R.string.edit),
             backgroundColor = RoomieTheme.colors.grayScale1,
             textColor = if (state.isEnabled) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale7,
             textStyle = RoomieTheme.typography.body2Sb14,

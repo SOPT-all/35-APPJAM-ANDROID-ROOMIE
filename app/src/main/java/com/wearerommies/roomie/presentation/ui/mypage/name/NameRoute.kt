@@ -99,7 +99,7 @@ fun NameScreen(
                     contentDescription = stringResource(R.string.move_back)
                 )
             },
-            title = "이름 수정하기"
+            title = stringResource(R.string.name_edit)
         )
 
         Spacer(
@@ -117,7 +117,10 @@ fun NameScreen(
                     horizontal = 16.dp,
                 ),
             isValidate = state.isValidated,
-            errorMessage = if (state.isEnabled) "이름은 한글, 영문만 입력 가능합니다" else "이름을 입력해주세요"
+            errorMessage = if (state.isEnabled)
+                stringResource(R.string.name_error)
+            else
+                stringResource(R.string.enter_name)
         )
 
         Spacer(
@@ -135,7 +138,7 @@ fun NameScreen(
                     bottom = 20.dp
                 ),
             verticalPadding = 12.dp,
-            text = "수정하기",
+            text = stringResource(R.string.edit),
             backgroundColor = RoomieTheme.colors.grayScale1,
             textColor = if (state.isValidated) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale7,
             textStyle = RoomieTheme.typography.body2Sb14,

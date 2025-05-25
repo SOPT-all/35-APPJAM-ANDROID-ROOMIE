@@ -99,7 +99,7 @@ fun ContactScreen(
                     contentDescription = stringResource(R.string.move_back)
                 )
             },
-            title = "연락처 수정하기"
+            title = stringResource(R.string.contact_edit)
         )
 
         Spacer(
@@ -118,7 +118,7 @@ fun ContactScreen(
                 ),
             keyboardType = KeyboardType.Number,
             isValidate = state.isValidated,
-            errorMessage = "연락처를 입력해주세요"
+            errorMessage = stringResource(R.string.enter_phone_number)
         )
 
         Spacer(
@@ -136,7 +136,7 @@ fun ContactScreen(
                     bottom = 20.dp
                 ),
             verticalPadding = 12.dp,
-            text = "수정하기",
+            text = stringResource(R.string.edit),
             backgroundColor = RoomieTheme.colors.grayScale1,
             textColor = if (state.isEnabled) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale7,
             textStyle = RoomieTheme.typography.body2Sb14,

@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.wearerommies.roomie.R
@@ -44,7 +45,7 @@ fun MyAccountBox(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "계정 연동",
+                text = stringResource(R.string.account_connect),
                 style = RoomieTheme.typography.body1R14,
                 color = RoomieTheme.colors.grayScale7,
             )
@@ -58,7 +59,7 @@ fun MyAccountBox(
                     tint = Color.Unspecified
                 )
                 Text(
-                    text = "카카오톡",
+                    text = stringResource(R.string.kakaotalk),
                     style = RoomieTheme.typography.body2Sb14,
                     color = RoomieTheme.colors.grayScale12,
                 )

@@ -99,7 +99,7 @@ fun NicknameScreen(
                     contentDescription = stringResource(R.string.move_back)
                 )
             },
-            title = "닉네임 수정하기"
+            title = stringResource(R.string.nickname_edit)
         )
 
         Spacer(
@@ -117,7 +117,9 @@ fun NicknameScreen(
                     horizontal = 16.dp,
                 ),
             isValidate = state.isValidated,
-            errorMessage = if (state.isEnabled) "닉네임은 2~12자의 한글, 영문, 숫자만 입력 가능합니다" else "닉네임을 입력해주세요"
+            errorMessage = if (state.isEnabled) stringResource(R.string.nickname_error) else stringResource(
+                R.string.enter_nickname
+            )
         )
 
         Spacer(
@@ -135,7 +137,7 @@ fun NicknameScreen(
                     bottom = 20.dp
                 ),
             verticalPadding = 12.dp,
-            text = "수정하기",
+            text = stringResource(R.string.edit),
             backgroundColor = RoomieTheme.colors.grayScale1,
             textColor = if (state.isValidated) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale7,
             textStyle = RoomieTheme.typography.body2Sb14,
