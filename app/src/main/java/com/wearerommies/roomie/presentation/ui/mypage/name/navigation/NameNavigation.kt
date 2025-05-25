@@ -6,6 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.wearerommies.roomie.presentation.navigator.route.Route
+import com.wearerommies.roomie.presentation.ui.mypage.name.NameRoute
 
 fun NavController.navigateToName(navOptions: NavOptions? = null) {
     navigate(
@@ -19,6 +20,9 @@ fun NavGraphBuilder.nameNavGraph(
     navigateUp: () -> Unit,
 ) {
     composable<Route.Name> {
-
+        NameRoute(
+            paddingValues = paddingValues,
+            navigateUp = navigateUp
+        )
     }
 }
