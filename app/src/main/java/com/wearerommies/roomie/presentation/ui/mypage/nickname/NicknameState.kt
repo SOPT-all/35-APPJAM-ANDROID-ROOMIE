@@ -1,10 +1,11 @@
 package com.wearerommies.roomie.presentation.ui.mypage.nickname
 
-import com.wearerommies.roomie.domain.entity.MyPageEntity
+import com.wearerommies.roomie.domain.entity.TourEntity
 
 data class NicknameState(
-    val uiState: MyPageEntity = MyPageEntity(
-        name = "닉네임"
-    ),
-    val nickname: String = ""
-)
+    //todo: entity 변경
+    val uiState: TourEntity = TourEntity(),
+    val isValidated: Boolean = true
+) {
+    val isEnabled = uiState.name.isNotEmpty()
+}

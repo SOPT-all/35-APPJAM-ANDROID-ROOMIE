@@ -14,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -27,7 +26,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
-import com.wearerommies.roomie.domain.entity.MyPageEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
 import com.wearerommies.roomie.presentation.core.component.RoomieTopBar
 import com.wearerommies.roomie.presentation.core.extension.bottomBorder
@@ -64,7 +62,9 @@ fun NicknameRoute(
     NicknameScreen(
         paddingValues = paddingValues,
         navigateUp = navigateUp,
-        state = state.uiState
+        state = state,
+        onNicknameChanged = viewModel::updatedNickname,
+        onClickEditButton = {}
     )
 
 }
@@ -73,7 +73,9 @@ fun NicknameRoute(
 fun NicknameScreen(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
-    state: MyPageEntity,
+    state: NicknameState,
+    onNicknameChanged: (String) -> Unit,
+    onClickEditButton: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -81,7 +83,6 @@ fun NicknameScreen(
             .fillMaxSize()
             .background(RoomieTheme.colors.grayScale1)
             .padding(paddingValues),
-        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         RoomieTopBar(
             modifier = Modifier
@@ -101,18 +102,22 @@ fun NicknameScreen(
             title = "닉네임 수정하기"
         )
 
+        Spacer(
+            modifier = Modifier
+                .padding(top = 20.dp)
+        )
+
         MyTextField(
             paddingValues = PaddingValues(16.dp),
-            textFieldValue = state.name,
+            textFieldValue = state.uiState.name,
             placeHolder = stringResource(MyAccountType.NICKNAME.title),
-            onValueChange = {},
+            onValueChange = onNicknameChanged,
             modifier = Modifier
                 .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 20.dp,
-                    bottom = 12.dp
+                    horizontal = 16.dp,
                 ),
+            isValidate = state.isValidated,
+            errorMessage = if (state.isEnabled) "닉네임은 2~12자의 한글, 영문, 숫자만 입력 가능합니다" else "닉네임을 입력해주세요"
         )
 
         Spacer(
@@ -132,12 +137,11 @@ fun NicknameScreen(
             verticalPadding = 12.dp,
             text = "수정하기",
             backgroundColor = RoomieTheme.colors.grayScale1,
-            textColor = RoomieTheme.colors.grayScale7,
+            textColor = if (state.isValidated) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale7,
             textStyle = RoomieTheme.typography.body2Sb14,
-            onClick = {
-                //todo: nickname edit
-            },
-            borderColor = RoomieTheme.colors.grayScale5,
+            onClick = onClickEditButton,
+            isEnabled = state.isValidated,
+            borderColor = if (state.isValidated) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5,
             borderWidth = 1.dp
         )
     }
@@ -150,9 +154,9 @@ fun NicknameScreenPreview() {
         NicknameScreen(
             paddingValues = PaddingValues(),
             navigateUp = {},
-            state = MyPageEntity(
-                name = "루미"
-            )
+            state = NicknameState(),
+            onNicknameChanged = {},
+            onClickEditButton = {}
         )
     }
 }

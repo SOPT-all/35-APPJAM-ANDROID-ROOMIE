@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
@@ -125,10 +124,11 @@ fun MyTextField(
     )
     if (!isValidate)
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            modifier = modifier
+                .padding(top = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Spacer(modifier = Modifier.height(4.dp))
-
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_warning_14px),
                 contentDescription = stringResource(R.string.error),

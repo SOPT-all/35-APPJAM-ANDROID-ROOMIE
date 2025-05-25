@@ -2,6 +2,7 @@ package com.wearerommies.roomie.presentation.ui.mypage.nickname
 
 import androidx.lifecycle.ViewModel
 import com.wearerommies.roomie.domain.repository.UserRepository
+import com.wearerommies.roomie.presentation.core.util.RegexConstants.NICK_NAME_REGEX
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,7 +28,13 @@ class NicknameViewModel @Inject constructor(
 
     fun updatedNickname(nickname: String) {
         _state.value = _state.value.copy(
-            nickname = nickname
+            uiState = _state.value.uiState.copy(
+                name = nickname
+            )
+        )
+
+        _state.value = _state.value.copy(
+            isValidated = NICK_NAME_REGEX.matches(nickname)
         )
     }
 }
