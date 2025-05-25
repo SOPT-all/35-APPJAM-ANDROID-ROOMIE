@@ -133,6 +133,7 @@ fun RommieTextField(
     )
     if (!isValidate)
         Row(
+            modifier = modifier,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Spacer(modifier = Modifier.height(4.dp))
