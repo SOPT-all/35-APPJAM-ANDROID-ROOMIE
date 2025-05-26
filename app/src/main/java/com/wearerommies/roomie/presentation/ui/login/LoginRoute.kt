@@ -38,7 +38,6 @@ fun LoginRoute(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
     navigateToHome: () -> Unit,
-    //todo: navigateToOnboarding: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -57,7 +56,7 @@ fun LoginRoute(
                         if (sideEffect.isRegistered) {
                             navigateToHome()
                         } else {
-                            //todo: navigateToOnboarding()
+                            //todo: signup
                         }
                     }
 

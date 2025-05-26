@@ -17,12 +17,13 @@ fun NavController.navigateToLogin(navOptions: NavOptions? = null) {
 
 fun NavGraphBuilder.loginNavGraph(
     paddingValues: PaddingValues,
+    navigateUp: () -> Unit,
     navigateToHome: () -> Unit,
 ) {
     composable<Route.Login> {
         LoginRoute(
             paddingValues = paddingValues,
-            navigateUp = {},
+            navigateUp = navigateUp,
             navigateToHome = navigateToHome
         )
     }

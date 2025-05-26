@@ -38,6 +38,7 @@ fun RoomieNavHost(
         splashNavGraph()
         loginNavGraph(
             paddingValues = padding,
+            navigateUp = navigator::popBackStackIfNotHome,
             navigateToHome = {
                 val navOptions = navOptions {
                     popUpTo<Route.Login> {
