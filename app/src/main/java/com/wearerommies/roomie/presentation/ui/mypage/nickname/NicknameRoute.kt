@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -82,7 +83,8 @@ fun NicknameScreen(
         modifier = modifier
             .fillMaxSize()
             .background(RoomieTheme.colors.grayScale1)
-            .padding(paddingValues),
+            .padding(paddingValues)
+            .imePadding(),
     ) {
         RoomieTopBar(
             modifier = Modifier
