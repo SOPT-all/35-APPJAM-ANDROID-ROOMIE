@@ -1,12 +1,13 @@
 package com.wearerommies.roomie.data.di
 
-import com.wearerommies.roomie.data.datalocal.datasource.TokenDataSource
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import com.jakewharton.processphoenix.ProcessPhoenix
 import com.wearerommies.roomie.R
-import com.wearerommies.roomie.domain.repository.UserRepository
+import com.wearerommies.roomie.data.datalocal.datasource.TokenDataSource
+import com.wearerommies.roomie.domain.repository.LoginRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -14,11 +15,10 @@ import okhttp3.Request
 import okhttp3.Response
 import timber.log.Timber
 import javax.inject.Inject
-import com.jakewharton.processphoenix.ProcessPhoenix
 
 
-class OauthInterceptor  @Inject constructor(
-    private val userRepository: UserRepository,
+class OauthInterceptor @Inject constructor(
+    private val loginRepository: LoginRepository,
     private val dataSource: TokenDataSource,
     @ApplicationContext private val context: Context,
 ) : Interceptor {
@@ -55,7 +55,8 @@ class OauthInterceptor  @Inject constructor(
 
         return if (tryReissueToken()) {
             val newRequest =
-                authRequest.newBuilder().removeHeader(AUTHORIZATION).addAuthorizationHeader().build()
+                authRequest.newBuilder().removeHeader(AUTHORIZATION).addAuthorizationHeader()
+                    .build()
             chain.proceed(newRequest)
         } else {
             clearUserInfoAndRestart()
@@ -64,7 +65,7 @@ class OauthInterceptor  @Inject constructor(
     }
 
     private fun tryReissueToken(): Boolean = runBlocking {
-        userRepository.postTokenReissue("$BEARER ${dataSource.refreshToken}")
+        loginRepository.postTokenReissue("$BEARER ${dataSource.refreshToken}")
     }.onSuccess { data ->
         Timber.d("Successfully reissued token: ${data.refreshToken}")
         updateTokens(data.accessToken, data.refreshToken)

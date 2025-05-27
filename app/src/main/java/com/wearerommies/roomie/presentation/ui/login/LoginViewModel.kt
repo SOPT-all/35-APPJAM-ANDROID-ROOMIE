@@ -8,8 +8,8 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.wearerommies.roomie.domain.entity.SocialLoginEntity
+import com.wearerommies.roomie.domain.repository.LoginRepository
 import com.wearerommies.roomie.domain.repository.TokenRepository
-import com.wearerommies.roomie.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userRepository: UserRepository,
+    private val loginRepository: LoginRepository,
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
@@ -64,7 +64,7 @@ class LoginViewModel @Inject constructor(
         provider: String = KAKAO
     ) {
         viewModelScope.launch {
-            userRepository.postSocialLogin(
+            loginRepository.postSocialLogin(
                 loginData = SocialLoginEntity(
                     accessToken = accessToken,
                     provider = provider

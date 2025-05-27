@@ -2,6 +2,7 @@ package com.wearerommies.roomie.data.di
 
 import com.wearerommies.roomie.data.service.UserService
 import com.wearerommies.roomie.data.service.HouseService
+import com.wearerommies.roomie.data.service.LoginService
 import com.wearerommies.roomie.data.service.MapService
 import com.wearerommies.roomie.data.service.RoomService
 import dagger.Module
@@ -16,8 +17,13 @@ import javax.inject.Singleton
 internal object ServiceModule {
     @Provides
     @Singleton
-    fun provideUserService(@NoToken retrofit: Retrofit): UserService =
+    fun provideUserService(@JWT retrofit: Retrofit): UserService =
         retrofit.create(UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideLoginService(@NoToken retrofit: Retrofit): LoginService =
+        retrofit.create(LoginService::class.java)
 
     @Provides
     @Singleton
