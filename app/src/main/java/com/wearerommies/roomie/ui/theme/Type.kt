@@ -38,7 +38,10 @@ class RoomieTypography internal constructor(
     body6M12: TextStyle,
     caption1R10: TextStyle,
     caption2Sb10: TextStyle,
-    caption3M10: TextStyle
+    caption3M10: TextStyle,
+    obdTitle1Sb24: TextStyle,
+    obdTitle2Sb22: TextStyle,
+    obdBody1M16: TextStyle
 ) {
     var heading1B20: TextStyle by mutableStateOf(heading1B20)
         private set
@@ -74,6 +77,12 @@ class RoomieTypography internal constructor(
         private set
     var caption3M10: TextStyle by mutableStateOf(caption3M10)
         private set
+    var obdTitle1Sb24: TextStyle by mutableStateOf(obdTitle1Sb24)
+        private set
+    var obdTitle2Sb22: TextStyle by mutableStateOf(obdTitle2Sb22)
+        private set
+    var obdBody1M16: TextStyle by mutableStateOf(obdBody1M16)
+        private set
 
     fun copy(
         heading1B20: TextStyle = this.heading1B20,
@@ -92,7 +101,10 @@ class RoomieTypography internal constructor(
         body6M12: TextStyle = this.body6M12,
         caption1R10: TextStyle = this.caption1R10,
         caption2Sb10: TextStyle = this.caption2Sb10,
-        caption3M10: TextStyle = this.caption3M10
+        caption3M10: TextStyle = this.caption3M10,
+        obdTitle1Sb24: TextStyle = this.obdTitle1Sb24,
+        obdTitle2Sb22: TextStyle = this.obdTitle2Sb22,
+        obdBody1M16: TextStyle = this.obdBody1M16
     ): RoomieTypography = RoomieTypography(
         heading1B20,
         heading2Sb20,
@@ -110,7 +122,10 @@ class RoomieTypography internal constructor(
         body6M12,
         caption1R10,
         caption2Sb10,
-        caption3M10
+        caption3M10,
+        obdTitle1Sb24,
+        obdTitle2Sb22,
+        obdBody1M16
     )
 
     fun update(other: RoomieTypography) {
@@ -131,6 +146,9 @@ class RoomieTypography internal constructor(
         caption1R10 = other.caption1R10
         caption2Sb10 = other.caption2Sb10
         caption3M10 = other.caption3M10
+        obdTitle1Sb24 = other.obdTitle1Sb24
+        obdTitle2Sb22 = other.obdTitle2Sb22
+        obdBody1M16 = other.obdBody1M16
     }
 }
 
@@ -273,6 +291,27 @@ fun RoomieTypography(): RoomieTypography {
             fontSize = 10.sp,
             lineHeight = 14.sp,
             letterSpacing = (-0.01).em
+        ),
+        obdTitle1Sb24 = roomieTextStyle(
+            fontFamily = PretendardSemiBold,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 24.sp,
+            lineHeight = 30.sp,
+            letterSpacing = (-0.033).sp
+        ),
+        obdTitle2Sb22 = roomieTextStyle(
+            fontFamily = PretendardSemiBold,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 22.sp,
+            lineHeight = 30.sp,
+            letterSpacing = (-0.033).sp
+        ),
+        obdBody1M16 = roomieTextStyle(
+            fontFamily = PretendardMedium,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.sp,
+            lineHeight = 24.sp,
+            letterSpacing = (-0.033).sp
         )
     )
 }
