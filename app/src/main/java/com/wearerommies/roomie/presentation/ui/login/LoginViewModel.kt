@@ -71,8 +71,7 @@ class LoginViewModel @Inject constructor(
                 )
             ).onSuccess { response ->
                 tokenRepository.setTokens(response.accessToken, response.refreshToken)
-                //todo: isRegistered 관련 논의
-                _sideEffect.emit(LoginSideEffect.LoginSuccess(response.accessToken, isRegistered = true))
+                _sideEffect.emit(LoginSideEffect.LoginSuccess(response.accessToken))
                 Timber.tag("sendTokenToServer").d(accessToken)
             }
                 .onFailure { error ->

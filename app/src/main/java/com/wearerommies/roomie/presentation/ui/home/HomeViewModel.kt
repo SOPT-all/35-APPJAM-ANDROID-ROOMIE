@@ -6,6 +6,7 @@ import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.HomeDataEntity
 import com.wearerommies.roomie.domain.entity.RoomCardEntity
 import com.wearerommies.roomie.domain.repository.HouseRepository
+import com.wearerommies.roomie.domain.repository.TokenRepository
 import com.wearerommies.roomie.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    private val houseRepository: HouseRepository
+    private val houseRepository: HouseRepository,
+    private val tokenRepository: TokenRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState>
@@ -32,11 +34,11 @@ class HomeViewModel @Inject constructor(
         get() = _sideEffect.asSharedFlow()
 
     suspend fun getHomeData() {
-        userRepository.getHomeData()
+        userRepository.getHomeData(accessToken = tokenRepository.getAccessToken())
             .onSuccess { response ->
                 val homeData = response.let {
                     HomeDataEntity(
-                        name = it.name,
+                        nickname = it.nickname,
                         location = it.location,
                         recentlyViewedHouses = it.recentlyViewedHouses.map { item ->
                             RoomCardEntity(

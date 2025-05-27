@@ -53,11 +53,7 @@ fun LoginRoute(
                     }
 
                     is LoginSideEffect.LoginSuccess -> {
-                        if (sideEffect.isRegistered) {
-                            navigateToHome()
-                        } else {
-                            //todo: signup
-                        }
+                        navigateToHome()
                     }
 
                     is LoginSideEffect.LoginError -> {

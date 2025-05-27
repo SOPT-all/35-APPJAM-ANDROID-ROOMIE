@@ -7,7 +7,7 @@ import com.wearerommies.roomie.domain.entity.SocialSignUpEntity
 import com.wearerommies.roomie.domain.entity.TokenEntity
 
 interface UserRepository {
-    suspend fun getHomeData() : Result<HomeDataEntity>
+    suspend fun getHomeData(accessToken: String) : Result<HomeDataEntity>
     suspend fun getUserInformation(): Result<MyPageEntity>
     suspend fun postSocialLogin(loginData: SocialLoginEntity): Result<TokenEntity>
     suspend fun postSocialSignUp(signupData: SocialSignUpEntity): Result<TokenEntity>

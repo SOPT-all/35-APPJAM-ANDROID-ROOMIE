@@ -10,8 +10,8 @@ import kotlinx.serialization.Serializable
 data class ResponseHomeDto(
     @SerialName("location")
     val location: String,
-    @SerialName("name")
-    val name: String,
+    @SerialName("nickname")
+    val nickname: String,
     @SerialName("recentlyViewedHouses")
     val recentlyViewedHouses: List<RecentlyViewedHouse>
 ) {
@@ -42,7 +42,7 @@ data class ResponseHomeDto(
     )
 
     fun toEntity() = HomeDataEntity(
-        name = this.name,
+        nickname = this.nickname,
         location = this.location,
         recentlyViewedHouses = this.recentlyViewedHouses.map {
             RoomCardEntity(

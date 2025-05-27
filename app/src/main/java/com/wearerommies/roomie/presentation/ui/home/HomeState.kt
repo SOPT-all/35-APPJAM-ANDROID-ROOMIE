@@ -5,7 +5,7 @@ import com.wearerommies.roomie.domain.entity.RoomCardEntity
 
 data class HomeState(
     val uiState: HomeDataEntity = HomeDataEntity(
-        name = "",
+        nickname = "",
         location = "",
         recentlyViewedHouses = listOf(
             RoomCardEntity(

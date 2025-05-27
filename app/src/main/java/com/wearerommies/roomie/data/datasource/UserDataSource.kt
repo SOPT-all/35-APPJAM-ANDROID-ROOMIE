@@ -12,8 +12,8 @@ import javax.inject.Inject
 internal class UserDataSource @Inject constructor(
     private val userService: UserService
 ) {
-    suspend fun getHomeData(): BaseResponse<ResponseHomeDto> =
-        userService.getHomeData()
+    suspend fun getHomeData(accessToken: String): BaseResponse<ResponseHomeDto> =
+        userService.getHomeData(accessToken = "Bearer $accessToken")
 
     suspend fun getUserInformation(): BaseResponse<ResponseMyPageDto> =
         userService.getUserInformation()
