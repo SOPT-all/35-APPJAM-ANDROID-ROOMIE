@@ -23,7 +23,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val houseRepository: HouseRepository,
-    private val tokenRepository: TokenRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state: StateFlow<HomeState>
@@ -34,7 +33,7 @@ class HomeViewModel @Inject constructor(
         get() = _sideEffect.asSharedFlow()
 
     suspend fun getHomeData() {
-        userRepository.getHomeData(accessToken = tokenRepository.getAccessToken())
+        userRepository.getHomeData()
             .onSuccess { response ->
                 val homeData = response.let {
                     HomeDataEntity(

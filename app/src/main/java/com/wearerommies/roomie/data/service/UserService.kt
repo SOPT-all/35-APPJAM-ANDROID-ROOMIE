@@ -13,9 +13,7 @@ import retrofit2.http.POST
 
 interface UserService {
     @GET("/v1/users/home")
-    suspend fun getHomeData(
-        @Header("Authorization") accessToken: String
-    ): BaseResponse<ResponseHomeDto>
+    suspend fun getHomeData(): BaseResponse<ResponseHomeDto>
 
     @GET("/v1/users/mypage")
     suspend fun getUserInformation(): BaseResponse<ResponseMyPageDto>

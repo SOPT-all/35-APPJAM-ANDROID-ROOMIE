@@ -13,9 +13,9 @@ import javax.inject.Inject
 internal class UserRepositoryImpl @Inject constructor(
     private val userDataSource: UserDataSource
 ) : UserRepository {
-    override suspend fun getHomeData(accessToken: String): Result<HomeDataEntity> =
+    override suspend fun getHomeData(): Result<HomeDataEntity> =
         runCatching {
-            userDataSource.getHomeData(accessToken = accessToken).data.toEntity()
+            userDataSource.getHomeData().data.toEntity()
         }
 
     override suspend fun getUserInformation(): Result<MyPageEntity> =

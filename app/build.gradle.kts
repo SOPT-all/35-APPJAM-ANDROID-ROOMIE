@@ -105,4 +105,7 @@ dependencies {
 
     // kakao
     implementation(libs.kakao.user)
+
+    // phoenix
+    implementation(libs.jakewharton.process.phoenix)
 }

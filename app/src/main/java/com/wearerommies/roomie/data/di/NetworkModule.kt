@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -41,8 +42,28 @@ internal object NetworkModule {
         }
     }
 
+    @Provides
+    @Singleton
+    @JWT
+    fun provideOauthInterceptor(authInterceptor: OauthInterceptor): Interceptor = authInterceptor
+
+    @Provides
+    @Singleton
+    @JWT
+    fun provideJWTOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        @JWT oauthInterceptor: Interceptor,
+    ): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+        if (BuildConfig.DEBUG) builder
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(oauthInterceptor)
+        return builder.build()
+    }
+
     @Singleton
     @Provides
+    @NoToken
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
     ): OkHttpClient {
@@ -53,7 +74,19 @@ internal object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, json: Json): Retrofit {
+    @JWT
+    fun provideRetrofit(@JWT okHttpClient: OkHttpClient, json: Json): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(json.asConverterFactory(CONTENT_TYPE.toMediaType()))
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    @NoToken
+    fun provideReissueRetrofit(@NoToken okHttpClient: OkHttpClient, json: Json): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)

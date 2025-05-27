@@ -176,4 +176,6 @@
     <string name="hashtag">#</string>
     <string name="contract_period">계약기간</string>
     <string name="error">error</string>
+    <string name="relogin_message">로그인을 다시 시도해주세요</string>
+
 </resources>

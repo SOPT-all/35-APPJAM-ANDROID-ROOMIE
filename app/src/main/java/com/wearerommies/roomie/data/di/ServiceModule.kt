@@ -16,21 +16,21 @@ import javax.inject.Singleton
 internal object ServiceModule {
     @Provides
     @Singleton
-    fun provideUserService(retrofit: Retrofit): UserService =
+    fun provideUserService(@NoToken retrofit: Retrofit): UserService =
         retrofit.create(UserService::class.java)
 
     @Provides
     @Singleton
-    fun provideHouseService(retrofit: Retrofit): HouseService =
+    fun provideHouseService(@JWT retrofit: Retrofit): HouseService =
         retrofit.create(HouseService::class.java)
 
     @Provides
     @Singleton
-    fun provideMapService(retrofit: Retrofit): MapService =
+    fun provideMapService(@JWT retrofit: Retrofit): MapService =
         retrofit.create(MapService::class.java)
 
     @Provides
     @Singleton
-    fun provideRoomService(retrofit: Retrofit): RoomService =
+    fun provideRoomService(@JWT retrofit: Retrofit): RoomService =
         retrofit.create(RoomService::class.java)
 }
