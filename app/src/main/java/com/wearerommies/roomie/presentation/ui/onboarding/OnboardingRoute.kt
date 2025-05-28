@@ -58,17 +58,18 @@ fun OnboardingScreen(
         modifier = modifier
             .fillMaxSize()
             .background(RoomieTheme.colors.grayScale1)
-            .padding(paddingValues),
+            .padding(bottom = paddingValues.calculateBottomPadding()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        val screenWeight = LocalConfiguration.current.screenWidthDp
+        val screenWidth = LocalConfiguration.current.screenWidthDp
+        val screenHeight = LocalConfiguration.current.screenHeightDp
+
         val pageCount = 3
         val pagerState = rememberPagerState(pageCount = { pageCount })
 
         Spacer(
             modifier = Modifier
-                .height((screenWeight * 0.082).dp),
+                .height((screenHeight * 0.13).dp),
         )
 
         Row(
@@ -106,7 +107,7 @@ fun OnboardingScreen(
             val (title, description, image) = pages[page]
 
             PagerItem(
-                screenWeight = screenWeight,
+                screenWeight = screenWidth,
                 title = title,
                 description = description,
                 image = image,
@@ -132,7 +133,7 @@ fun OnboardingScreen(
         )
 
         Spacer(
-            modifier = Modifier.height((screenWeight * 0.038).dp),
+            modifier = Modifier.height((screenHeight * 0.038).dp),
         )
     }
 }
