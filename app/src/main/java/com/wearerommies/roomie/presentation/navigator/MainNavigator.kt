@@ -3,13 +3,14 @@ package com.wearerommies.roomie.presentation.navigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
-import com.wearerommies.roomie.domain.entity.TourEntity
 import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.SearchResultEntity
+import com.wearerommies.roomie.domain.entity.TourEntity
 import com.wearerommies.roomie.presentation.navigator.route.MainTabRoute
 import com.wearerommies.roomie.presentation.navigator.route.Route
 import com.wearerommies.roomie.presentation.type.MainTabType
@@ -22,6 +23,7 @@ import com.wearerommies.roomie.presentation.ui.home.navigation.navigateToHome
 import com.wearerommies.roomie.presentation.ui.map.navigation.navigateToMap
 import com.wearerommies.roomie.presentation.ui.mood.navigation.navigateToMood
 import com.wearerommies.roomie.presentation.ui.mypage.navigation.navigateToMy
+import com.wearerommies.roomie.presentation.ui.onboarding.navigation.navigateToOnboarding
 import com.wearerommies.roomie.presentation.ui.search.navigation.navigateToSearch
 import com.wearerommies.roomie.presentation.ui.tour.navigation.navigateToTourFirstStep
 import com.wearerommies.roomie.presentation.ui.tour.navigation.navigateToTourSecondStep
@@ -74,7 +76,18 @@ class MainNavigator(
         }
     }
 
-    fun navigateToHome(){
+    fun navigateToOnboarding() {
+        navController.navigateToOnboarding(
+            navOptions = navOptions {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
+        )
+    }
+
+    fun navigateToHome() {
         navController.navigate(MainTabRoute.Home)
     }
 
@@ -130,7 +143,7 @@ class MainNavigator(
 
     fun navigateToTourSecondStep(tourApply: TourEntity) {
         navController.navigateToTourSecondStep(tourApply, navOptions = navOptions {
-            popUpTo<Route.TourFirstStep>{
+            popUpTo<Route.TourFirstStep> {
                 saveState = true
             }
             restoreState = true
@@ -142,7 +155,7 @@ class MainNavigator(
     }
 
     fun navigateToCompleteStep() {
-        navController.navigateTourCompleteStep(navOptions = navOptions{
+        navController.navigateTourCompleteStep(navOptions = navOptions {
             popUpTo<Route.Detail>()
         })
     }
