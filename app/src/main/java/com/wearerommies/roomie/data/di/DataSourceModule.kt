@@ -2,7 +2,6 @@ package com.wearerommies.roomie.data.di
 
 import android.content.SharedPreferences
 import com.wearerommies.roomie.data.datalocal.datasource.TokenDataSource
-import com.wearerommies.roomie.data.datalocal.datasourceimpl.TokenDataSourceImpl
 import com.wearerommies.roomie.data.datasource.HouseDataSource
 import com.wearerommies.roomie.data.datasource.LoginDataSource
 import com.wearerommies.roomie.data.datasource.MapDataSource
@@ -57,6 +56,6 @@ internal object DataSourceModule {
     fun provideTokenDataStore(
         sharedPreferences: SharedPreferences
     ): TokenDataSource {
-        return TokenDataSourceImpl(sharedPreferences)
+        return TokenDataSource(sharedPreferences)
     }
 }
