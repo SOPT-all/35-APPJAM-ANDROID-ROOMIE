@@ -3,7 +3,7 @@ package com.wearerommies.roomie.data.di
 import com.wearerommies.roomie.data.di.qualifier.JWT
 import com.wearerommies.roomie.data.di.qualifier.NoToken
 import com.wearerommies.roomie.data.service.HouseService
-import com.wearerommies.roomie.data.service.LoginService
+import com.wearerommies.roomie.data.service.AuthService
 import com.wearerommies.roomie.data.service.MapService
 import com.wearerommies.roomie.data.service.RoomService
 import com.wearerommies.roomie.data.service.UserService
@@ -24,8 +24,8 @@ internal object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideLoginService(@NoToken retrofit: Retrofit): LoginService =
-        retrofit.create(LoginService::class.java)
+    fun provideAuthService(@NoToken retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
 
     @Provides
     @Singleton

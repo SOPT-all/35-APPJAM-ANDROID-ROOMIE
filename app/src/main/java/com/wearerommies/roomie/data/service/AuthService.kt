@@ -8,7 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
 
-interface LoginService {
+interface AuthService {
     @POST("/v1/auth/oauth/login")
     suspend fun postSocialLogin(
         @Body request: RequestSocialLoginDto

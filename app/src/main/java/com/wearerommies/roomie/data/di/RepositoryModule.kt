@@ -1,13 +1,13 @@
 package com.wearerommies.roomie.data.di
 
 import com.wearerommies.roomie.data.repositoryimpl.HouseRepositoryImpl
-import com.wearerommies.roomie.data.repositoryimpl.LoginRepositoryImpl
+import com.wearerommies.roomie.data.repositoryimpl.AuthRepositoryImpl
 import com.wearerommies.roomie.data.repositoryimpl.MapRepositoryImpl
 import com.wearerommies.roomie.data.repositoryimpl.RoomRepositoryImpl
 import com.wearerommies.roomie.data.repositoryimpl.TokenRepositoryImpl
 import com.wearerommies.roomie.data.repositoryimpl.UserRepositoryImpl
 import com.wearerommies.roomie.domain.repository.HouseRepository
-import com.wearerommies.roomie.domain.repository.LoginRepository
+import com.wearerommies.roomie.domain.repository.AuthRepository
 import com.wearerommies.roomie.domain.repository.MapRepository
 import com.wearerommies.roomie.domain.repository.RoomRepository
 import com.wearerommies.roomie.domain.repository.TokenRepository
@@ -27,7 +27,7 @@ internal interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun bindsLoginRepository(loginRepositoryImpl: LoginRepositoryImpl): LoginRepository
+    fun bindsAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 
     @Binds
     @Singleton

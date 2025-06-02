@@ -2,7 +2,7 @@ package com.wearerommies.roomie.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.wearerommies.roomie.BuildConfig
-import com.wearerommies.roomie.data.datasource.interceptor.OauthInterceptor
+import com.wearerommies.roomie.data.datasource.interceptor.AuthInterceptor
 import com.wearerommies.roomie.data.di.qualifier.JWT
 import com.wearerommies.roomie.data.di.qualifier.NoToken
 import dagger.Module
@@ -48,19 +48,19 @@ internal object NetworkModule {
     @Provides
     @Singleton
     @JWT
-    fun provideOauthInterceptor(authInterceptor: OauthInterceptor): Interceptor = authInterceptor
+    fun provideAuthInterceptor(authInterceptor: AuthInterceptor): Interceptor = authInterceptor
 
     @Provides
     @Singleton
     @JWT
     fun provideJWTOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-        @JWT oauthInterceptor: Interceptor,
+        @JWT authInterceptor: Interceptor,
     ): OkHttpClient {
         val builder = OkHttpClient.Builder()
         builder
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(oauthInterceptor)
+            .addInterceptor(authInterceptor)
         return builder.build()
     }
 
