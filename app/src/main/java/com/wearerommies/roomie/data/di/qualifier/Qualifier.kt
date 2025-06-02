@@ -1,4 +1,4 @@
-package com.wearerommies.roomie.data.di
+package com.wearerommies.roomie.data.di.qualifier
 
 import javax.inject.Qualifier
 

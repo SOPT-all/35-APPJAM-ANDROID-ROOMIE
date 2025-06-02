@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -88,8 +89,7 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Icon(
-            modifier = Modifier
-                .padding(top = 105.dp),
+            modifier = Modifier.padding(top = (LocalConfiguration.current.screenHeightDp * 0.134).dp),
             imageVector = ImageVector.vectorResource(R.drawable.ic_roomie_logo),
             contentDescription = stringResource(R.string.roomie_logo),
             tint = Color.Unspecified
@@ -113,7 +113,7 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp, bottom = 42.dp)
-                .noRippleClickable { onLoginClick() },
+                .noRippleClickable(onClick = onLoginClick),
             painter = painterResource(R.drawable.img_kakao_login),
             contentDescription = stringResource(R.string.kakao_login),
             contentScale = ContentScale.Crop

@@ -1,10 +1,12 @@
 package com.wearerommies.roomie.data.di
 
-import com.wearerommies.roomie.data.service.UserService
+import com.wearerommies.roomie.data.di.qualifier.JWT
+import com.wearerommies.roomie.data.di.qualifier.NoToken
 import com.wearerommies.roomie.data.service.HouseService
 import com.wearerommies.roomie.data.service.LoginService
 import com.wearerommies.roomie.data.service.MapService
 import com.wearerommies.roomie.data.service.RoomService
+import com.wearerommies.roomie.data.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

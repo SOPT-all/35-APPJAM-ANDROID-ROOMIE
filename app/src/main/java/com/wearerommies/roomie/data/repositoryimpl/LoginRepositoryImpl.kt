@@ -2,6 +2,7 @@ package com.wearerommies.roomie.data.repositoryimpl
 
 import com.wearerommies.roomie.data.datasource.LoginDataSource
 import com.wearerommies.roomie.data.dto.request.toDto
+import com.wearerommies.roomie.domain.entity.ReissueTokenEntity
 import com.wearerommies.roomie.domain.entity.SocialLoginEntity
 import com.wearerommies.roomie.domain.entity.TokenEntity
 import com.wearerommies.roomie.domain.repository.LoginRepository
@@ -17,7 +18,7 @@ internal class LoginRepositoryImpl @Inject constructor(
             ).data.toEntity()
         }
 
-    override suspend fun postTokenReissue(refreshToken: String): Result<TokenEntity> =
+    override suspend fun postTokenReissue(refreshToken: String): Result<ReissueTokenEntity> =
         runCatching {
             loginDataSource.postTokenReissue(
                 refreshToken = refreshToken
