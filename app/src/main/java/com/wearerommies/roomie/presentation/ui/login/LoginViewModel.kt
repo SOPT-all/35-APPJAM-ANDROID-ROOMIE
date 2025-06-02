@@ -11,6 +11,7 @@ import com.wearerommies.roomie.domain.entity.SocialLoginEntity
 import com.wearerommies.roomie.domain.repository.AuthRepository
 import com.wearerommies.roomie.domain.repository.TokenRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -89,7 +90,22 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun checkAuthLogin() {
+        viewModelScope.launch {
+            delay(AUTO_LOGIN_DELAY)
+
+            val isLogined = tokenRepository.getAccessToken().isNotEmpty()
+
+            Timber.tag("checkAuto").d("$isLogined")
+
+            if (isLogined) {
+                _sideEffect.emit(LoginSideEffect.LoginSuccess(tokenRepository.getAccessToken()))
+            }
+        }
+    }
+
     companion object {
         const val KAKAO = "KAKAO"
+        const val AUTO_LOGIN_DELAY = 50L
     }
 }
