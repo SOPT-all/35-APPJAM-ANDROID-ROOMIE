@@ -94,12 +94,21 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             delay(AUTO_LOGIN_DELAY)
 
-            val isLogined = tokenRepository.getAccessToken().isNotEmpty()
+            _state.value.isLoggedIn = tokenRepository.getRefreshToken().isNotEmpty()
 
-            Timber.tag("checkAuto").d("$isLogined")
+            if (_state.value.isLoggedIn) {
+                authRepository.postTokenReissue(refreshToken = "Bearer ${tokenRepository.getRefreshToken()}")
+                    .onSuccess { response ->
+                        tokenRepository.setTokens(
+                            accessToken = response.accessToken,
+                            refreshToken = tokenRepository.getRefreshToken()
+                        )
+                        _sideEffect.emit(LoginSideEffect.LoginSuccess(response.accessToken))
 
-            if (isLogined) {
-                _sideEffect.emit(LoginSideEffect.LoginSuccess(tokenRepository.getAccessToken()))
+                    }.onFailure { error ->
+                        val errorMessage = error.localizedMessage ?: "Unknown error"
+                        handleLoginError(errorMessage = errorMessage)
+                    }
             }
         }
     }
