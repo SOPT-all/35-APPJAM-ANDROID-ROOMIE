@@ -92,8 +92,6 @@ class LoginViewModel @Inject constructor(
 
     fun checkAuthLogin() {
         viewModelScope.launch {
-            delay(AUTO_LOGIN_DELAY)
-
             _state.value.isLoggedIn = tokenRepository.getRefreshToken().isNotEmpty()
 
             if (_state.value.isLoggedIn) {
@@ -115,6 +113,5 @@ class LoginViewModel @Inject constructor(
 
     companion object {
         const val KAKAO = "KAKAO"
-        const val AUTO_LOGIN_DELAY = 50L
     }
 }
