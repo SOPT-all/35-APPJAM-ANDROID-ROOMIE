@@ -17,6 +17,7 @@ import com.wearerommies.roomie.presentation.ui.login.navigation.loginNavGraph
 import com.wearerommies.roomie.presentation.ui.map.navigation.mapNavGraph
 import com.wearerommies.roomie.presentation.ui.mood.navigation.moodNavGraph
 import com.wearerommies.roomie.presentation.ui.mypage.navigation.myNavGraph
+import com.wearerommies.roomie.presentation.ui.onboarding.navigation.onboardingNavGraph
 import com.wearerommies.roomie.presentation.ui.search.navigation.searchNavGraph
 import com.wearerommies.roomie.presentation.ui.splash.navigation.splashNavGraph
 import com.wearerommies.roomie.presentation.ui.tour.navigation.tourNavGraph
@@ -48,6 +49,10 @@ fun RoomieNavHost(
                 }
                 navigator.navigateToHome()
             }
+        )
+        onboardingNavGraph(
+            paddingValues = padding,
+            navigateToLogin = navigator::navigateToLogin
         )
         homeNavGraph(
             paddingValues = padding,
