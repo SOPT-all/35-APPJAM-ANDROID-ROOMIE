@@ -51,7 +51,7 @@ fun LoginRoute(
     val currentCounter by rememberUpdatedState(counter)
 
     LaunchedEffect(currentCounter) {
-        viewModel.checkAuthLogin()
+        viewModel.checkAutoLogin()
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {

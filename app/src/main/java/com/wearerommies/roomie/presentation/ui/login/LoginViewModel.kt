@@ -90,28 +90,20 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun checkAuthLogin() {
+    fun checkAutoLogin() =
         viewModelScope.launch {
-            _state.value.isLoggedIn = tokenRepository.getRefreshToken().isNotEmpty()
+            delay(AUTO_LOGIN_DELAY)
+
+            _state.value.isLoggedIn = tokenRepository.getAccessToken().isNotEmpty()
 
             if (_state.value.isLoggedIn) {
-                authRepository.postTokenReissue(refreshToken = "Bearer ${tokenRepository.getRefreshToken()}")
-                    .onSuccess { response ->
-                        tokenRepository.setTokens(
-                            accessToken = response.accessToken,
-                            refreshToken = tokenRepository.getRefreshToken()
-                        )
-                        _sideEffect.emit(LoginSideEffect.LoginSuccess(response.accessToken))
-
-                    }.onFailure { error ->
-                        val errorMessage = error.localizedMessage ?: "Unknown error"
-                        handleLoginError(errorMessage = errorMessage)
-                    }
+                _sideEffect.emit(LoginSideEffect.LoginSuccess(tokenRepository.getAccessToken()))
             }
         }
-    }
+
 
     companion object {
         const val KAKAO = "KAKAO"
+        const val AUTO_LOGIN_DELAY = 50L
     }
 }

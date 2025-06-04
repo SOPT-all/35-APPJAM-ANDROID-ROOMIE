@@ -4,25 +4,21 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import com.jakewharton.processphoenix.ProcessPhoenix
-import com.wearerommies.roomie.BuildConfig
 import com.wearerommies.roomie.data.datalocal.datasource.TokenDataSource
-import com.wearerommies.roomie.data.dto.response.BaseResponse
-import com.wearerommies.roomie.data.dto.response.ResponseReissueTokenDto
+import com.wearerommies.roomie.data.datasource.AuthDataSource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import timber.log.Timber
 import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
-    private val json: Json,
     private val dataSource: TokenDataSource,
+    private val authDataSource: AuthDataSource,
     @ApplicationContext private val context: Context,
 ) : Interceptor {
     private val mutex = Mutex()
@@ -77,76 +73,44 @@ class AuthInterceptor @Inject constructor(
         chain: Interceptor.Chain,
         originalRequest: Request,
         refreshToken: String
-    ): Response =
-        tryReissueToken(
-            chain = chain,
-            originalRequest = originalRequest,
-            refreshToken = refreshToken
-        ).let { refreshTokenResponse ->
-            Timber.d("handleTokenRefresh $refreshToken")
-            when (refreshTokenResponse.isSuccessful) {
-                true -> handleTokenRefreshSuccess(
-                    chain = chain,
-                    originalRequest = originalRequest,
-                    refreshTokenResponse = refreshTokenResponse
-                )
-
-                false -> handleTokenRefreshFailed(refreshTokenResponse = refreshTokenResponse)
+    ): Response {
+        val result = runCatching {
+            runBlocking {
+                authDataSource.postTokenReissue("$BEARER $refreshToken")
             }
         }
 
+        return result.fold(
+            onSuccess = { response ->
+                val newAccessToken = response.data.accessToken
 
-    private fun tryReissueToken(
-        chain: Interceptor.Chain,
-        originalRequest: Request,
-        refreshToken: String
-    ): Response = chain.proceed(
-        originalRequest.newBuilder()
-            .post("".toRequestBody(null))
-            .url("${BuildConfig.BASE_URL}/v1/auth/oauth/reissue")
-            .addHeader(AUTHORIZATION, "$BEARER $refreshToken")
-            .build()
-    )
+                if (newAccessToken.isBlank()) {
+                    return handleTokenRefreshFailed()
+                }
 
-    private fun handleTokenRefreshSuccess(
-        chain: Interceptor.Chain,
-        originalRequest: Request,
-        refreshTokenResponse: Response
-    ): Response {
-        val bodyString = refreshTokenResponse.body?.string()
+                with(dataSource) {
+                    accessToken = newAccessToken
+                }
 
-        if (bodyString.isNullOrBlank()) {
-            Timber.e("Token refresh response body is empty.")
-            throw IllegalStateException("Empty response body during token reissue")
-        }
+                Timber.tag("tokenReissue").d("Token reissue success: $newAccessToken")
 
-        val responseAccessToken =
-            json.decodeFromString<BaseResponse<ResponseReissueTokenDto>>(bodyString)
-
-        Timber.tag("tokenReissue").d("Token reissue success: $responseAccessToken")
-
-        with(dataSource) {
-            accessToken = responseAccessToken.data.accessToken
-        }
-
-        refreshTokenResponse.close()
-
-        return chain.proceed(originalRequest.addAuthorizationHeader())
+                chain.proceed(originalRequest.addAuthorizationHeader())
+            },
+            onFailure = { error ->
+                Timber.e("Token reissue failed: $error")
+                handleTokenRefreshFailed()
+            }
+        )
     }
 
-
-    private fun handleTokenRefreshFailed(refreshTokenResponse: Response): Response {
-        Timber.tag("tokenReissue").e("Token reissue fail $refreshTokenResponse")
-
-        refreshTokenResponse.close()
-
+    private fun handleTokenRefreshFailed(): Response {
         Handler(Looper.getMainLooper()).post {
             ProcessPhoenix.triggerRebirth(context)
         }
 
         dataSource.clearInfo()
 
-        return refreshTokenResponse
+        throw IllegalStateException("Token reissue failed. Restarting app.")
     }
 
     companion object {
