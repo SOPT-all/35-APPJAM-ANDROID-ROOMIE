@@ -22,7 +22,7 @@ import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 
 @Composable
-internal fun PagerItem(
+internal fun OnboardingPagerItem(
     @StringRes title: Int,
     @StringRes description: Int,
     @DrawableRes image: Int,
@@ -68,7 +68,7 @@ internal fun PagerItem(
 @Composable
 fun PagerSampleItemPreview() {
     RoomieAndroidTheme {
-        PagerItem(
+        OnboardingPagerItem(
             screenWeight = 360,
             title = R.string.onboarding_title1,
             description = R.string.onboarding_description1,

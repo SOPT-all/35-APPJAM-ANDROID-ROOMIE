@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
-import com.wearerommies.roomie.presentation.ui.onboarding.component.PagerItem
+import com.wearerommies.roomie.presentation.ui.onboarding.component.OnboardingPagerItem
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 import kotlinx.collections.immutable.PersistentList
@@ -108,7 +108,7 @@ fun OnboardingScreen(
         ) { page ->
             val (title, description, image) = pages[page]
 
-            PagerItem(
+            OnboardingPagerItem(
                 screenWeight = screenWidth,
                 title = title,
                 description = description,
