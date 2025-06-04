@@ -3,13 +3,14 @@ package com.wearerommies.roomie.presentation.ui.onboarding
 import androidx.lifecycle.ViewModel
 import com.wearerommies.roomie.R
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.persistentListOf
 import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
 
 ) : ViewModel() {
-    val pages = listOf(
+    val pages = persistentListOf(
         Triple(
             R.string.onboarding_title1,
             R.string.onboarding_description1,

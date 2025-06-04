@@ -33,6 +33,8 @@ import com.wearerommies.roomie.presentation.core.component.RoomieButton
 import com.wearerommies.roomie.presentation.ui.onboarding.component.PagerItem
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun OnboardingRoute(
@@ -51,7 +53,7 @@ fun OnboardingRoute(
 fun OnboardingScreen(
     paddingValues: PaddingValues,
     navigateToLogin: () -> Unit,
-    pages: List<Triple<Int, Int, Int>>,
+    pages: PersistentList<Triple<Int, Int, Int>>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -145,7 +147,7 @@ fun OnboardingScreenPreview() {
         OnboardingScreen(
             paddingValues = PaddingValues(),
             navigateToLogin = {},
-            pages = listOf(
+            pages = persistentListOf(
                 Triple(
                     R.string.onboarding_title1,
                     R.string.onboarding_description1,
