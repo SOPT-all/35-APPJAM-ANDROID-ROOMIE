@@ -14,6 +14,7 @@ import com.wearerommies.roomie.presentation.ui.home.navigation.homeNavGraph
 import com.wearerommies.roomie.presentation.ui.map.navigation.mapNavGraph
 import com.wearerommies.roomie.presentation.ui.mood.navigation.moodNavGraph
 import com.wearerommies.roomie.presentation.ui.mypage.navigation.myNavGraph
+import com.wearerommies.roomie.presentation.ui.onboarding.navigation.onboardingNavGraph
 import com.wearerommies.roomie.presentation.ui.search.navigation.searchNavGraph
 import com.wearerommies.roomie.presentation.ui.splash.navigation.splashNavGraph
 import com.wearerommies.roomie.presentation.ui.tour.navigation.tourNavGraph
@@ -33,6 +34,10 @@ fun RoomieNavHost(
         popExitTransition = { ExitTransition.None },
     ) {
         splashNavGraph()
+        onboardingNavGraph(
+            paddingValues = padding,
+            navigateToLogin = {}// 로그인 병합 후
+        )
         homeNavGraph(
             paddingValues = padding,
             navigateToBookmark = navigator::navigateToBookmark,
