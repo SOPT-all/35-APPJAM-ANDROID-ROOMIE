@@ -20,6 +20,7 @@ import com.wearerommies.roomie.presentation.ui.detail.navigation.navigateToDetai
 import com.wearerommies.roomie.presentation.ui.detail.navigation.navigateToDetailRoom
 import com.wearerommies.roomie.presentation.ui.filter.navigation.navigateToFilter
 import com.wearerommies.roomie.presentation.ui.home.navigation.navigateToHome
+import com.wearerommies.roomie.presentation.ui.login.navigation.navigateToLogin
 import com.wearerommies.roomie.presentation.ui.map.navigation.navigateToMap
 import com.wearerommies.roomie.presentation.ui.mood.navigation.navigateToMood
 import com.wearerommies.roomie.presentation.ui.mypage.navigation.navigateToMy
@@ -38,7 +39,7 @@ class MainNavigator(
         @Composable get() = navController
             .currentBackStackEntryAsState().value?.destination
 
-    val startDestination = MainTabRoute.Home
+    val startDestination = Route.Onboarding
 
     val currentTab: MainTabType?
         @Composable get() = MainTabType.find { tab ->
@@ -89,6 +90,10 @@ class MainNavigator(
 
     fun navigateToHome() {
         navController.navigate(MainTabRoute.Home)
+    }
+
+    fun navigateToLogin() {
+        navController.navigateToLogin()
     }
 
     fun navigateToMap(filter: FilterEntity, result: SearchResultEntity) {

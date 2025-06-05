@@ -14,6 +14,9 @@ sealed interface Route {
     data object Splash : Route
 
     @Serializable
+    data object Login : Route
+
+    @Serializable
     data object Onboarding : Route
 
     @Serializable

@@ -1,12 +1,16 @@
 package com.wearerommies.roomie.data.di
 
 import com.wearerommies.roomie.data.repositoryimpl.HouseRepositoryImpl
+import com.wearerommies.roomie.data.repositoryimpl.AuthRepositoryImpl
 import com.wearerommies.roomie.data.repositoryimpl.MapRepositoryImpl
 import com.wearerommies.roomie.data.repositoryimpl.RoomRepositoryImpl
+import com.wearerommies.roomie.data.repositoryimpl.TokenRepositoryImpl
 import com.wearerommies.roomie.data.repositoryimpl.UserRepositoryImpl
 import com.wearerommies.roomie.domain.repository.HouseRepository
+import com.wearerommies.roomie.domain.repository.AuthRepository
 import com.wearerommies.roomie.domain.repository.MapRepository
 import com.wearerommies.roomie.domain.repository.RoomRepository
+import com.wearerommies.roomie.domain.repository.TokenRepository
 import com.wearerommies.roomie.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -23,6 +27,10 @@ internal interface RepositoryModule {
 
     @Binds
     @Singleton
+    fun bindsAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
+
+    @Binds
+    @Singleton
     fun bindsHouseRepository(houseRepositoryImpl: HouseRepositoryImpl): HouseRepository
 
     @Binds
@@ -32,4 +40,9 @@ internal interface RepositoryModule {
     @Binds
     @Singleton
     fun bindsRoomRepository(roomRepositoryImpl: RoomRepositoryImpl): RoomRepository
+
+    @Binds
+    @Singleton
+    fun bindTokenRepository(tokenRepositoryImpl: TokenRepositoryImpl): TokenRepository
+
 }

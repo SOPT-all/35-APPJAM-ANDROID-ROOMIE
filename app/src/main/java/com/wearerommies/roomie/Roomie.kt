@@ -2,6 +2,8 @@ package com.wearerommies.roomie
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import com.kakao.sdk.common.KakaoSdk
+import com.kakao.sdk.common.util.Utility
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -12,6 +14,13 @@ class Roomie : Application() {
 
         setTimber()
         setDarkMode()
+        setKakaoSdk()
+    }
+
+    private fun setKakaoSdk() {
+        val keyHash = Utility.getKeyHash(this)
+        Timber.tag("keyHash").d(keyHash)
+        KakaoSdk.init(this, BuildConfig.KAKAO_NATIVE_KEY)
     }
 
     private fun setTimber() {

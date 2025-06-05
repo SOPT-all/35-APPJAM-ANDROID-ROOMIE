@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Roomie</string>
 
+    // login
+    <string name="roomie_logo">Roomie</string>
+    <string name="login_title">한 집에서 시작하는 새로운 연결고리, 루미</string>
+    <string name="kakao_login">카카오 로그인</string>
+
     // onboarding
     <string name="start_app">바로 시작하기</string>
     <string name="onboarding_title1">잘 맞는 셰어하우스를 찾아봐요!</string>

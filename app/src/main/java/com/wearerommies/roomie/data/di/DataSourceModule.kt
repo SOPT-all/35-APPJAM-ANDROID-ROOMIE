@@ -1,13 +1,17 @@
 package com.wearerommies.roomie.data.di
 
-import com.wearerommies.roomie.data.datasource.UserDataSource
+import android.content.SharedPreferences
+import com.wearerommies.roomie.data.datalocal.datasource.TokenDataSource
 import com.wearerommies.roomie.data.datasource.HouseDataSource
+import com.wearerommies.roomie.data.datasource.AuthDataSource
 import com.wearerommies.roomie.data.datasource.MapDataSource
 import com.wearerommies.roomie.data.datasource.RoomDataSource
-import com.wearerommies.roomie.data.service.UserService
+import com.wearerommies.roomie.data.datasource.UserDataSource
 import com.wearerommies.roomie.data.service.HouseService
+import com.wearerommies.roomie.data.service.AuthService
 import com.wearerommies.roomie.data.service.MapService
 import com.wearerommies.roomie.data.service.RoomService
+import com.wearerommies.roomie.data.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +26,12 @@ internal object DataSourceModule {
     fun providesUserDataSource(
         userService: UserService
     ): UserDataSource = UserDataSource(userService)
+
+    @Provides
+    @Singleton
+    fun providesAuthDataSource(
+        authService: AuthService
+    ): AuthDataSource = AuthDataSource(authService)
 
     @Provides
     @Singleton
@@ -40,4 +50,12 @@ internal object DataSourceModule {
     fun providesRoomDataSource(
         roomService: RoomService
     ): RoomDataSource = RoomDataSource(roomService)
+
+    @Provides
+    @Singleton
+    fun provideTokenDataStore(
+        sharedPreferences: SharedPreferences
+    ): TokenDataSource {
+        return TokenDataSource(sharedPreferences)
+    }
 }
