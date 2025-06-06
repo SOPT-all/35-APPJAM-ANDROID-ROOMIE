@@ -169,7 +169,7 @@ fun MapScreen(
             if (houseList.isNotEmpty()) {
                 val bounds = LatLngBounds.Builder()
                 houseList.forEach { marker ->
-                    bounds.include(LatLng(marker.x.toDouble(), marker.y.toDouble()))
+                    bounds.include(LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()))
                 }
 
                 cameraPositionState.move(
@@ -192,7 +192,12 @@ fun MapScreen(
         ) {
             houseList.forEach { marker ->
                 Marker(
-                    state = MarkerState(LatLng(marker.x.toDouble(), marker.y.toDouble())),
+                    state = MarkerState(
+                        LatLng(
+                            marker.latitude.toDouble(),
+                            marker.longitude.toDouble()
+                        )
+                    ),
                     icon = if (marker.houseId == clickedMarkerId)
                         OverlayImage.fromResource(R.drawable.ic_map_pin_active)
                     else OverlayImage.fromResource(R.drawable.ic_map_pin_normal),
@@ -201,7 +206,7 @@ fun MapScreen(
                         setBottomSheetState(false)
                         cameraPositionState.move(
                             CameraUpdate.scrollAndZoomTo(
-                                LatLng(marker.x.toDouble(), marker.y.toDouble()),
+                                LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()),
                                 15.0
                             )
                                 .animate(CameraAnimation.Fly) // TODO: 기획-디자인과 카메라 이동 애니메이션 상의
@@ -276,10 +281,11 @@ fun MapScreenPreview() {
                 location = "서대문구 연희동",
                 locationDescription = "자이아파트",
                 moodTag = "#차분한",
-                x = 1.2F,
-                y = 1.2F,
+                latitude = 1.2F,
+                longitude = 1.2F,
                 isPinned = false,
-                mainImgUrl = ""
+                mainImgUrl = "",
+                excludeFull = false
             ),
             clickedMarkerId = null,
             resetClickedMarker = {},

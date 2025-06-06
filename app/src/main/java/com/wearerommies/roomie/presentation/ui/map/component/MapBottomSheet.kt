@@ -168,10 +168,11 @@ fun MapBottomSheetPreview() {
                     location = "서대문구 연희동",
                     locationDescription = "자이아파트",
                     moodTag = "#차분한",
-                    x = 1.2F,
-                    y = 1.2F,
+                    latitude = 1.2F,
+                    longitude = 1.2F,
                     isPinned = false,
-                    mainImgUrl = ""
+                    mainImgUrl = "",
+                    excludeFull = false
                 )
             )
         )
