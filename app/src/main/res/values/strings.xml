@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">Roomie</string>
 
+    // login
+    <string name="roomie_logo">Roomie</string>
+    <string name="login_title">한 집에서 시작하는 새로운 연결고리, 루미</string>
+    <string name="kakao_login">카카오 로그인</string>
+
+    // onboarding
+    <string name="start_app">바로 시작하기</string>
+    <string name="onboarding_title1">잘 맞는 셰어하우스를 찾아봐요!</string>
+    <string name="onboarding_description1">셰어하우스의 생활 규칙, 방 분위기 등의\n정보를 확인 할 수 있어요</string>
+    <string name="onboarding_title2">조건에 맞는 곳만 찾아봐요</string>
+    <string name="onboarding_description2">필터를 통해 찾고자 하는 조건의\n셰어하우스만 볼 수 있어요</string>
+    <string name="onboarding_title3">투어신청 후 계약해요</string>
+    <string name="onboarding_description3">호스트와 연락해 입주 투어 날짜를 정하고\n문의사항 주고받을 수 있어요</string>
+
     // main tab
     <string name="home">홈</string>
     <string name="map">지도</string>

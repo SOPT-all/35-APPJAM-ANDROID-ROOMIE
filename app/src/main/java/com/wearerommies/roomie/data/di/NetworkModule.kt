@@ -2,11 +2,15 @@ package com.wearerommies.roomie.data.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.wearerommies.roomie.BuildConfig
+import com.wearerommies.roomie.data.datasource.interceptor.AuthInterceptor
+import com.wearerommies.roomie.data.di.qualifier.JWT
+import com.wearerommies.roomie.data.di.qualifier.NoToken
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -41,19 +45,51 @@ internal object NetworkModule {
         }
     }
 
-    @Singleton
     @Provides
-    fun provideOkHttpClient(
+    @Singleton
+    @JWT
+    fun provideAuthInterceptor(authInterceptor: AuthInterceptor): Interceptor = authInterceptor
+
+    @Provides
+    @Singleton
+    @JWT
+    fun provideJWTOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
+        @JWT authInterceptor: Interceptor,
     ): OkHttpClient {
         val builder = OkHttpClient.Builder()
-        if (BuildConfig.DEBUG) builder.addInterceptor(loggingInterceptor)
+        builder
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(authInterceptor)
         return builder.build()
     }
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, json: Json): Retrofit {
+    @NoToken
+    fun provideOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+        builder.addInterceptor(loggingInterceptor)
+        return builder.build()
+    }
+
+    @Singleton
+    @Provides
+    @JWT
+    fun provideRetrofit(@JWT okHttpClient: OkHttpClient, json: Json): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(json.asConverterFactory(CONTENT_TYPE.toMediaType()))
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    @NoToken
+    fun provideReissueRetrofit(@NoToken okHttpClient: OkHttpClient, json: Json): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
