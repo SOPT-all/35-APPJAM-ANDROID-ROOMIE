@@ -36,7 +36,6 @@ import com.wearerommies.roomie.presentation.core.component.RoomieButton
 import com.wearerommies.roomie.presentation.core.component.RoomieTopBar
 import com.wearerommies.roomie.presentation.core.extension.bottomBorder
 import com.wearerommies.roomie.presentation.core.extension.noRippleClickable
-import com.wearerommies.roomie.presentation.core.extension.showToast
 import com.wearerommies.roomie.presentation.core.util.convertDpToFloat
 import com.wearerommies.roomie.presentation.type.MyAccountType
 import com.wearerommies.roomie.presentation.ui.mypage.myaccount.component.MyAccountBox
@@ -70,7 +69,6 @@ fun MyAccountRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is MyAccountSideEffect.ShowToast -> context.showToast(message = sideEffect.message)
                     is MyAccountSideEffect.NavigateToNickname -> navigateToNickname()
                     is MyAccountSideEffect.NavigateToBirth -> navigateToBirth()
                     is MyAccountSideEffect.NavigateToContact -> navigateToContact()
