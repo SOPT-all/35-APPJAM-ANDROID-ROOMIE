@@ -161,8 +161,8 @@ fun SearchScreen(
                                     result.location,
                                     result.address,
                                     result.roadAddress,
-                                    result.x,
-                                    result.y,
+                                    result.longitude,
+                                    result.latitude,
                                 )
                             }
                         )
@@ -199,22 +199,22 @@ fun SearchScreenSuccessPreview() {
             state = EmptyUiState.Success(
                 persistentListOf(
                     SearchResultEntity(
-                        x = 1.0F,
-                        y = 1.0F,
+                        longitude = 1.0F,
+                        latitude = 1.0F,
                         location = "으아아아아아아",
                         address = "으아아아아아",
                         roadAddress = "으아아아아아"
                     ),
                     SearchResultEntity(
-                        x = 1.0F,
-                        y = 1.0F,
+                        longitude = 1.0F,
+                        latitude = 1.0F,
                         location = "으아아아아아아아을망라미ㅓ리아ㅓㄹ",
                         address = "으아아아아아",
                         roadAddress = "으아아아아아"
                     ),
                     SearchResultEntity(
-                        x = 1.0F,
-                        y = 1.0F,
+                        longitude = 1.0F,
+                        latitude = 1.0F,
                         location = "으아아아아ㅣ마어라ㅓㄻ이ㅏ러미아아",
                         address = "으아아아아아",
                         roadAddress = "으아아아아아"
