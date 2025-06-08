@@ -10,6 +10,7 @@ data class MapState(
     val latitude: Float = 37.55438f,
     val isBottomSheetOpened: Boolean = true,
     val filter: FilterEntity = FilterEntity(),
+    val isFullSelected: Boolean = false,
     val houseList: PersistentList<FilterResultEntity> = persistentListOf(),
     val markerDetail: FilterResultEntity = FilterResultEntity(
         latitude = 0F,

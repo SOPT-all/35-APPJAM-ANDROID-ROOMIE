@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
@@ -32,6 +33,7 @@ import com.wearerommies.roomie.domain.entity.FilterResultEntity
 import com.wearerommies.roomie.domain.entity.RoomCardEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieEmptyView
 import com.wearerommies.roomie.presentation.core.component.RoomieRoomCard
+import com.wearerommies.roomie.presentation.core.extension.noRippleClickable
 import com.wearerommies.roomie.presentation.core.extension.topBorder
 import com.wearerommies.roomie.presentation.core.util.convertDpToFloat
 import com.wearerommies.roomie.presentation.type.EmptyViewType
@@ -46,6 +48,8 @@ fun MapBottomSheet(
     onLikeClick: (Long) -> Unit,
     navigateToDetail: (Long) -> Unit,
     houseList: PersistentList<FilterResultEntity>,
+    isFullSelected: Boolean,
+    updateIsFull: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     BottomSheetScaffold(
@@ -75,7 +79,6 @@ fun MapBottomSheet(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(RoomieTheme.colors.actionError)
                         .topBorder(convertDpToFloat(1.dp), RoomieTheme.colors.grayScale4)
                         .padding(horizontal = 16.dp)
                         .padding(top = 12.dp),
@@ -83,8 +86,10 @@ fun MapBottomSheet(
                     horizontalArrangement = Arrangement.Start
                 ) {
                     Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.ic_circle_gray_16px),
-                        tint = RoomieTheme.colors.grayScale7,
+                        imageVector = if (isFullSelected) ImageVector.vectorResource(R.drawable.ic_circle_active_16px)
+                        else ImageVector.vectorResource(R.drawable.ic_circle_inactive_16px),
+                        tint = Color.Unspecified,
+                        modifier = Modifier.noRippleClickable(onClick = updateIsFull),
                         contentDescription = null
                     )
                     Text(
@@ -174,7 +179,9 @@ fun MapBottomSheetPreview() {
                     mainImgUrl = "",
                     excludeFull = false
                 )
-            )
+            ),
+            isFullSelected = false,
+            updateIsFull = {}
         )
     }
 }
