@@ -71,8 +71,12 @@ fun MapRoute(
     val initialKey by rememberUpdatedState(initial)
 
     LaunchedEffect(initialKey) {
-        viewModel.fetchInitialLocation(searchResultEntity.x, searchResultEntity.y)
+        viewModel.fetchInitialLocation(searchResultEntity.longitude, searchResultEntity.latitude)
         viewModel.fetchFilterAndSearch(filterEntity, searchResultEntity)
+        viewModel.fetchHouseList()
+    }
+
+    LaunchedEffect(state.isFullSelected) {
         viewModel.fetchHouseList()
     }
 
@@ -102,8 +106,8 @@ fun MapRoute(
         navigateToDetail = viewModel::navigateToDetail,
         snackBarHost = snackBarHost,
         isBottomSheetOpened = state.isBottomSheetOpened,
-        latitude = searchResultEntity.y,
-        longitude = searchResultEntity.x,
+        latitude = searchResultEntity.latitude,
+        longitude = searchResultEntity.longitude,
         searchKeyword = searchResultEntity.location,
         houseList = state.houseList,
         onMarkerClicked = viewModel::showMarkerDetail,
@@ -111,7 +115,9 @@ fun MapRoute(
         clickedMarkerId = state.clickedMarkerId,
         bookMarkHouse = viewModel::bookmarkHouse,
         resetClickedMarker = viewModel::resetClickedMarker,
-        setBottomSheetState = viewModel::setBottomSheetState
+        setBottomSheetState = viewModel::setBottomSheetState,
+        isFullSelected = state.isFullSelected,
+        updateIsFull = viewModel::updateIsFull
     )
 }
 
@@ -134,6 +140,8 @@ fun MapScreen(
     bookMarkHouse: (Long) -> Unit,
     resetClickedMarker: () -> Unit,
     setBottomSheetState: (Boolean) -> Unit,
+    isFullSelected: Boolean,
+    updateIsFull: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val initialCameraPosition = LatLng(latitude.toDouble(), longitude.toDouble()) // 초기 위치 임시 고정
@@ -166,7 +174,7 @@ fun MapScreen(
     ) {
         // TODO: 기획-디자인과 카메라 범위 자동 조정 -> 현재는 모든 마커가 나타나도록 조정되어 있음
         LaunchedEffect(houseList) {
-            if (houseList.isNotEmpty()) {
+            if (houseList.isNotEmpty() && cameraPositionState.position.target == initialCameraPosition) {
                 val bounds = LatLngBounds.Builder()
                 houseList.forEach { marker ->
                     bounds.include(LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()))
@@ -198,9 +206,11 @@ fun MapScreen(
                             marker.longitude.toDouble()
                         )
                     ),
-                    icon = if (marker.houseId == clickedMarkerId)
-                        OverlayImage.fromResource(R.drawable.ic_map_pin_active)
-                    else OverlayImage.fromResource(R.drawable.ic_map_pin_normal),
+                    icon = when {
+                        marker.houseId == clickedMarkerId -> OverlayImage.fromResource(R.drawable.ic_map_pin_active)
+                        marker.excludeFull -> OverlayImage.fromResource(R.drawable.ic_map_pin_inactive)
+                        else -> OverlayImage.fromResource(R.drawable.ic_map_pin_normal)
+                    },
                     onClick = {
                         onMarkerClicked(marker.houseId)
                         setBottomSheetState(false)
@@ -232,6 +242,7 @@ fun MapScreen(
 
         if (clickedMarkerId != null)
             MarkerDetailCard(
+                houseId = markerDetail.houseId,
                 monthlyRent = markerDetail.monthlyRent,
                 deposit = markerDetail.deposit,
                 contractTerm = markerDetail.contractTerm,
@@ -240,7 +251,9 @@ fun MapScreen(
                 location = markerDetail.location,
                 locationDescription = markerDetail.locationDescription,
                 moodTag = markerDetail.moodTag,
+                isPinned = markerDetail.isPinned,
                 onClick = { navigateToDetail(markerDetail.houseId) },
+                onLikeClick = bookMarkHouse,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(horizontal = 16.dp)
@@ -250,7 +263,9 @@ fun MapScreen(
         if (isBottomSheetOpened) MapBottomSheet(
             onLikeClick = bookMarkHouse,
             navigateToDetail = navigateToDetail,
-            houseList = houseList
+            houseList = houseList,
+            isFullSelected = isFullSelected,
+            updateIsFull = updateIsFull
         )
     }
 }
@@ -290,7 +305,9 @@ fun MapScreenPreview() {
             clickedMarkerId = null,
             resetClickedMarker = {},
             bookMarkHouse = {},
-            setBottomSheetState = {}
+            setBottomSheetState = {},
+            isFullSelected = false,
+            updateIsFull = {}
         )
     }
 }
