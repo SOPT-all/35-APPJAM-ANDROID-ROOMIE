@@ -55,29 +55,38 @@ class MapViewModel @Inject constructor(
         )
     }
 
+    fun updateIsFull() {
+        _state.value = _state.value.copy(
+            isFullSelected = !_state.value.isFullSelected
+        )
+    }
+
     suspend fun fetchHouseList() {
         mapRepository.getFilterResult(_state.value.filter)
             .onSuccess { resultList ->
                 _state.value = _state.value.copy(
                     houseList =
-                    resultList.map {
-                        FilterResultEntity(
-                            houseId = it.houseId,
-                            latitude = it.latitude,
-                            longitude = it.longitude,
-                            monthlyRent = it.monthlyRent,
-                            deposit = it.deposit,
-                            occupancyTypes = it.occupancyTypes,
-                            location = it.location,
-                            genderPolicy = it.genderPolicy,
-                            locationDescription = it.locationDescription,
-                            isPinned = it.isPinned,
-                            moodTag = it.moodTag,
-                            contractTerm = it.contractTerm,
-                            mainImgUrl = it.mainImgUrl,
-                            excludeFull = it.excludeFull
-                        )
-                    }.toPersistentList()
+                    if (_state.value.isFullSelected)
+                        resultList.filter { it.excludeFull }.toPersistentList()
+                    else
+                        resultList.map {
+                            FilterResultEntity(
+                                houseId = it.houseId,
+                                latitude = it.latitude,
+                                longitude = it.longitude,
+                                monthlyRent = it.monthlyRent,
+                                deposit = it.deposit,
+                                occupancyTypes = it.occupancyTypes,
+                                location = it.location,
+                                genderPolicy = it.genderPolicy,
+                                locationDescription = it.locationDescription,
+                                isPinned = it.isPinned,
+                                moodTag = it.moodTag,
+                                contractTerm = it.contractTerm,
+                                mainImgUrl = it.mainImgUrl,
+                                excludeFull = it.excludeFull
+                            )
+                        }.toPersistentList()
                 )
             }.onFailure { error ->
                 Timber.e(error)
@@ -118,6 +127,13 @@ class MapViewModel @Inject constructor(
     fun bookmarkHouse(houseId: Long) = viewModelScope.launch {
         houseRepository.bookmarkHouse(houseId = houseId)
             .onSuccess { response ->
+
+                _state.value = _state.value.copy(
+                    markerDetail = _state.value.markerDetail.copy(
+                        isPinned = !_state.value.markerDetail.isPinned
+                    )
+                )
+
                 if (response.isPinned.not()) {
                     _sideEffect.emit(
                         MapSideEffect.SnackBar(
