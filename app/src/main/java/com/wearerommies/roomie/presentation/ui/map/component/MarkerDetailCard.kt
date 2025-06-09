@@ -27,11 +27,13 @@ import androidx.compose.ui.unit.dp
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.presentation.core.component.RoomieTextChip
 import com.wearerommies.roomie.presentation.core.extension.customShadow
+import com.wearerommies.roomie.presentation.core.extension.noRippleClickable
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 
 @Composable
 fun MarkerDetailCard(
+    houseId: Long,
     monthlyRent: String,
     deposit: String,
     contractTerm: Int,
@@ -40,7 +42,9 @@ fun MarkerDetailCard(
     location: String,
     locationDescription: String,
     moodTag: String,
+    isPinned: Boolean,
     onClick: () -> Unit,
+    onLikeClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -177,10 +181,13 @@ fun MarkerDetailCard(
         Spacer(modifier = Modifier.width(4.dp))
 
         Icon(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_right_line_black_24px),
+            imageVector = if (isPinned) ImageVector.vectorResource(id = R.drawable.ic_like_mapcard_active) else ImageVector.vectorResource(
+                id = R.drawable.ic_like_mapcard_inactive
+            ),
             contentDescription = stringResource(R.string.navigate_to_house_detail),
             modifier = Modifier
-                .padding(8.dp),
+                .padding(8.dp)
+                .noRippleClickable { onLikeClick(houseId) },
             tint = Color.Unspecified
         )
     }
@@ -191,6 +198,7 @@ fun MarkerDetailCard(
 fun MarkerDetailCardPreview() {
     RoomieAndroidTheme {
         MarkerDetailCard(
+            houseId = 1L,
             monthlyRent = "30~50",
             deposit = "200~300",
             contractTerm = 6,
@@ -199,7 +207,9 @@ fun MarkerDetailCardPreview() {
             location = "서대문구 연희동sk스카이뷰12345678912345687912356798123456789123",
             locationDescription = "sk스카이뷰12345678912345687912356798123456789123",
             moodTag = "#활기찬",
-            onClick = {}
+            isPinned = false,
+            onClick = {},
+            onLikeClick = {}
         )
     }
 }

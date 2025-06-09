@@ -13,10 +13,10 @@ data class ResponseFilterDto(
     data class House(
         @SerialName("houseId")
         val houseId: Long,
-        @SerialName("x")
-        val x: Float,
-        @SerialName("y")
-        val y: Float,
+        @SerialName("latitude")
+        val latitude: Float,
+        @SerialName("longitude")
+        val longitude: Float,
         @SerialName("monthlyRent")
         val monthlyRent: String,
         @SerialName("deposit")
@@ -37,11 +37,13 @@ data class ResponseFilterDto(
         val contractTerm: Int,
         @SerialName("mainImgUrl")
         val mainImgUrl: String,
+        @SerialName("excludeFull")
+        val excludeFull: Boolean
     ) {
         fun toEntity() = FilterResultEntity(
             houseId = houseId,
-            x = x,
-            y = y,
+            latitude = latitude,
+            longitude = longitude,
             monthlyRent = monthlyRent,
             deposit = deposit,
             occupancyTypes = occupancyTypes,
@@ -51,7 +53,8 @@ data class ResponseFilterDto(
             isPinned = isPinned,
             moodTag = moodTag,
             contractTerm = contractTerm,
-            mainImgUrl = mainImgUrl
+            mainImgUrl = mainImgUrl,
+            excludeFull = excludeFull
         )
     }
 

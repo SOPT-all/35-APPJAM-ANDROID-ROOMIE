@@ -2,8 +2,8 @@ package com.wearerommies.roomie.domain.entity
 
 data class FilterResultEntity(
     val houseId: Long,
-    val x: Float,
-    val y: Float,
+    val latitude: Float,
+    val longitude: Float,
     val monthlyRent: String,
     val deposit: String,
     val occupancyTypes: String,
@@ -13,5 +13,6 @@ data class FilterResultEntity(
     val isPinned: Boolean,
     val moodTag: String,
     val contractTerm: Int,
-    val mainImgUrl: String
+    val mainImgUrl: String,
+    val excludeFull: Boolean
 )

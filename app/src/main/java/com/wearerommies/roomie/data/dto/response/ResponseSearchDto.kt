@@ -11,10 +11,10 @@ data class ResponseSearchDto(
 ) {
     @Serializable
     data class Location(
-        @SerialName("x")
-        val x: Float,
-        @SerialName("y")
-        val y: Float,
+        @SerialName("longitude")
+        val longitude: Float,
+        @SerialName("latitude")
+        val latitude: Float,
         @SerialName("location")
         val location: String,
         @SerialName("address")
@@ -23,8 +23,8 @@ data class ResponseSearchDto(
         val roadAddress: String
     ) {
         fun toEntity() = SearchResultEntity(
-            x = this.x,
-            y = this.y,
+            longitude = this.longitude,
+            latitude = this.latitude,
             location = this.location,
             address = this.address,
             roadAddress = this.roadAddress

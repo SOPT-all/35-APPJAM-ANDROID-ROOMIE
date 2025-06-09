@@ -55,15 +55,15 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun applySearchResult(resultLocation: String, resultAddress: String, resultRoadAddress: String, resultX: Float, resultY: Float) =
+    fun applySearchResult(resultLocation: String, resultAddress: String, resultRoadAddress: String, resultLongitude: Float, resultLatitude: Float) =
         viewModelScope.launch {
             _state.value = _state.value.copy(
                 searchResult = SearchResultEntity(
                     location = resultLocation,
                     address = resultAddress,
                     roadAddress = resultRoadAddress,
-                    x = resultX,
-                    y = resultY
+                    longitude = resultLongitude,
+                    latitude = resultLatitude
                 )
             )
 
@@ -73,8 +73,8 @@ class SearchViewModel @Inject constructor(
                         location = _state.value.searchResult.address
                     ),
                     SearchResultEntity(
-                        x = _state.value.searchResult.x,
-                        y = _state.value.searchResult.y,
+                        longitude = _state.value.searchResult.longitude,
+                        latitude = _state.value.searchResult.latitude,
                         location = _state.value.searchResult.location,
                         address = _state.value.searchResult.address,
                         roadAddress = _state.value.searchResult.roadAddress

@@ -41,6 +41,7 @@
     <string name="search_textfield_placeholder">원하는 장소를 찾아보세요</string>
     <string name="location_no_room">해당 위치에는 방이 없어요</string>
     <string name="search_other_place">다른 장소를 검색해보세요</string>
+    <string name="exclude_full">만실제외</string>
 
     // search
     <string name="search_button">검색 버튼</string>
