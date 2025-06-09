@@ -36,7 +36,10 @@ fun RoomieNavHost(
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None },
     ) {
-        splashNavGraph()
+        splashNavGraph(
+            navigateToOnboarding = navigator::navigateToOnboarding,
+            navigateToHome = navigator::navigateToHome
+        )
         loginNavGraph(
             paddingValues = padding,
             navigateUp = navigator::popBackStackIfNotHome,

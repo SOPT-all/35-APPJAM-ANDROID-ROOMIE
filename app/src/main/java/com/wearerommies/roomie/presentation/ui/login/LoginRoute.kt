@@ -47,12 +47,6 @@ fun LoginRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val counter by remember { mutableIntStateOf(0) }
-    val currentCounter by rememberUpdatedState(counter)
-
-    LaunchedEffect(currentCounter) {
-        viewModel.checkAutoLogin()
-    }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
