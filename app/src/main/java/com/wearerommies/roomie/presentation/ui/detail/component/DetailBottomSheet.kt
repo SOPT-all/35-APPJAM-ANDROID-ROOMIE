@@ -150,7 +150,6 @@ fun DetailModalBottomSheetPreview() {
                     occupancyType = 2,
                     gender = "여성",
                     deposit = 5000000,
-                    prepaidUtilities = 100000,
                     monthlyRent = 500000,
                     contractPeriod = "24-12-20",
                     managementFee = "1/n"
@@ -163,7 +162,6 @@ fun DetailModalBottomSheetPreview() {
                     occupancyType = 2,
                     gender = "여성",
                     deposit = 5000000,
-                    prepaidUtilities = 100000,
                     monthlyRent = 500000,
                     contractPeriod = "24-12-20",
                     managementFee = "1/n"
@@ -176,7 +174,6 @@ fun DetailModalBottomSheetPreview() {
                     occupancyType = 1,
                     gender = "여성",
                     deposit = 5000000,
-                    prepaidUtilities = 100000,
                     monthlyRent = 500000,
                     contractPeriod = "24-12-20",
                     managementFee = "1/n"

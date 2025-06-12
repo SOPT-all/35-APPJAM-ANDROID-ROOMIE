@@ -292,7 +292,7 @@ fun DetailScreen(
                             Spacer(
                                 Modifier
                                     .fillMaxSize()
-                                    .height(16.dp)
+                                    .height(20.dp)
                                     .clip(
                                         shape = RoundedCornerShape(
                                             topStart = 12.dp,
@@ -420,7 +420,6 @@ fun DetailScreen(
                                         occupancyType = room.occupancyType,
                                         gender = room.gender,
                                         deposit = formatPriceWon(room.deposit),
-                                        prepaidUtilities = formatPriceWon(room.prepaidUtilities),
                                         monthlyRent = formatPriceWon(room.monthlyRent),
                                         contractPeriod = it,
                                         managementFee = room.managementFee,
@@ -470,73 +469,8 @@ fun DetailScreen(
                             isExpanded = isKitchenExpanded,
                             modifier = Modifier.padding(horizontal = 16.dp)
                         )
-                    }
 
-                    item {
-                        Spacer(Modifier.height(40.dp))
-
-                        Text(
-                            text = stringResource(R.string.roommate),
-                            style = RoomieTheme.typography.heading5Sb18,
-                            color = RoomieTheme.colors.grayScale12,
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = 16.dp
-                                )
-                        )
-
-                        Spacer(Modifier.height(16.dp))
-
-                        if (state.data.roommates.isNullOrEmpty()) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp)
-                                    .align(Alignment.Center)
-                                    .roundedBackgroundWithBorder(
-                                        cornerRadius = 8.dp,
-                                        backgroundColor = RoomieTheme.colors.grayScale1,
-                                        borderColor = RoomieTheme.colors.grayScale5,
-                                        borderWidth = 1.dp
-                                    )
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.roommate_not_found),
-                                    style = RoomieTheme.typography.body2Sb14,
-                                    color = RoomieTheme.colors.grayScale8,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(
-                                            horizontal = 79.dp,
-                                            vertical = 35.dp
-                                        ),
-                                    textAlign = TextAlign.Center,
-                                )
-                            }
-
-                            Spacer(Modifier.height(20.dp))
-
-                        } else {
-                            state.data.roommates.forEachIndexed { index, roommate ->
-                                DetailRoomMateCard(
-                                    image = R.drawable.img_profile,
-                                    roomMateAge = roommate.age,
-                                    roomMateJob = roommate.job,
-                                    roomMateMbti = roommate.mbti,
-                                    roomMateRoomName = roommate.name,
-                                    roomMateActivityTime = roommate.activityTime,
-                                    roomMateSleepTime = roommate.sleepTime,
-                                    modifier = Modifier.padding(horizontal = 16.dp)
-                                )
-
-                                if (index != state.data.roommates.lastIndex) {
-                                    Spacer(Modifier.height(12.dp))
-                                } else {
-                                    Spacer(Modifier.height(20.dp))
-                                }
-
-                            }
-                        }
+                        Spacer(Modifier.height(32.dp))
                     }
                 }
 
@@ -644,7 +578,6 @@ fun DetailScreenPreview() {
                         contractTerm = 3,
                         moodTags = listOf("#차분한", "#유쾌한", "#경쾌한"),
                         groundRule = listOf("요리 후 바로 설거지해요", "청소는 주3회 돌아가면서 해요"),
-                        maintenanceCost = 300000,
                         isPinned = true,
                         safetyLivingFacility = listOf("소화기", "소화기"),
                         kitchenFacility = listOf("주걱", "밥솥"),
@@ -659,7 +592,6 @@ fun DetailScreenPreview() {
                             occupancyType = 2,
                             gender = "여성",
                             deposit = 5000000,
-                            prepaidUtilities = 100000,
                             monthlyRent = 500000,
                             contractPeriod = "24-12-20",
                             managementFee = "1/n"
@@ -672,30 +604,11 @@ fun DetailScreenPreview() {
                             occupancyType = 1,
                             gender = "여성",
                             deposit = 5000000,
-                            prepaidUtilities = 100000,
                             monthlyRent = 500000,
                             contractPeriod = "24-12-20",
                             managementFee = "1/n"
                         )
                     ),
-                    roommates = null /*listOf(
-                    DetailEntity.RoomMate(
-                        name = "1A 싱글침대",
-                        age = "20대",
-                        job = "대학생",
-                        mbti = "ENFP",
-                        sleepTime = "21:00 - 21:00",
-                        activityTime = "21:00 - 21:00"
-                    ),
-                    DetailEntity.RoomMate(
-                        name = "1A 싱글침대",
-                        age = "20대",
-                        job = "대학생",
-                        mbti = "ENFP",
-                        sleepTime = "21:00 - 21:00",
-                        activityTime = "21:00 - 21:00"
-                    )
-                )*/
                 )
             ),
             isShowBottomSheet = false,
