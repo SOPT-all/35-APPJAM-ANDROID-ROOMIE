@@ -9,9 +9,7 @@ data class ResponseDetailDto(
     @SerialName("houseInfo")
     val houseInfo: HouseInfo,
     @SerialName("rooms")
-    val rooms: List<Room>,
-    @SerialName("roommates")
-    val roommates: List<Roommate>
+    val rooms: List<Room>
 ) {
     @Serializable
     data class HouseInfo(
@@ -41,8 +39,6 @@ data class ResponseDetailDto(
         val roomMood: String,
         @SerialName("groundRule")
         val groundRule: List<String>,
-        @SerialName("maintenanceCost")
-        val maintenanceCost: Int,
         @SerialName("isPinned")
         val isPinned: Boolean,
         @SerialName("safetyLivingFacility")
@@ -67,30 +63,12 @@ data class ResponseDetailDto(
         val gender: String,
         @SerialName("deposit")
         val deposit: Int,
-        @SerialName("prepaidUtilities")
-        val prepaidUtilities: Int,
         @SerialName("monthlyRent")
         val monthlyRent: Int,
         @SerialName("contractPeriod")
         val contractPeriod: String?,
         @SerialName("managementFee")
         val managementFee: String
-    )
-
-    @Serializable
-    data class Roommate(
-        @SerialName("name")
-        val name: String,
-        @SerialName("age")
-        val age: String,
-        @SerialName("job")
-        val job: String,
-        @SerialName("mbti")
-        val mbti: String,
-        @SerialName("sleepTime")
-        val sleepTime: String,
-        @SerialName("activityTime")
-        val activityTime: String
     )
 
     fun toEntity() = DetailEntity(
@@ -109,7 +87,6 @@ data class ResponseDetailDto(
                 moodTags = it.moodTags,
                 roomMood = it.roomMood,
                 groundRule = it.groundRule,
-                maintenanceCost = it.maintenanceCost,
                 isPinned = it.isPinned,
                 safetyLivingFacility = it.safetyLivingFacility,
                 kitchenFacility = it.kitchenFacility
@@ -124,20 +101,9 @@ data class ResponseDetailDto(
                 occupancyType = it.occupancyType,
                 gender = it.gender,
                 deposit = it.deposit,
-                prepaidUtilities = it.prepaidUtilities,
                 monthlyRent = it.monthlyRent,
                 contractPeriod = it.contractPeriod,
                 managementFee = it.managementFee
-            )
-        },
-        roommates = this.roommates.map {
-            DetailEntity.RoomMate(
-                name = it.name,
-                age = it.age,
-                job = it.job,
-                mbti = it.mbti,
-                sleepTime = it.sleepTime,
-                activityTime = it.activityTime
             )
         }
     )
