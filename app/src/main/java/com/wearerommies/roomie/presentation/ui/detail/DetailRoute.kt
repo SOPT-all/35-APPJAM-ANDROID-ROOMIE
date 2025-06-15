@@ -292,7 +292,7 @@ fun DetailScreen(
                             Spacer(
                                 Modifier
                                     .fillMaxSize()
-                                    .height(20.dp)
+                                    .height(16.dp)
                                     .clip(
                                         shape = RoundedCornerShape(
                                             topStart = 12.dp,
@@ -470,7 +470,7 @@ fun DetailScreen(
                             modifier = Modifier.padding(horizontal = 16.dp)
                         )
 
-                        Spacer(Modifier.height(32.dp))
+                        Spacer(Modifier.height(28.dp))
                     }
                 }
 
