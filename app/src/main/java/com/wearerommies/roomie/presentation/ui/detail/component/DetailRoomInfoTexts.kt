@@ -26,7 +26,6 @@ fun DetailRoomInfoTexts(
     occupancyType: Int,
     gender: String,
     deposit: String,
-    prepaidUtilities: String,
     monthlyRent: String,
     contractPeriod: String,
     managementFee: String,
@@ -46,14 +45,15 @@ fun DetailRoomInfoTexts(
                 gender = gender
             )
 
-            DetailRoomPriceText(
-                textTitle = R.string.room_prepaid_utilities,
-                price = prepaidUtilities
-            )
-
             DetailRoomContractPeriodText(
                 contractPeriod = contractPeriod
             )
+
+            DetailRoomPriceText(
+                textTitle = R.string.room_management_fee,
+                price = managementFee
+            )
+
         }
 
         Column(
@@ -69,11 +69,6 @@ fun DetailRoomInfoTexts(
             DetailRoomPriceText(
                 textTitle = R.string.room_monthly_rent,
                 price = monthlyRent
-            )
-
-            DetailRoomPriceText(
-                textTitle = R.string.room_management_fee,
-                price = managementFee
             )
         }
     }
@@ -189,7 +184,6 @@ fun DetailRoomInfoTextsPreview() {
             occupancyType = 2,
             gender = "여성",
             deposit = "5,000,000원",
-            prepaidUtilities = "10,000원",
             monthlyRent = "500,000원",
             contractPeriod = "24-12-20",
             managementFee = "100,000원"
