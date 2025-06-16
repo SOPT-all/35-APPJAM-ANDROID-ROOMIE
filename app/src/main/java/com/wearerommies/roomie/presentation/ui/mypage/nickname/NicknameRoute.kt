@@ -55,7 +55,7 @@ fun NicknameRoute(
         paddingValues = paddingValues,
         navigateUp = navigateUp,
         state = state,
-        onNicknameChanged = viewModel::updatedNickname,
+        onNicknameChanged = viewModel::updateNickname,
         onClickEditButton = {}
     )
 

@@ -26,7 +26,7 @@ class NicknameViewModel @Inject constructor(
     val sideEffect: SharedFlow<NicknameSideEffect>
         get() = _sideEffect.asSharedFlow()
 
-    fun updatedNickname(nickname: String) {
+    fun updateNickname(nickname: String) {
         _state.value = _state.value.copy(
             uiState = _state.value.uiState.copy(
                 name = nickname

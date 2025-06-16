@@ -54,7 +54,7 @@ fun ContactRoute(
         paddingValues = paddingValues,
         navigateUp = navigateUp,
         state = state,
-        onPhoneNumberChanged = viewModel::updatedPhoneNumber,
+        onPhoneNumberChanged = viewModel::updatePhoneNumber,
         onClickEditButton = {}
     )
 

@@ -26,7 +26,7 @@ class ContactViewModel @Inject constructor(
     val sideEffect: SharedFlow<ContactSideEffect>
         get() = _sideEffect.asSharedFlow()
 
-    fun updatedPhoneNumber(phoneNumber: String) {
+    fun updatePhoneNumber(phoneNumber: String) {
         _state.value = _state.value.copy(
             uiState = _state.value.uiState.copy(
                 phoneNumber = phoneNumber

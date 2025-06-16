@@ -54,7 +54,7 @@ fun BirthRoute(
         paddingValues = paddingValues,
         navigateUp = navigateUp,
         state = state,
-        onBirthdateChanged = viewModel::updatedBirthdate,
+        onBirthdateChanged = viewModel::updateBirthdate,
         updateDateModalState = viewModel::updateBirthDateModalState,
         onClickEditButton = {}
     )

@@ -55,7 +55,7 @@ fun NameRoute(
         paddingValues = paddingValues,
         navigateUp = navigateUp,
         state = state,
-        onNameChanged = viewModel::updatedName,
+        onNameChanged = viewModel::updateName,
         onClickEditButton = {}
     )
 

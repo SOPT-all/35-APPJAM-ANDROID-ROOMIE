@@ -55,7 +55,7 @@ fun GenderRoute(
         paddingValues = paddingValues,
         navigateUp = navigateUp,
         state = state,
-        onClickGenderButton = viewModel::updatedGender,
+        onClickGenderButton = viewModel::updateGender,
         onClickEditButton = {}
     )
 
