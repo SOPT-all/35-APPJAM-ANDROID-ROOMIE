@@ -20,7 +20,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wearerommies.roomie.R
-import com.wearerommies.roomie.presentation.type.MyAccountButtonType
 import com.wearerommies.roomie.presentation.type.MyAccountType
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
@@ -31,7 +30,6 @@ fun MyAccountButton(
     modifier: Modifier = Modifier,
     userInformation: String = "",
     onClick: () -> Unit = {},
-    myAccountButtonType: MyAccountButtonType = MyAccountButtonType.ACCOUNT_EDIT
 ) {
     Row(
         modifier = modifier
@@ -57,7 +55,7 @@ fun MyAccountButton(
                 color = RoomieTheme.colors.grayScale7,
             )
 
-            if (myAccountButtonType == MyAccountButtonType.ACCOUNT) {
+            if (myAccountType == MyAccountType.ACCOUNT) {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
                 ) {
@@ -103,7 +101,6 @@ private fun MyAccountButtonPreview() {
         Column {
             MyAccountButton(
                 myAccountType = MyAccountType.ACCOUNT,
-                myAccountButtonType = MyAccountButtonType.ACCOUNT
             )
 
             MyAccountButton(

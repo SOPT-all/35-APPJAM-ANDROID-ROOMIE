@@ -30,7 +30,6 @@ import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.MyPageEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
-import com.wearerommies.roomie.presentation.type.MyAccountButtonType
 import com.wearerommies.roomie.presentation.type.MyAccountType
 import com.wearerommies.roomie.presentation.ui.mypage.my.component.MyTopBar
 import com.wearerommies.roomie.presentation.ui.mypage.myaccount.component.MyAccountButton
@@ -114,7 +113,6 @@ fun MyAccountScreen(
         item {
             MyAccountButton(
                 myAccountType = MyAccountType.ACCOUNT,
-                myAccountButtonType = MyAccountButtonType.ACCOUNT
             )
 
             MyAccountButton(
