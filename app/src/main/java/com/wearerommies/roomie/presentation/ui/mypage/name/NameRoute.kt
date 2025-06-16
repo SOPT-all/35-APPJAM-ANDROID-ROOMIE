@@ -21,9 +21,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
+import com.wearerommies.roomie.presentation.core.component.RommieTextField
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
 import com.wearerommies.roomie.presentation.type.MyAccountType
-import com.wearerommies.roomie.presentation.ui.mypage.my.component.MyTextField
 import com.wearerommies.roomie.presentation.ui.mypage.my.component.MyTopBar
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
@@ -81,7 +81,7 @@ fun NameScreen(
                 .padding(top = 20.dp)
         )
 
-        MyTextField(
+        RommieTextField(
             paddingValues = PaddingValues(16.dp),
             textFieldValue = state.uiState.name,
             placeHolder = stringResource(MyAccountType.NAME.title),
@@ -90,6 +90,9 @@ fun NameScreen(
                 .padding(
                     horizontal = 16.dp,
                 ),
+            textStyle = RoomieTheme.typography.body1R14,
+            placeHolderStyle = RoomieTheme.typography.body1R14,
+            placeHolderColor = RoomieTheme.colors.grayScale6,
             isValidate = state.isValidated,
             errorMessage = if (state.isEnabled)
                 stringResource(R.string.name_error)
