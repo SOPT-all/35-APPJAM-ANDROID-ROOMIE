@@ -6,6 +6,9 @@ import com.wearerommies.roomie.R
 enum class MyAccountType(
     @StringRes val title: Int,
 ) {
+    ACCOUNT(
+        title = R.string.account_connect
+    ),
     NAME(
         title = R.string.name
     ),

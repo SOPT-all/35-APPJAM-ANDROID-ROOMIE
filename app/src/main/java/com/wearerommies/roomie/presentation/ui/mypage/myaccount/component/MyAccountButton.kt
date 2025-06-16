@@ -17,17 +17,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wearerommies.roomie.R
+import com.wearerommies.roomie.presentation.type.MyAccountButtonType
 import com.wearerommies.roomie.presentation.type.MyAccountType
+import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 
 @Composable
 fun MyAccountButton(
     myAccountType: MyAccountType,
-    userInformation: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    userInformation: String = "",
+    onClick: () -> Unit = {},
+    myAccountButtonType: MyAccountButtonType = MyAccountButtonType.ACCOUNT_EDIT
 ) {
     Row(
         modifier = modifier
@@ -53,11 +57,28 @@ fun MyAccountButton(
                 color = RoomieTheme.colors.grayScale7,
             )
 
-            Text(
-                text = userInformation,
-                style = RoomieTheme.typography.body2Sb14,
-                color = RoomieTheme.colors.grayScale12,
-            )
+            if (myAccountButtonType == MyAccountButtonType.ACCOUNT) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
+                ) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_kakao_circle_logo),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                    Text(
+                        text = stringResource(R.string.kakaotalk),
+                        style = RoomieTheme.typography.body2Sb14,
+                        color = RoomieTheme.colors.grayScale12,
+                    )
+                }
+            } else {
+                Text(
+                    text = userInformation,
+                    style = RoomieTheme.typography.body2Sb14,
+                    color = RoomieTheme.colors.grayScale12,
+                )
+            }
         }
 
         Spacer(
@@ -72,5 +93,23 @@ fun MyAccountButton(
             contentDescription = null,
             tint = Color.Unspecified
         )
+    }
+}
+
+@Preview
+@Composable
+private fun MyAccountButtonPreview() {
+    RoomieAndroidTheme {
+        Column {
+            MyAccountButton(
+                myAccountType = MyAccountType.ACCOUNT,
+                myAccountButtonType = MyAccountButtonType.ACCOUNT
+            )
+
+            MyAccountButton(
+                myAccountType = MyAccountType.NAME,
+                userInformation = "이루미",
+            )
+        }
     }
 }
