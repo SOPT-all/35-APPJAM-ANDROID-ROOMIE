@@ -8,15 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,10 +24,7 @@ import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.presentation.core.component.RommieTextField
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
-import com.wearerommies.roomie.presentation.core.component.RoomieTopBar
-import com.wearerommies.roomie.presentation.core.extension.bottomBorder
-import com.wearerommies.roomie.presentation.core.extension.noRippleClickable
-import com.wearerommies.roomie.presentation.core.util.convertDpToFloat
+import com.wearerommies.roomie.presentation.ui.mypage.my.component.MyTopBar
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 
@@ -76,22 +70,9 @@ fun ContactScreen(
             .padding(paddingValues)
             .imePadding(),
     ) {
-        RoomieTopBar(
-            modifier = Modifier
-                .bottomBorder(
-                    height = convertDpToFloat(1.dp),
-                    color = RoomieTheme.colors.grayScale4
-                ),
-            leadingIcon = {
-                Icon(
-                    modifier = Modifier
-                        .noRippleClickable { navigateUp() }
-                        .padding(all = 10.dp),
-                    imageVector = ImageVector.vectorResource(R.drawable.ic_arrow_left_line_black_24px),
-                    contentDescription = stringResource(R.string.move_back)
-                )
-            },
-            title = stringResource(R.string.contact_edit)
+        MyTopBar(
+            navigateUp = navigateUp,
+            title = R.string.contact_edit
         )
 
         Spacer(
