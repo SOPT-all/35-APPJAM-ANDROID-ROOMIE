@@ -31,6 +31,7 @@ import com.wearerommies.roomie.ui.theme.RoomieTheme
 @Composable
 fun BirthRoute(
     paddingValues: PaddingValues,
+    birth: String,
     navigateUp: () -> Unit,
     viewModel: BirthViewModel = hiltViewModel()
 ) {
@@ -46,6 +47,7 @@ fun BirthRoute(
 
     BirthScreen(
         paddingValues = paddingValues,
+        birth = birth,
         navigateUp = navigateUp,
         state = state,
         onBirthdateChanged = viewModel::updateBirthdate,
@@ -58,6 +60,7 @@ fun BirthRoute(
 @Composable
 fun BirthScreen(
     paddingValues: PaddingValues,
+    birth: String,
     navigateUp: () -> Unit,
     state: BirthState,
     onBirthdateChanged: (Long?) -> Unit,
@@ -97,7 +100,7 @@ fun BirthScreen(
                     end = 16.dp,
                     top = 20.dp
                 ),
-            dateValue = state.uiState.birthDate,
+            dateValue = birth,
             backgroundColor = RoomieTheme.colors.grayScale2,
             onClick = {
                 updateDateModalState()
@@ -137,6 +140,7 @@ fun BirthScreenPreview() {
     RoomieAndroidTheme {
         BirthScreen(
             paddingValues = PaddingValues(),
+            birth = "",
             navigateUp = {},
             state = BirthState(),
             onClickEditButton = { },

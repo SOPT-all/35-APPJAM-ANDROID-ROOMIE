@@ -31,6 +31,7 @@ import com.wearerommies.roomie.ui.theme.RoomieTheme
 @Composable
 fun NameRoute(
     paddingValues: PaddingValues,
+    name: String,
     navigateUp: () -> Unit,
     viewModel: NameViewModel = hiltViewModel()
 ) {
@@ -47,6 +48,7 @@ fun NameRoute(
 
     NameScreen(
         paddingValues = paddingValues,
+        name = name,
         navigateUp = navigateUp,
         state = state,
         onNameChanged = viewModel::updateName,
@@ -58,6 +60,7 @@ fun NameRoute(
 @Composable
 fun NameScreen(
     paddingValues: PaddingValues,
+    name: String,
     navigateUp: () -> Unit,
     state: NameState,
     onNameChanged: (String) -> Unit,
@@ -83,7 +86,7 @@ fun NameScreen(
 
         RommieTextField(
             paddingValues = PaddingValues(16.dp),
-            textFieldValue = state.uiState.name,
+            textFieldValue = name,
             placeHolder = stringResource(MyAccountType.NAME.title),
             onValueChange = onNameChanged,
             modifier = Modifier
@@ -133,6 +136,7 @@ fun NameScreenPreview() {
     RoomieAndroidTheme {
         NameScreen(
             paddingValues = PaddingValues(),
+            name = "dd",
             navigateUp = {},
             state = NameState(),
             onNameChanged = {},

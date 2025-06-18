@@ -42,33 +42,53 @@ class MyAccountViewModel @Inject constructor(
             }
     }
 
-    fun navigateToName() {
+    fun navigateToName(name: String) {
         viewModelScope.launch {
-            _sideEffect.emit(MyAccountSideEffect.NavigateToName)
+            _sideEffect.emit(
+                MyAccountSideEffect.NavigateToName(
+                    name = name
+                )
+            )
         }
     }
 
-    fun navigateToNickname() {
+    fun navigateToNickname(nickname: String) {
         viewModelScope.launch {
-            _sideEffect.emit(MyAccountSideEffect.NavigateToNickname)
+            _sideEffect.emit(
+                MyAccountSideEffect.NavigateToNickname(
+                    nickname = nickname
+                )
+            )
         }
     }
 
-    fun navigateToBirth() {
+    fun navigateToBirth(birth: String) {
         viewModelScope.launch {
-            _sideEffect.emit(MyAccountSideEffect.NavigateToBirth)
+            _sideEffect.emit(
+                MyAccountSideEffect.NavigateToBirth(
+                    birth = birth
+                )
+            )
         }
     }
 
-    fun navigateToGender() {
+    fun navigateToGender(gender: String) {
         viewModelScope.launch {
-            _sideEffect.emit(MyAccountSideEffect.NavigateToGender)
+            _sideEffect.emit(
+                MyAccountSideEffect.NavigateToGender(
+                    gender = gender
+                )
+            )
         }
     }
 
-    fun navigateToContact() {
+    fun navigateToContact(contact: String) {
         viewModelScope.launch {
-            _sideEffect.emit(MyAccountSideEffect.NavigateToContact)
+            _sideEffect.emit(
+                MyAccountSideEffect.NavigateToContact(
+                    contact = contact
+                )
+            )
         }
     }
 }

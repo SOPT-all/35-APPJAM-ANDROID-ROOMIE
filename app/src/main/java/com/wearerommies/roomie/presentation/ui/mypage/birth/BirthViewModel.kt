@@ -31,11 +31,9 @@ class BirthViewModel @Inject constructor(
 
     fun updateBirthdate(birthdate: Long?) {
         _state.value = _state.value.copy(
-            uiState = _state.value.uiState.copy(
-                birthDate = birthdate?.let {
-                    Date(birthdate).toFormattedString()
-                } ?: ""
-            )
+            birth = birthdate?.let {
+                Date(birthdate).toFormattedString()
+            } ?: "",
         )
     }
 

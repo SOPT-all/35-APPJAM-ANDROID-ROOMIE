@@ -31,6 +31,7 @@ import com.wearerommies.roomie.ui.theme.RoomieTheme
 @Composable
 fun NicknameRoute(
     paddingValues: PaddingValues,
+    nickname: String,
     navigateUp: () -> Unit,
     viewModel: NicknameViewModel = hiltViewModel()
 ) {
@@ -47,6 +48,7 @@ fun NicknameRoute(
 
     NicknameScreen(
         paddingValues = paddingValues,
+        nickname = nickname,
         navigateUp = navigateUp,
         state = state,
         onNicknameChanged = viewModel::updateNickname,
@@ -58,6 +60,7 @@ fun NicknameRoute(
 @Composable
 fun NicknameScreen(
     paddingValues: PaddingValues,
+    nickname: String,
     navigateUp: () -> Unit,
     state: NicknameState,
     onNicknameChanged: (String) -> Unit,
@@ -83,7 +86,7 @@ fun NicknameScreen(
 
         RommieTextField(
             paddingValues = PaddingValues(16.dp),
-            textFieldValue = state.uiState.name,
+            textFieldValue = nickname,
             placeHolder = stringResource(MyAccountType.NICKNAME.title),
             onValueChange = onNicknameChanged,
             modifier = Modifier
@@ -132,6 +135,7 @@ fun NicknameScreenPreview() {
     RoomieAndroidTheme {
         NicknameScreen(
             paddingValues = PaddingValues(),
+            nickname = "",
             navigateUp = {},
             state = NicknameState(),
             onNicknameChanged = {},

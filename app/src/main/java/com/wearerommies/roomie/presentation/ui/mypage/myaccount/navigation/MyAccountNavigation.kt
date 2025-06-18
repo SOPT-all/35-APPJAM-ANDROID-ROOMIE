@@ -18,11 +18,11 @@ fun NavController.navigateToMyAccount(navOptions: NavOptions? = null) {
 fun NavGraphBuilder.myAccountNavGraph(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
-    navigateToName: () -> Unit,
-    navigateToNickname: () -> Unit,
-    navigateToBirth: () -> Unit,
-    navigateToGender: () -> Unit,
-    navigateToContact: () -> Unit,
+    navigateToName: (String) -> Unit,
+    navigateToNickname: (String) -> Unit,
+    navigateToBirth: (String) -> Unit,
+    navigateToGender: (String) -> Unit,
+    navigateToContact: (String) -> Unit,
 ) {
     composable<Route.MyAccount> {
         MyAccountRoute(

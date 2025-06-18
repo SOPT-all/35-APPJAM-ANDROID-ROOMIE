@@ -5,12 +5,15 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.wearerommies.roomie.presentation.navigator.route.Route
 import com.wearerommies.roomie.presentation.ui.mypage.contact.ContactRoute
 
-fun NavController.navigateToContact(navOptions: NavOptions? = null) {
+fun NavController.navigateToContact(contact: String, navOptions: NavOptions? = null) {
     navigate(
-        route = Route.Contact,
+        route = Route.Contact(
+            contact = contact
+        ),
         navOptions = navOptions
     )
 }
@@ -19,9 +22,11 @@ fun NavGraphBuilder.contactNavGraph(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
 ) {
-    composable<Route.Contact> {
+    composable<Route.Contact> { backStackEntry ->
+        val contact = backStackEntry.toRoute<Route.Contact>().contact
         ContactRoute(
             paddingValues = paddingValues,
+            contact = contact,
             navigateUp = navigateUp
         )
     }

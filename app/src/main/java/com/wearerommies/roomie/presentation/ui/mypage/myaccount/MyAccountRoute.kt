@@ -40,11 +40,11 @@ import com.wearerommies.roomie.ui.theme.RoomieTheme
 fun MyAccountRoute(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
-    navigateToName: () -> Unit,
-    navigateToNickname: () -> Unit,
-    navigateToBirth: () -> Unit,
-    navigateToGender: () -> Unit,
-    navigateToContact: () -> Unit,
+    navigateToName: (String) -> Unit,
+    navigateToNickname: (String) -> Unit,
+    navigateToBirth: (String) -> Unit,
+    navigateToGender: (String) -> Unit,
+    navigateToContact: (String) -> Unit,
     viewModel: MyAccountViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -62,11 +62,11 @@ fun MyAccountRoute(
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
                 when (sideEffect) {
-                    is MyAccountSideEffect.NavigateToNickname -> navigateToNickname()
-                    is MyAccountSideEffect.NavigateToBirth -> navigateToBirth()
-                    is MyAccountSideEffect.NavigateToContact -> navigateToContact()
-                    is MyAccountSideEffect.NavigateToGender -> navigateToGender()
-                    is MyAccountSideEffect.NavigateToName -> navigateToName()
+                    is MyAccountSideEffect.NavigateToNickname -> navigateToNickname(sideEffect.nickname)
+                    is MyAccountSideEffect.NavigateToBirth -> navigateToBirth(sideEffect.birth)
+                    is MyAccountSideEffect.NavigateToContact -> navigateToContact(sideEffect.contact)
+                    is MyAccountSideEffect.NavigateToGender -> navigateToGender(sideEffect.gender)
+                    is MyAccountSideEffect.NavigateToName -> navigateToName(sideEffect.name)
                 }
             }
     }
@@ -88,11 +88,11 @@ fun MyAccountRoute(
 fun MyAccountScreen(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
-    navigateToName: () -> Unit,
-    navigateToNickname: () -> Unit,
-    navigateToBirth: () -> Unit,
-    navigateToGender: () -> Unit,
-    navigateToContact: () -> Unit,
+    navigateToName: (String) -> Unit,
+    navigateToNickname: (String) -> Unit,
+    navigateToBirth: (String) -> Unit,
+    navigateToGender: (String) -> Unit,
+    navigateToContact: (String) -> Unit,
     state: MyPageEntity,
     modifier: Modifier = Modifier
 ) {
@@ -118,27 +118,27 @@ fun MyAccountScreen(
             MyAccountButton(
                 myAccountType = MyAccountType.NAME,
                 userInformation = "이루미",
-                onClick = navigateToName,
+                onClick = { navigateToName("이루미") },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.NICKNAME,
                 userInformation = "카드값줘체리",
-                onClick = navigateToNickname,
+                onClick = { navigateToNickname("카드값줘체리") },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.BIRTH,
                 userInformation = "2025.03.21",
-                onClick = navigateToBirth,
+                onClick = { navigateToBirth("2025.03.21") },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.GENDER,
                 userInformation = "여성",
-                onClick = navigateToGender,
+                onClick = { navigateToGender("여성") },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.PHONE_NUMBER,
                 userInformation = "010-0000-0000",
-                onClick = navigateToContact,
+                onClick = { navigateToContact("010-0000-0000") },
             )
 
             Spacer(

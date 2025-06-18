@@ -161,24 +161,24 @@ class MainNavigator(
         navController.navigateToMyAccount()
     }
 
-    fun navigateToName() {
-        navController.navigateToName()
+    fun navigateToName(name: String) {
+        navController.navigateToName(name = name)
     }
 
-    fun navigateToNickname() {
-        navController.navigateToNickname()
+    fun navigateToNickname(nickname: String) {
+        navController.navigateToNickname(nickname = nickname)
     }
 
-    fun navigateToBirth() {
-        navController.navigateToBirth()
+    fun navigateToBirth(birth: String) {
+        navController.navigateToBirth(birth = birth)
     }
 
-    fun navigateToGender() {
-        navController.navigateToGender()
+    fun navigateToGender(gender: String) {
+        navController.navigateToGender(gender = gender)
     }
 
-    fun navigateToContact() {
-        navController.navigateToContact()
+    fun navigateToContact(contact: String) {
+        navController.navigateToContact(contact = contact)
     }
 
     private inline fun <reified T : Route> isSameCurrentDestination(): Boolean =

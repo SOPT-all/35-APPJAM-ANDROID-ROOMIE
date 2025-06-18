@@ -31,6 +31,7 @@ import com.wearerommies.roomie.ui.theme.RoomieTheme
 @Composable
 fun ContactRoute(
     paddingValues: PaddingValues,
+    contact: String,
     navigateUp: () -> Unit,
     viewModel: ContactViewModel = hiltViewModel()
 ) {
@@ -46,6 +47,7 @@ fun ContactRoute(
 
     ContactScreen(
         paddingValues = paddingValues,
+        contact = contact,
         navigateUp = navigateUp,
         state = state,
         onPhoneNumberChanged = viewModel::updatePhoneNumber,
@@ -57,6 +59,7 @@ fun ContactRoute(
 @Composable
 fun ContactScreen(
     paddingValues: PaddingValues,
+    contact: String,
     navigateUp: () -> Unit,
     state: ContactState,
     onPhoneNumberChanged: (String) -> Unit,
@@ -82,7 +85,7 @@ fun ContactScreen(
 
         RommieTextField(
             paddingValues = PaddingValues(16.dp),
-            textFieldValue = state.uiState.phoneNumber,
+            textFieldValue = contact,
             onValueChange = onPhoneNumberChanged,
             modifier = Modifier
                 .padding(
@@ -127,6 +130,7 @@ fun ContactScreenPreview() {
     RoomieAndroidTheme {
         ContactScreen(
             paddingValues = PaddingValues(),
+            contact = "",
             navigateUp = {},
             state = ContactState(),
             onClickEditButton = { },

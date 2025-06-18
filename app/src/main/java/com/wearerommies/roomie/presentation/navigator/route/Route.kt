@@ -80,19 +80,29 @@ sealed interface Route {
     data object MyAccount : Route
 
     @Serializable
-    data object Name : Route
+    data class Name(
+        val name: String
+    ) : Route
 
     @Serializable
-    data object Nickname : Route
+    data class Nickname(
+        val nickname: String
+    ) : Route
 
     @Serializable
-    data object Birth : Route
+    data class Birth(
+        val birth: String
+    ) : Route
 
     @Serializable
-    data object Gender : Route
+    data class Gender(
+        val gender: String
+    ) : Route
 
     @Serializable
-    data object Contact : Route
+    data class Contact(
+        val contact: String
+    ) : Route
 }
 
 sealed interface MainTabRoute : Route {
