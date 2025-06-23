@@ -9,6 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
+import com.wearerommies.roomie.presentation.type.GenderType
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 
@@ -39,6 +40,29 @@ fun MyEditButton(
     )
 }
 
+@Composable
+fun MyGenderButton(
+    updatedGender: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    genderType: String = GenderType.MAN.value
+) {
+    RoomieButton(
+        text = if (genderType == GenderType.MAN.value)
+            stringResource(R.string.man)
+        else
+            stringResource(R.string.woman),
+        backgroundColor = if (updatedGender == genderType) RoomieTheme.colors.primaryLight5 else RoomieTheme.colors.grayScale1,
+        textColor = if (updatedGender == genderType) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale12,
+        onClick = onClick,
+        modifier = modifier,
+        borderColor = if (updatedGender == genderType) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5,
+        borderWidth = 1.dp,
+        verticalPadding = 12.dp,
+        textStyle = if (updatedGender == genderType) RoomieTheme.typography.body3M14 else RoomieTheme.typography.body1R14
+    )
+}
+
 @Preview
 @Composable
 private fun MyButtonPreview() {
@@ -46,6 +70,11 @@ private fun MyButtonPreview() {
         MyEditButton(
             isEnabled = true,
             onClick = {}
+        )
+
+        MyGenderButton(
+            updatedGender = "여성",
+            onClick = {},
         )
     }
 }
