@@ -12,6 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -39,6 +42,12 @@ fun GenderRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val counter by remember { mutableIntStateOf(0) }
+    val currentCounter by rememberUpdatedState(counter)
+
+    LaunchedEffect(currentCounter) {
+        viewModel.initGender(gender = gender)
+    }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
@@ -89,32 +98,32 @@ fun GenderScreen(
         ) {
             RoomieButton(
                 text = stringResource(R.string.man),
-                backgroundColor = if (gender == GenderType.MAN.value) RoomieTheme.colors.primaryLight5 else RoomieTheme.colors.grayScale1,
-                textColor = if (gender == GenderType.MAN.value) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale12,
+                backgroundColor = if (state.updatedGender == GenderType.MAN.value) RoomieTheme.colors.primaryLight5 else RoomieTheme.colors.grayScale1,
+                textColor = if (state.updatedGender == GenderType.MAN.value) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale12,
                 onClick = {
                     onClickGenderButton(GenderType.MAN.value)
                 },
                 modifier = Modifier
                     .weight(1f),
-                borderColor = if (gender == GenderType.MAN.value) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5,
+                borderColor = if (state.updatedGender == GenderType.MAN.value) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5,
                 borderWidth = 1.dp,
                 verticalPadding = 12.dp,
-                textStyle = if (gender == GenderType.MAN.value) RoomieTheme.typography.body3M14 else RoomieTheme.typography.body1R14
+                textStyle = if (state.updatedGender == GenderType.MAN.value) RoomieTheme.typography.body3M14 else RoomieTheme.typography.body1R14
             )
 
             RoomieButton(
                 text = stringResource(R.string.woman),
-                backgroundColor = if (gender == GenderType.WOMAN.value) RoomieTheme.colors.primaryLight5 else RoomieTheme.colors.grayScale1,
-                textColor = if (gender == GenderType.WOMAN.value) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale12,
+                backgroundColor = if (state.updatedGender == GenderType.WOMAN.value) RoomieTheme.colors.primaryLight5 else RoomieTheme.colors.grayScale1,
+                textColor = if (state.updatedGender == GenderType.WOMAN.value) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale12,
                 onClick = {
                     onClickGenderButton(GenderType.WOMAN.value)
                 },
                 modifier = Modifier
                     .weight(1f),
-                borderColor = if (gender == GenderType.WOMAN.value) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5,
+                borderColor = if (state.updatedGender == GenderType.WOMAN.value) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5,
                 borderWidth = 1.dp,
                 verticalPadding = 12.dp,
-                textStyle = if (gender == GenderType.WOMAN.value) RoomieTheme.typography.body3M14 else RoomieTheme.typography.body1R14
+                textStyle = if (state.updatedGender == GenderType.WOMAN.value) RoomieTheme.typography.body3M14 else RoomieTheme.typography.body1R14
             )
         }
 

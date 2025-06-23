@@ -25,11 +25,16 @@ class GenderViewModel @Inject constructor(
     val sideEffect: SharedFlow<GenderSideEffect>
         get() = _sideEffect.asSharedFlow()
 
+    fun initGender(gender: String) {
+        _state.value = _state.value.copy(
+            gender = gender,
+            updatedGender = gender
+        )
+    }
+
     fun updateGender(gender: String) {
         _state.value = _state.value.copy(
-            uiState = _state.value.uiState.copy(
-                gender = gender
-            )
+            updatedGender = gender,
         )
     }
 }
