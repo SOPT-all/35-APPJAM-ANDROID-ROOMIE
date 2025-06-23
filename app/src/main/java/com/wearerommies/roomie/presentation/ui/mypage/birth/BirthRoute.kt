@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,7 +15,6 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,9 +22,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
-import com.wearerommies.roomie.presentation.core.component.RoomieButton
 import com.wearerommies.roomie.presentation.core.component.RoomieDatePicker
 import com.wearerommies.roomie.presentation.core.component.RoomieDatePickerField
+import com.wearerommies.roomie.presentation.ui.mypage.component.MyEditButton
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyTopBar
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
@@ -121,24 +119,9 @@ fun BirthScreen(
                 .weight(1f)
         )
 
-        RoomieButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 20.dp,
-                    end = 20.dp,
-                    top = 8.dp,
-                    bottom = 20.dp
-                ),
-            verticalPadding = 12.dp,
-            text = stringResource(R.string.edit),
-            backgroundColor = RoomieTheme.colors.grayScale1,
-            textColor = if (state.isEnabled) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale7,
-            textStyle = RoomieTheme.typography.body2Sb14,
-            onClick = onClickEditButton,
+        MyEditButton(
             isEnabled = state.isEnabled,
-            borderColor = if (state.isEnabled) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5,
-            borderWidth = 1.dp
+            onClick = onClickEditButton
         )
     }
 }

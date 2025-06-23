@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +27,7 @@ import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
 import com.wearerommies.roomie.presentation.type.GenderType
+import com.wearerommies.roomie.presentation.ui.mypage.component.MyEditButton
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyTopBar
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
@@ -132,24 +132,9 @@ fun GenderScreen(
                 .weight(1f)
         )
 
-        RoomieButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 20.dp,
-                    end = 20.dp,
-                    top = 8.dp,
-                    bottom = 20.dp
-                ),
-            verticalPadding = 12.dp,
-            text = stringResource(R.string.edit),
-            backgroundColor = RoomieTheme.colors.grayScale1,
-            textColor = if (state.isEnabled) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale7,
-            textStyle = RoomieTheme.typography.body2Sb14,
-            onClick = onClickEditButton,
+        MyEditButton(
             isEnabled = state.isEnabled,
-            borderColor = if (state.isEnabled) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5,
-            borderWidth = 1.dp
+            onClick = onClickEditButton
         )
     }
 }
