@@ -11,6 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -38,6 +41,12 @@ fun NameRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val counter by remember { mutableIntStateOf(0) }
+    val currentCounter by rememberUpdatedState(counter)
+
+    LaunchedEffect(currentCounter) {
+        viewModel.initName(name = name)
+    }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
@@ -54,7 +63,6 @@ fun NameRoute(
         onNameChanged = viewModel::updateName,
         onClickEditButton = {}
     )
-
 }
 
 @Composable
@@ -97,10 +105,11 @@ fun NameScreen(
             placeHolderStyle = RoomieTheme.typography.body1R14,
             placeHolderColor = RoomieTheme.colors.grayScale6,
             isValidate = state.isValidated,
-            errorMessage = if (state.isEnabled)
-                stringResource(R.string.name_error)
-            else
-                stringResource(R.string.enter_name)
+            errorMessage = when {
+                state.updatedName.isEmpty() -> stringResource(R.string.enter_name)
+                !state.isValidated -> stringResource(R.string.name_error)
+                else -> ""
+            }
         )
 
         Spacer(
@@ -120,11 +129,11 @@ fun NameScreen(
             verticalPadding = 12.dp,
             text = stringResource(R.string.edit),
             backgroundColor = RoomieTheme.colors.grayScale1,
-            textColor = if (state.isValidated) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale7,
+            textColor = if (state.isButtonEnabled) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale7,
             textStyle = RoomieTheme.typography.body2Sb14,
             onClick = onClickEditButton,
-            isEnabled = state.isValidated,
-            borderColor = if (state.isValidated) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5,
+            isEnabled = state.isButtonEnabled,
+            borderColor = if (state.isButtonEnabled) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5,
             borderWidth = 1.dp
         )
     }
