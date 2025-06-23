@@ -30,7 +30,6 @@ import com.wearerommies.roomie.presentation.ui.mypage.myaccount.navigation.navig
 import com.wearerommies.roomie.presentation.ui.mypage.name.navigation.navigateToName
 import com.wearerommies.roomie.presentation.ui.mypage.my.navigation.navigateToMy
 import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.navigateToNickname
-import com.wearerommies.roomie.presentation.ui.mypage.navigation.navigateToMy
 import com.wearerommies.roomie.presentation.ui.onboarding.navigation.navigateToOnboarding
 import com.wearerommies.roomie.presentation.ui.search.navigation.navigateToSearch
 import com.wearerommies.roomie.presentation.ui.tour.navigation.navigateToTourFirstStep
