@@ -43,7 +43,7 @@ import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.FilterResultEntity
 import com.wearerommies.roomie.domain.entity.SearchResultEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieSnackbar
-import com.wearerommies.roomie.presentation.ui.map.component.MapBotomSheet
+import com.wearerommies.roomie.presentation.ui.map.component.MapBottomSheet
 import com.wearerommies.roomie.presentation.ui.map.component.MapTopBar
 import com.wearerommies.roomie.presentation.ui.map.component.MarkerDetailCard
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
@@ -71,8 +71,12 @@ fun MapRoute(
     val initialKey by rememberUpdatedState(initial)
 
     LaunchedEffect(initialKey) {
-        viewModel.fetchInitialLocation(searchResultEntity.x, searchResultEntity.y)
+        viewModel.fetchInitialLocation(searchResultEntity.longitude, searchResultEntity.latitude)
         viewModel.fetchFilterAndSearch(filterEntity, searchResultEntity)
+        viewModel.fetchHouseList()
+    }
+
+    LaunchedEffect(state.isFullSelected) {
         viewModel.fetchHouseList()
     }
 
@@ -102,8 +106,8 @@ fun MapRoute(
         navigateToDetail = viewModel::navigateToDetail,
         snackBarHost = snackBarHost,
         isBottomSheetOpened = state.isBottomSheetOpened,
-        latitude = searchResultEntity.y,
-        longitude = searchResultEntity.x,
+        latitude = searchResultEntity.latitude,
+        longitude = searchResultEntity.longitude,
         searchKeyword = searchResultEntity.location,
         houseList = state.houseList,
         onMarkerClicked = viewModel::showMarkerDetail,
@@ -111,7 +115,9 @@ fun MapRoute(
         clickedMarkerId = state.clickedMarkerId,
         bookMarkHouse = viewModel::bookmarkHouse,
         resetClickedMarker = viewModel::resetClickedMarker,
-        setBottomSheetState = viewModel::setBottomSheetState
+        setBottomSheetState = viewModel::setBottomSheetState,
+        isFullSelected = state.isFullSelected,
+        updateIsFull = viewModel::updateIsFull
     )
 }
 
@@ -134,6 +140,8 @@ fun MapScreen(
     bookMarkHouse: (Long) -> Unit,
     resetClickedMarker: () -> Unit,
     setBottomSheetState: (Boolean) -> Unit,
+    isFullSelected: Boolean,
+    updateIsFull: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val initialCameraPosition = LatLng(latitude.toDouble(), longitude.toDouble()) // 초기 위치 임시 고정
@@ -166,10 +174,10 @@ fun MapScreen(
     ) {
         // TODO: 기획-디자인과 카메라 범위 자동 조정 -> 현재는 모든 마커가 나타나도록 조정되어 있음
         LaunchedEffect(houseList) {
-            if (houseList.isNotEmpty()) {
+            if (houseList.isNotEmpty() && cameraPositionState.position.target == initialCameraPosition) {
                 val bounds = LatLngBounds.Builder()
                 houseList.forEach { marker ->
-                    bounds.include(LatLng(marker.x.toDouble(), marker.y.toDouble()))
+                    bounds.include(LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()))
                 }
 
                 cameraPositionState.move(
@@ -192,16 +200,23 @@ fun MapScreen(
         ) {
             houseList.forEach { marker ->
                 Marker(
-                    state = MarkerState(LatLng(marker.x.toDouble(), marker.y.toDouble())),
-                    icon = if (marker.houseId == clickedMarkerId)
-                        OverlayImage.fromResource(R.drawable.ic_map_pin_active)
-                    else OverlayImage.fromResource(R.drawable.ic_map_pin_normal),
+                    state = MarkerState(
+                        LatLng(
+                            marker.latitude.toDouble(),
+                            marker.longitude.toDouble()
+                        )
+                    ),
+                    icon = when {
+                        marker.houseId == clickedMarkerId -> OverlayImage.fromResource(R.drawable.ic_map_pin_active)
+                        marker.excludeFull -> OverlayImage.fromResource(R.drawable.ic_map_pin_inactive)
+                        else -> OverlayImage.fromResource(R.drawable.ic_map_pin_normal)
+                    },
                     onClick = {
                         onMarkerClicked(marker.houseId)
                         setBottomSheetState(false)
                         cameraPositionState.move(
                             CameraUpdate.scrollAndZoomTo(
-                                LatLng(marker.x.toDouble(), marker.y.toDouble()),
+                                LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()),
                                 15.0
                             )
                                 .animate(CameraAnimation.Fly) // TODO: 기획-디자인과 카메라 이동 애니메이션 상의
@@ -227,6 +242,7 @@ fun MapScreen(
 
         if (clickedMarkerId != null)
             MarkerDetailCard(
+                houseId = markerDetail.houseId,
                 monthlyRent = markerDetail.monthlyRent,
                 deposit = markerDetail.deposit,
                 contractTerm = markerDetail.contractTerm,
@@ -235,17 +251,21 @@ fun MapScreen(
                 location = markerDetail.location,
                 locationDescription = markerDetail.locationDescription,
                 moodTag = markerDetail.moodTag,
+                isPinned = markerDetail.isPinned,
                 onClick = { navigateToDetail(markerDetail.houseId) },
+                onLikeClick = bookMarkHouse,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(horizontal = 16.dp)
                     .padding(bottom = 16.dp),
             )
 
-        if (isBottomSheetOpened) MapBotomSheet(
+        if (isBottomSheetOpened) MapBottomSheet(
             onLikeClick = bookMarkHouse,
             navigateToDetail = navigateToDetail,
-            houseList = houseList
+            houseList = houseList,
+            isFullSelected = isFullSelected,
+            updateIsFull = updateIsFull
         )
     }
 }
@@ -276,15 +296,18 @@ fun MapScreenPreview() {
                 location = "서대문구 연희동",
                 locationDescription = "자이아파트",
                 moodTag = "#차분한",
-                x = 1.2F,
-                y = 1.2F,
+                latitude = 1.2F,
+                longitude = 1.2F,
                 isPinned = false,
-                mainImgUrl = ""
+                mainImgUrl = "",
+                excludeFull = false
             ),
             clickedMarkerId = null,
             resetClickedMarker = {},
             bookMarkHouse = {},
-            setBottomSheetState = {}
+            setBottomSheetState = {},
+            isFullSelected = false,
+            updateIsFull = {}
         )
     }
 }

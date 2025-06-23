@@ -6,14 +6,15 @@ import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
 data class MapState(
-    val x: Float = 126.9377f,
-    val y: Float = 37.55438f,
+    val longitude: Float = 126.9377f,
+    val latitude: Float = 37.55438f,
     val isBottomSheetOpened: Boolean = true,
     val filter: FilterEntity = FilterEntity(),
+    val isFullSelected: Boolean = false,
     val houseList: PersistentList<FilterResultEntity> = persistentListOf(),
     val markerDetail: FilterResultEntity = FilterResultEntity(
-        x = 0F,
-        y = 0F,
+        latitude = 0F,
+        longitude = 0F,
         houseId = 0,
         monthlyRent = "",
         deposit = "",
@@ -24,7 +25,8 @@ data class MapState(
         locationDescription = "",
         moodTag = "",
         isPinned = false,
-        mainImgUrl = ""
+        mainImgUrl = "",
+        excludeFull = false
     ),
     val clickedMarkerId: Long? = null
 )

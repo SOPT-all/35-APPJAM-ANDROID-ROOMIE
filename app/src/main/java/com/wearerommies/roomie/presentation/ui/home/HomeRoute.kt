@@ -284,7 +284,7 @@ fun HomeScreen(
                                     start = 20.dp
                                 )
                                 .align(Alignment.CenterStart),
-                            nickname = state.name
+                            nickname = state.nickname
                         )
                     }
 
@@ -570,7 +570,7 @@ fun HomeScreenPreview() {
             navigateToWebView = {},
             onLikeClick = {},
             state = HomeDataEntity(
-                name = "닉넴",
+                nickname = "닉넴",
                 location = "연남동",
                 recentlyViewedHouses = listOf(
                     RoomCardEntity(

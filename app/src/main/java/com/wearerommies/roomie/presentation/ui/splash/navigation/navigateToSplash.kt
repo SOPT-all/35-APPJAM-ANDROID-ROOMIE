@@ -1,22 +1,18 @@
 package com.wearerommies.roomie.presentation.ui.splash.navigation
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.wearerommies.roomie.presentation.navigator.route.Route
-import com.wearerommies.roomie.presentation.ui.splash.SplashScreen
-
-fun NavController.navigateToSplash(navOptions: NavOptions? = null) {
-    navigate(
-        route = Route.Splash,
-        navOptions = navOptions
-    )
-}
+import com.wearerommies.roomie.presentation.ui.splash.SplashRoute
 
 fun NavGraphBuilder.splashNavGraph(
+    navigateToOnboarding: () -> Unit,
+    navigateToHome: () -> Unit
 ) {
     composable<Route.Splash> {
-        SplashScreen()
+        SplashRoute(
+            navigateToOnboarding = navigateToOnboarding,
+            navigateToHome = navigateToHome
+        )
     }
 }

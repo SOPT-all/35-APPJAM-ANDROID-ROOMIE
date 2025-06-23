@@ -27,7 +27,6 @@ fun DetailRoomInfoCard(
     occupancyType: Int,
     gender: String,
     deposit: String,
-    prepaidUtilities: String,
     monthlyRent: String,
     contractPeriod: String,
     managementFee: String,
@@ -76,7 +75,6 @@ fun DetailRoomInfoCard(
             occupancyType = occupancyType,
             gender = gender,
             deposit = deposit,
-            prepaidUtilities = prepaidUtilities,
             monthlyRent = monthlyRent,
             contractPeriod = contractPeriod,
             managementFee = managementFee
@@ -99,7 +97,6 @@ fun DetailRoomInfoCardPreview() {
                 occupancyType = 2,
                 gender = "여성",
                 deposit = "5,000,000원",
-                prepaidUtilities = "10,000원",
                 monthlyRent = "500,000원",
                 contractPeriod = "24-12-20",
                 managementFee = "100,000원"
@@ -112,7 +109,6 @@ fun DetailRoomInfoCardPreview() {
                 occupancyType = 2,
                 gender = "여성",
                 deposit = "5,000,000원",
-                prepaidUtilities = "10,000원",
                 monthlyRent = "500,000원",
                 contractPeriod = "24-12-20",
                 managementFee = "100,000원"
