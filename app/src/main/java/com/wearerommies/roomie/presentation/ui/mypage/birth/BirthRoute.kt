@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -38,6 +41,12 @@ fun BirthRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val counter by remember { mutableIntStateOf(0) }
+    val currentCounter by rememberUpdatedState(counter)
+
+    LaunchedEffect(currentCounter) {
+        viewModel.initBirth(birth = birth)
+    }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
@@ -100,7 +109,7 @@ fun BirthScreen(
                     end = 16.dp,
                     top = 20.dp
                 ),
-            dateValue = birth,
+            dateValue = state.updatedBirth,
             backgroundColor = RoomieTheme.colors.grayScale2,
             onClick = {
                 updateDateModalState()

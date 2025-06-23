@@ -29,9 +29,16 @@ class BirthViewModel @Inject constructor(
     val sideEffect: SharedFlow<BirthSideEffect>
         get() = _sideEffect.asSharedFlow()
 
+    fun initBirth(birth: String) {
+        _state.value = _state.value.copy(
+            birth = birth,
+            updatedBirth = birth
+        )
+    }
+
     fun updateBirthdate(birthdate: Long?) {
         _state.value = _state.value.copy(
-            birth = birthdate?.let {
+            updatedBirth = birthdate?.let {
                 Date(birthdate).toFormattedString()
             } ?: "",
         )
