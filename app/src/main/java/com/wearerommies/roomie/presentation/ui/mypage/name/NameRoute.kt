@@ -27,7 +27,7 @@ import com.wearerommies.roomie.R
 import com.wearerommies.roomie.presentation.core.component.RommieTextField
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
 import com.wearerommies.roomie.presentation.type.MyAccountType
-import com.wearerommies.roomie.presentation.ui.mypage.my.component.MyTopBar
+import com.wearerommies.roomie.presentation.ui.mypage.component.MyTopBar
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 
