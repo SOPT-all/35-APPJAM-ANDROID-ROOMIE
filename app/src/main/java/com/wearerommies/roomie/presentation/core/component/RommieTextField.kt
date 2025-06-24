@@ -67,7 +67,7 @@ fun RommieTextField(
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
-    BackHandler {
+    BackHandler(enabled = isFocused) {
         focusManager.clearFocus()
     }
 
