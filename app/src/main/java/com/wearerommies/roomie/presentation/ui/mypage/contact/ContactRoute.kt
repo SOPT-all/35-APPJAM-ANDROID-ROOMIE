@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.presentation.core.component.RommieTextField
+import com.wearerommies.roomie.presentation.core.extension.advancedImePadding
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyEditButton
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyTopBar
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
@@ -79,7 +79,7 @@ fun ContactScreen(
             .fillMaxSize()
             .background(RoomieTheme.colors.grayScale1)
             .padding(paddingValues)
-            .imePadding(),
+            .advancedImePadding(),
     ) {
         MyTopBar(
             navigateUp = navigateUp,
