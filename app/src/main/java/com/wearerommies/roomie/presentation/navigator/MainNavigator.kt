@@ -23,7 +23,13 @@ import com.wearerommies.roomie.presentation.ui.home.navigation.navigateToHome
 import com.wearerommies.roomie.presentation.ui.login.navigation.navigateToLogin
 import com.wearerommies.roomie.presentation.ui.map.navigation.navigateToMap
 import com.wearerommies.roomie.presentation.ui.mood.navigation.navigateToMood
-import com.wearerommies.roomie.presentation.ui.mypage.navigation.navigateToMy
+import com.wearerommies.roomie.presentation.ui.mypage.birth.navigation.navigateToBirth
+import com.wearerommies.roomie.presentation.ui.mypage.contact.navigation.navigateToContact
+import com.wearerommies.roomie.presentation.ui.mypage.gender.navigation.navigateToGender
+import com.wearerommies.roomie.presentation.ui.mypage.myaccount.navigation.navigateToMyAccount
+import com.wearerommies.roomie.presentation.ui.mypage.name.navigation.navigateToName
+import com.wearerommies.roomie.presentation.ui.mypage.my.navigation.navigateToMy
+import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.navigateToNickname
 import com.wearerommies.roomie.presentation.ui.onboarding.navigation.navigateToOnboarding
 import com.wearerommies.roomie.presentation.ui.search.navigation.navigateToSearch
 import com.wearerommies.roomie.presentation.ui.tour.navigation.navigateToTourFirstStep
@@ -167,6 +173,30 @@ class MainNavigator(
 
     fun navigateToWebView(webViewUrl: String) {
         navController.navigateToWebView(webViewUrl = webViewUrl)
+    }
+
+    fun navigateToMyAccount() {
+        navController.navigateToMyAccount()
+    }
+
+    fun navigateToName(name: String) {
+        navController.navigateToName(name = name)
+    }
+
+    fun navigateToNickname(nickname: String) {
+        navController.navigateToNickname(nickname = nickname)
+    }
+
+    fun navigateToBirth(birth: String) {
+        navController.navigateToBirth(birth = birth)
+    }
+
+    fun navigateToGender(gender: String) {
+        navController.navigateToGender(gender = gender)
+    }
+
+    fun navigateToContact(contact: String) {
+        navController.navigateToContact(contact = contact)
     }
 
     private inline fun <reified T : Route> isSameCurrentDestination(): Boolean =

@@ -1,6 +1,5 @@
 package com.wearerommies.roomie.presentation.core.component
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,6 +32,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -49,6 +49,10 @@ fun RommieTextField(
     textFieldValue: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    textStyle: TextStyle = RoomieTheme.typography.title1R16,
+    textColor: Color = RoomieTheme.colors.grayScale12,
+    placeHolderStyle: TextStyle = RoomieTheme.typography.title1R16,
+    placeHolderColor: Color = RoomieTheme.colors.grayScale7,
     keyboardType: KeyboardType = KeyboardType.Text,
     textAlign: TextAlign = TextAlign.Start,
     placeHolder: String = "",
@@ -62,18 +66,14 @@ fun RommieTextField(
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
 
-    BackHandler {
-        focusManager.clearFocus()
-    }
-
     BasicTextField(
         value = textFieldState,
         onValueChange = { newValue ->
             textFieldState = newValue
             onValueChange(newValue.text)
         },
-        textStyle = RoomieTheme.typography.title1R16.copy(
-            color = RoomieTheme.colors.grayScale12,
+        textStyle = textStyle.copy(
+            color = textColor,
             textAlign = textAlign,
         ),
         singleLine = singleLine,
@@ -115,8 +115,8 @@ fun RommieTextField(
                     if (textFieldState.text.isEmpty()) {
                         Text(
                             text = placeHolder,
-                            color = RoomieTheme.colors.grayScale7,
-                            style = RoomieTheme.typography.title1R16,
+                            color = placeHolderColor,
+                            style = placeHolderStyle,
                             textAlign = textAlign,
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -133,10 +133,11 @@ fun RommieTextField(
     )
     if (!isValidate)
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            modifier = modifier
+                .padding(top = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Spacer(modifier = Modifier.height(4.dp))
-
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_warning_14px),
                 contentDescription = stringResource(R.string.error),

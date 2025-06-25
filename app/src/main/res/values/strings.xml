@@ -185,4 +185,32 @@
     <string name="mood_tag_calm">차분한</string>
     <string name="mood_tag_active">활기찬</string>
     <string name="mood_tag_clean">깔끔한</string>
+    <string name="edit">수정하기</string>
+
+    // birth
+    <string name="birth_edit">생년월일 수정하기</string>
+
+    // contact
+    <string name="contact_edit">연락처 수정하기</string>
+    <string name="enter_phone_number">연락처를 입력해주세요</string>
+
+    // gender
+    <string name="gender_edit">성별 수정하기</string>
+
+    // my account
+    <string name="my_account_information">나의 계정 정보</string>
+    <string name="account_connect">계정 연동</string>
+    <string name="kakaotalk">카카오톡</string>
+    <string name="logout">로그아웃</string>
+    <string name="withdraw">탈퇴 하기</string>
+
+    // name
+    <string name="name_edit">이름 수정하기</string>
+    <string name="name_error">이름은 한글, 영문만 입력 가능합니다</string>
+    <string name="enter_name">이름을 입력해주세요</string>
+
+    // nickname
+    <string name="nickname_edit">닉네임 수정하기</string>
+    <string name="nickname_error">닉네임은 2~12자의 한글, 영문, 숫자만 입력 가능합니다</string>
+    <string name="enter_nickname">닉네임을 입력해주세요</string>
 </resources>

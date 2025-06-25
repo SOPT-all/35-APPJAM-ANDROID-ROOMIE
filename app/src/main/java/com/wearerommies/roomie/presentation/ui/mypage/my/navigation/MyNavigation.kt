@@ -1,4 +1,4 @@
-package com.wearerommies.roomie.presentation.ui.mypage.navigation
+package com.wearerommies.roomie.presentation.ui.mypage.my.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavController
@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.wearerommies.roomie.presentation.navigator.route.MainTabRoute
-import com.wearerommies.roomie.presentation.ui.mypage.MyRoute
+import com.wearerommies.roomie.presentation.ui.mypage.my.MyRoute
 
 fun NavController.navigateToMy(navOptions: NavOptions) {
     navigate(
@@ -17,12 +17,14 @@ fun NavController.navigateToMy(navOptions: NavOptions) {
 
 fun NavGraphBuilder.myNavGraph(
     paddingValues: PaddingValues,
+    navigateToMyAccount: () -> Unit,
     navigateToBookmark: () -> Unit
 ) {
     composable<MainTabRoute.My> {
         MyRoute(
             paddingValues = paddingValues,
             navigateUp = {},
+            navigateToMyAccount = navigateToMyAccount,
             navigateToBookmark = navigateToBookmark
         )
     }

@@ -1,4 +1,4 @@
-package com.wearerommies.roomie.presentation.ui.mypage
+package com.wearerommies.roomie.presentation.ui.mypage.my
 
 import com.wearerommies.roomie.domain.entity.MyPageEntity
 

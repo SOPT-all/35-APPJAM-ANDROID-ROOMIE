@@ -1,4 +1,4 @@
-package com.wearerommies.roomie.presentation.ui.mypage
+package com.wearerommies.roomie.presentation.ui.mypage.my
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -42,6 +42,11 @@ class MyViewModel @Inject constructor(
             }
     }
 
+    fun navigateToMyAccount() {
+        viewModelScope.launch {
+            _sideEffect.emit(MySideEffect.NavigateToMyAccount)
+        }
+    }
 
     fun navigateToBookmark() {
         viewModelScope.launch {
