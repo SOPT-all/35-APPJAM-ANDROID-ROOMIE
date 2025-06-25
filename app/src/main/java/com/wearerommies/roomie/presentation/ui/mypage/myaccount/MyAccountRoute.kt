@@ -192,7 +192,8 @@ fun MyAccountScreenPreview() {
             paddingValues = PaddingValues(),
             navigateUp = {},
             state = MyPageEntity(
-                name = "루미"
+                nickname = "루미",
+                socialType = "KAKAO"
             ),
             navigateToName = {},
             navigateToNickname = {},

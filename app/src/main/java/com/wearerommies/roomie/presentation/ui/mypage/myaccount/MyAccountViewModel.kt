@@ -34,7 +34,8 @@ class MyAccountViewModel @Inject constructor(
             .onSuccess { response ->
                 _state.value = _state.value.copy(
                     uiState = MyPageEntity(
-                        name = response.name
+                        nickname = response.nickname,
+                        socialType = response.socialType
                     )
                 )
             }.onFailure { error ->
