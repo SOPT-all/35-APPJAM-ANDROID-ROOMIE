@@ -1,6 +1,7 @@
 package com.wearerommies.roomie.data.repositoryimpl
 
 import com.wearerommies.roomie.data.datasource.UserDataSource
+import com.wearerommies.roomie.domain.entity.AccountEntity
 import com.wearerommies.roomie.domain.entity.HomeDataEntity
 import com.wearerommies.roomie.domain.entity.MyPageEntity
 import com.wearerommies.roomie.domain.repository.UserRepository
@@ -17,5 +18,10 @@ internal class UserRepositoryImpl @Inject constructor(
     override suspend fun getUserInformation(): Result<MyPageEntity> =
         runCatching {
             userDataSource.getUserInformation().data.toEntity()
+        }
+
+    override suspend fun getUserAccountInformation(): Result<AccountEntity> =
+        runCatching {
+            userDataSource.getUserAccountInformation().data.toEntity()
         }
 }

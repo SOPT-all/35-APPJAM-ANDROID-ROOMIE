@@ -1,6 +1,7 @@
 package com.wearerommies.roomie.data.service
 
 import com.wearerommies.roomie.data.dto.response.BaseResponse
+import com.wearerommies.roomie.data.dto.response.ResponseAccountDto
 import com.wearerommies.roomie.data.dto.response.ResponseHomeDto
 import com.wearerommies.roomie.data.dto.response.ResponseMyPageDto
 import retrofit2.http.GET
@@ -11,4 +12,7 @@ interface UserService {
 
     @GET("/v1/users/mypage")
     suspend fun getUserInformation(): BaseResponse<ResponseMyPageDto>
+
+    @GET("/v1/users/mypage/accountinfo")
+    suspend fun getUserAccountInformation(): BaseResponse<ResponseAccountDto>
 }

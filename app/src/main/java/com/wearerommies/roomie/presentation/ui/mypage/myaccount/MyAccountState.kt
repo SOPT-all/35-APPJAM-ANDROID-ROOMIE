@@ -1,10 +1,14 @@
 package com.wearerommies.roomie.presentation.ui.mypage.myaccount
 
-import com.wearerommies.roomie.domain.entity.MyPageEntity
+import com.wearerommies.roomie.domain.entity.AccountEntity
 
 data class MyAccountState(
-    val uiState: MyPageEntity = MyPageEntity(
+    val uiState: AccountEntity = AccountEntity(
         nickname = "닉네임",
-        socialType = "KAKAO"
+        socialType = "KAKAO",
+        birthDate = "",
+        gender = "",
+        name = "",
+        phoneNumber = ""
     )
 )

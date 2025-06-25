@@ -1,6 +1,7 @@
 package com.wearerommies.roomie.data.datasource
 
 import com.wearerommies.roomie.data.dto.response.BaseResponse
+import com.wearerommies.roomie.data.dto.response.ResponseAccountDto
 import com.wearerommies.roomie.data.dto.response.ResponseHomeDto
 import com.wearerommies.roomie.data.dto.response.ResponseMyPageDto
 import com.wearerommies.roomie.data.service.UserService
@@ -15,5 +16,7 @@ internal class UserDataSource @Inject constructor(
     suspend fun getUserInformation(): BaseResponse<ResponseMyPageDto> =
         userService.getUserInformation()
 
+    suspend fun getUserAccountInformation(): BaseResponse<ResponseAccountDto> =
+        userService.getUserAccountInformation()
 
 }
