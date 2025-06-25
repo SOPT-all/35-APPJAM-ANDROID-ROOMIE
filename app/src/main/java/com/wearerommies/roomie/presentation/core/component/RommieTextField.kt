@@ -1,6 +1,5 @@
 package com.wearerommies.roomie.presentation.core.component
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -66,10 +65,6 @@ fun RommieTextField(
     var isFocused by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
-
-    BackHandler(enabled = isFocused) {
-        focusManager.clearFocus()
-    }
 
     BasicTextField(
         value = textFieldState,
