@@ -28,6 +28,7 @@ import com.wearerommies.roomie.presentation.ui.mypage.component.MyEditButton
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyTopBar
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
+import timber.log.Timber
 
 @Composable
 fun BirthRoute(
@@ -49,6 +50,9 @@ fun BirthRoute(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
+                when (sideEffect) {
+                    BirthSideEffect.NavigateUp -> navigateUp()
+                }
             }
     }
 
@@ -59,7 +63,7 @@ fun BirthRoute(
         state = state,
         onBirthdateChanged = viewModel::updateBirthdate,
         updateDateModalState = viewModel::updateBirthDateModalState,
-        onClickEditButton = {}
+        onClickEditButton = viewModel::editUserBirth
     )
 
 }
@@ -78,6 +82,7 @@ fun BirthScreen(
     if (state.isShowBirthDateModal)
         RoomieDatePicker(
             onConfirm = { date ->
+                Timber.tag("birth").d("birth: ${state.birth}, updatedBirth: ${state.updatedBirth}")
                 onBirthdateChanged(date)
                 updateDateModalState()
             },

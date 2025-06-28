@@ -3,6 +3,7 @@ package com.wearerommies.roomie.data.repositoryimpl
 import com.wearerommies.roomie.data.datasource.UserDataSource
 import com.wearerommies.roomie.data.dto.request.toDto
 import com.wearerommies.roomie.domain.entity.AccountEntity
+import com.wearerommies.roomie.domain.entity.BirthEntity
 import com.wearerommies.roomie.domain.entity.HomeDataEntity
 import com.wearerommies.roomie.domain.entity.MyPageEntity
 import com.wearerommies.roomie.domain.entity.NameEntity
@@ -36,5 +37,10 @@ internal class UserRepositoryImpl @Inject constructor(
     override suspend fun editUserNickname(nickname: NicknameEntity): Result<NicknameEntity> =
         runCatching {
             userDataSource.editUserNickname(request = nickname.toDto()).data.toEntity()
+        }
+
+    override suspend fun editUserBirth(birthDay: BirthEntity): Result<BirthEntity> =
+        runCatching {
+            userDataSource.editUserBirth(request = birthDay.toDto()).data.toEntity()
         }
 }
