@@ -1,11 +1,13 @@
 package com.wearerommies.roomie.data.datasource
 
 import com.wearerommies.roomie.data.dto.request.RequestNameDto
+import com.wearerommies.roomie.data.dto.request.RequestNicknameDto
 import com.wearerommies.roomie.data.dto.response.BaseResponse
 import com.wearerommies.roomie.data.dto.response.ResponseAccountDto
 import com.wearerommies.roomie.data.dto.response.ResponseHomeDto
 import com.wearerommies.roomie.data.dto.response.ResponseMyPageDto
 import com.wearerommies.roomie.data.dto.response.ResponseNameDto
+import com.wearerommies.roomie.data.dto.response.ResponseNicknameDto
 import com.wearerommies.roomie.data.service.UserService
 import javax.inject.Inject
 
@@ -23,4 +25,7 @@ internal class UserDataSource @Inject constructor(
 
     suspend fun editUserName(request: RequestNameDto): BaseResponse<ResponseNameDto> =
         userService.editUserName(request = request)
+
+    suspend fun editUserNickname(request: RequestNicknameDto): BaseResponse<ResponseNicknameDto> =
+        userService.editUserNickname(request = request)
 }
