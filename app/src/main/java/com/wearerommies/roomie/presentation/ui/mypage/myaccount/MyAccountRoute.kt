@@ -30,6 +30,7 @@ import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.AccountEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
+import com.wearerommies.roomie.presentation.core.util.formatPhoneNumber
 import com.wearerommies.roomie.presentation.type.MyAccountType
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyTopBar
 import com.wearerommies.roomie.presentation.ui.mypage.myaccount.component.MyAccountButton
@@ -137,7 +138,7 @@ fun MyAccountScreen(
             )
             MyAccountButton(
                 myAccountType = MyAccountType.PHONE_NUMBER,
-                userInformation = state.phoneNumber.orEmpty(),
+                userInformation = formatPhoneNumber(state.phoneNumber.orEmpty()),
                 onClick = { navigateToContact(state.phoneNumber.orEmpty()) },
             )
 

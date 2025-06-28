@@ -2,6 +2,7 @@ package com.wearerommies.roomie.domain.repository
 
 import com.wearerommies.roomie.domain.entity.AccountEntity
 import com.wearerommies.roomie.domain.entity.BirthEntity
+import com.wearerommies.roomie.domain.entity.ContactEntity
 import com.wearerommies.roomie.domain.entity.HomeDataEntity
 import com.wearerommies.roomie.domain.entity.MyPageEntity
 import com.wearerommies.roomie.domain.entity.NameEntity
@@ -14,4 +15,5 @@ interface UserRepository {
     suspend fun editUserName(name: NameEntity): Result<NameEntity>
     suspend fun editUserNickname(nickname: NicknameEntity): Result<NicknameEntity>
     suspend fun editUserBirth(birthDay: BirthEntity): Result<BirthEntity>
+    suspend fun editUserContact(phoneNumber: ContactEntity): Result<ContactEntity>
 }

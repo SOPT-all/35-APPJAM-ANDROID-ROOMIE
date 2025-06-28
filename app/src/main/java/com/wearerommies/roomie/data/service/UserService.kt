@@ -1,11 +1,13 @@
 package com.wearerommies.roomie.data.service
 
 import com.wearerommies.roomie.data.dto.request.RequestBirthDto
+import com.wearerommies.roomie.data.dto.request.RequestContactDto
 import com.wearerommies.roomie.data.dto.request.RequestNameDto
 import com.wearerommies.roomie.data.dto.request.RequestNicknameDto
 import com.wearerommies.roomie.data.dto.response.BaseResponse
 import com.wearerommies.roomie.data.dto.response.ResponseAccountDto
 import com.wearerommies.roomie.data.dto.response.ResponseBirthDto
+import com.wearerommies.roomie.data.dto.response.ResponseContactDto
 import com.wearerommies.roomie.data.dto.response.ResponseHomeDto
 import com.wearerommies.roomie.data.dto.response.ResponseMyPageDto
 import com.wearerommies.roomie.data.dto.response.ResponseNameDto
@@ -38,4 +40,9 @@ interface UserService {
     suspend fun editUserBirth(
         @Body request: RequestBirthDto
     ): BaseResponse<ResponseBirthDto>
+
+    @PATCH("/v1/users/phonenumber")
+    suspend fun editUserContact(
+        @Body request: RequestContactDto
+    ): BaseResponse<ResponseContactDto>
 }
