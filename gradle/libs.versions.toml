@@ -49,7 +49,7 @@ timber = "5.0.1"
 coil = "2.6.0"
 
 # Naver Map
-naverMapCompose = "1.7.2"
+naverMapCompose = "1.8.2"
 naverMapLocation = "21.0.2"
 playServicesLocation = "21.3.0"
 
