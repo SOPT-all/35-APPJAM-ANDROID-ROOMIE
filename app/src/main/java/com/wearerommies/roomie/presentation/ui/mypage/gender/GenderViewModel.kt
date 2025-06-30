@@ -1,6 +1,8 @@
 package com.wearerommies.roomie.presentation.ui.mypage.gender
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.wearerommies.roomie.domain.entity.GenderEntity
 import com.wearerommies.roomie.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -9,6 +11,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,5 +40,27 @@ class GenderViewModel @Inject constructor(
         _state.value = _state.value.copy(
             updatedGender = gender,
         )
+    }
+
+    fun navigateUp() = viewModelScope.launch {
+        _sideEffect.emit(GenderSideEffect.NavigateUp)
+    }
+
+    fun editUserGender() = viewModelScope.launch {
+        userRepository.editUserGender(
+            gender = GenderEntity(
+                gender = state.value.updatedGender
+            )
+        )
+            .onSuccess { response ->
+                _state.value = _state.value.copy(
+                    gender = response.gender,
+                    updatedGender = response.gender
+                )
+                navigateUp()
+            }
+            .onFailure { error ->
+                Timber.e(error)
+            }
     }
 }

@@ -45,10 +45,10 @@ fun MyGenderButton(
     updatedGender: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    genderType: String = GenderType.MAN.value
+    genderType: String = GenderType.MALE.name
 ) {
     RoomieButton(
-        text = if (genderType == GenderType.MAN.value)
+        text = if (genderType == GenderType.MALE.name)
             stringResource(R.string.man)
         else
             stringResource(R.string.woman),

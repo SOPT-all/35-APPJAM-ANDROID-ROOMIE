@@ -2,12 +2,14 @@ package com.wearerommies.roomie.data.datasource
 
 import com.wearerommies.roomie.data.dto.request.RequestBirthDto
 import com.wearerommies.roomie.data.dto.request.RequestContactDto
+import com.wearerommies.roomie.data.dto.request.RequestGenderDto
 import com.wearerommies.roomie.data.dto.request.RequestNameDto
 import com.wearerommies.roomie.data.dto.request.RequestNicknameDto
 import com.wearerommies.roomie.data.dto.response.BaseResponse
 import com.wearerommies.roomie.data.dto.response.ResponseAccountDto
 import com.wearerommies.roomie.data.dto.response.ResponseBirthDto
 import com.wearerommies.roomie.data.dto.response.ResponseContactDto
+import com.wearerommies.roomie.data.dto.response.ResponseGenderDto
 import com.wearerommies.roomie.data.dto.response.ResponseHomeDto
 import com.wearerommies.roomie.data.dto.response.ResponseMyPageDto
 import com.wearerommies.roomie.data.dto.response.ResponseNameDto
@@ -38,4 +40,7 @@ internal class UserDataSource @Inject constructor(
 
     suspend fun editUserContact(request: RequestContactDto): BaseResponse<ResponseContactDto> =
         userService.editUserContact(request = request)
+
+    suspend fun editUserGender(request: RequestGenderDto): BaseResponse<ResponseGenderDto> =
+        userService.editUserGender(request = request)
 }

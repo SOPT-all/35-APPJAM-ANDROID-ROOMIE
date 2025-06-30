@@ -30,6 +30,7 @@ import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.AccountEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
+import com.wearerommies.roomie.presentation.core.util.formatGender
 import com.wearerommies.roomie.presentation.core.util.formatPhoneNumber
 import com.wearerommies.roomie.presentation.type.MyAccountType
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyTopBar
@@ -133,7 +134,7 @@ fun MyAccountScreen(
             )
             MyAccountButton(
                 myAccountType = MyAccountType.GENDER,
-                userInformation = state.gender.orEmpty(),
+                userInformation = formatGender(state.gender.orEmpty()),
                 onClick = { navigateToGender(state.gender.orEmpty()) },
             )
             MyAccountButton(

@@ -51,6 +51,9 @@ fun GenderRoute(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
+                when (sideEffect) {
+                    GenderSideEffect.NavigateUp -> navigateUp()
+                }
             }
     }
 
@@ -60,7 +63,7 @@ fun GenderRoute(
         navigateUp = navigateUp,
         state = state,
         onClickGenderButton = viewModel::updateGender,
-        onClickEditButton = {}
+        onClickEditButton = viewModel::editUserGender
     )
 
 }
@@ -98,17 +101,17 @@ fun GenderScreen(
             MyGenderButton(
                 updatedGender = state.updatedGender,
                 onClick = {
-                    onClickGenderButton(GenderType.MAN.value)
+                    onClickGenderButton(GenderType.MALE.name)
                 },
                 modifier = Modifier
                     .weight(1f),
             )
 
             MyGenderButton(
-                genderType = GenderType.WOMAN.value,
+                genderType = GenderType.FEMALE.name,
                 updatedGender = state.updatedGender,
                 onClick = {
-                    onClickGenderButton(GenderType.WOMAN.value)
+                    onClickGenderButton(GenderType.FEMALE.name)
                 },
                 modifier = Modifier
                     .weight(1f),
