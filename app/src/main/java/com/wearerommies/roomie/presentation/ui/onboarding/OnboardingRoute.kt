@@ -56,86 +56,89 @@ fun OnboardingScreen(
     pages: PersistentList<Triple<Int, Int, Int>>,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .background(RoomieTheme.colors.grayScale1)
-            .padding(bottom = paddingValues.calculateBottomPadding()),
-        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        val screenWidth = LocalConfiguration.current.screenWidthDp
-        val screenHeight = LocalConfiguration.current.screenHeightDp
-
-        val pageCount = 3
-        val pagerState = rememberPagerState(pageCount = { pageCount })
-
-        Spacer(
+        Column(
             modifier = Modifier
-                .height((screenHeight * 0.13).dp),
-        )
-
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            repeat(pageCount) { index ->
-                val isSelected = pagerState.currentPage == index
-                val animatedWidth by animateFloatAsState(
-                    targetValue = if (isSelected) 16f else 8f,
-                    animationSpec = tween(durationMillis = 300, easing = EaseInOut),
-                )
+            val screenWidth = LocalConfiguration.current.screenWidthDp
+            val screenHeight = LocalConfiguration.current.screenHeightDp
 
-                Box(
-                    modifier = Modifier
-                        .width(animatedWidth.dp)
-                        .height(8.dp)
-                        .clip(RoundedCornerShape(108.dp))
-                        .background(if (isSelected) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5)
-                )
+            val pageCount = 3
+            val pagerState = rememberPagerState(pageCount = { pageCount })
 
-                if (index != pageCount - 1) {
-                    Spacer(modifier = Modifier.width(8.dp))
+            Spacer(
+                modifier = Modifier
+                    .height((screenHeight * 0.13).dp),
+            )
+
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                repeat(pageCount) { index ->
+                    val isSelected = pagerState.currentPage == index
+                    val animatedWidth by animateFloatAsState(
+                        targetValue = if (isSelected) 16f else 8f,
+                        animationSpec = tween(durationMillis = 300, easing = EaseInOut),
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .width(animatedWidth.dp)
+                            .height(8.dp)
+                            .clip(RoundedCornerShape(108.dp))
+                            .background(if (isSelected) RoomieTheme.colors.primary else RoomieTheme.colors.grayScale5)
+                    )
+
+                    if (index != pageCount - 1) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                    }
                 }
             }
-        }
 
-        Spacer(
-            modifier = Modifier.height(58.dp)
-        )
+            Spacer(
+                modifier = Modifier.height(58.dp)
+            )
 
-        HorizontalPager(
-            state = pagerState
-        ) { page ->
-            val (title, description, image) = pages[page]
+            HorizontalPager(
+                state = pagerState
+            ) { page ->
+                val (title, description, image) = pages[page]
 
-            OnboardingPagerItem(
-                screenWeight = screenWidth,
-                title = title,
-                description = description,
-                image = image,
-                modifier = Modifier.fillMaxWidth()
+                OnboardingPagerItem(
+                    screenWeight = screenWidth,
+                    title = title,
+                    description = description,
+                    image = image,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            Spacer(
+                modifier = Modifier.weight(1f)
             )
         }
 
-        Spacer(
-            modifier = Modifier.weight(1f)
-        )
-
         RoomieButton(
             modifier = Modifier
+                .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .padding(
                     horizontal = 16.dp,
-                    vertical = 12.dp
+                )
+                .padding(
+                    bottom = paddingValues.calculateBottomPadding() + 42.dp
                 ),
             text = stringResource(R.string.start_app),
             backgroundColor = RoomieTheme.colors.primary,
             textColor = RoomieTheme.colors.grayScale1,
             onClick = navigateToLogin
-        )
-
-        Spacer(
-            modifier = Modifier.height((screenHeight * 0.038).dp),
         )
     }
 }

@@ -94,8 +94,8 @@ fun LoginScreen(
 
         Image(
             modifier = Modifier
-                .fillMaxWidth()
                 .align(Alignment.BottomCenter)
+                .fillMaxWidth()
                 .padding(
                     start = 20.dp,
                     end = 20.dp,
