@@ -14,17 +14,17 @@ class OnboardingViewModel @Inject constructor(
         Triple(
             R.string.onboarding_title1,
             R.string.onboarding_description1,
-            R.drawable.img_home_character // 그래픽은 아직 미정
+            R.drawable.img_onboarding1
         ),
         Triple(
             R.string.onboarding_title2,
             R.string.onboarding_description2,
-            R.drawable.img_home_character
+            R.drawable.img_tour_apply_complete
         ),
         Triple(
             R.string.onboarding_title3,
             R.string.onboarding_description3,
-            R.drawable.img_home_character
+            R.drawable.img_onboarding3
         ),
     )
 }
