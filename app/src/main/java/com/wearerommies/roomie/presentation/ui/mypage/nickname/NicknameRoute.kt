@@ -50,7 +50,9 @@ fun NicknameRoute(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
-
+                when(sideEffect) {
+                    NicknameSideEffect.NavigateUp -> navigateUp()
+                }
             }
     }
 
@@ -60,7 +62,7 @@ fun NicknameRoute(
         navigateUp = navigateUp,
         state = state,
         onNicknameChanged = viewModel::updateNickname,
-        onClickEditButton = {}
+        onClickEditButton = viewModel::editUserNickname
     )
 
 }

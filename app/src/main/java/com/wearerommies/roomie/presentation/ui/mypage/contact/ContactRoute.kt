@@ -50,6 +50,9 @@ fun ContactRoute(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
+                when(sideEffect) {
+                    ContactSideEffect.NavigateUp -> navigateUp()
+                }
             }
     }
 
@@ -59,7 +62,7 @@ fun ContactRoute(
         navigateUp = navigateUp,
         state = state,
         onPhoneNumberChanged = viewModel::updatePhoneNumber,
-        onClickEditButton = {}
+        onClickEditButton = viewModel::editUserContact
     )
 
 }

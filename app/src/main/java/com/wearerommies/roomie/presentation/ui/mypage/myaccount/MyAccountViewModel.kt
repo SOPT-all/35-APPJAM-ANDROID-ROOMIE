@@ -2,7 +2,7 @@ package com.wearerommies.roomie.presentation.ui.mypage.myaccount
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wearerommies.roomie.domain.entity.MyPageEntity
+import com.wearerommies.roomie.domain.entity.AccountEntity
 import com.wearerommies.roomie.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -29,12 +29,17 @@ class MyAccountViewModel @Inject constructor(
     val sideEffect: SharedFlow<MyAccountSideEffect>
         get() = _sideEffect.asSharedFlow()
 
-    suspend fun getUserInformation() {
-        userRepository.getUserInformation()
+    suspend fun getUserAccountInformation() {
+        userRepository.getUserAccountInformation()
             .onSuccess { response ->
                 _state.value = _state.value.copy(
-                    uiState = MyPageEntity(
-                        name = response.name
+                    uiState = AccountEntity(
+                        nickname = response.nickname,
+                        socialType = response.socialType,
+                        birthDate = response.birthDate,
+                        gender = response.gender,
+                        name = response.name,
+                        phoneNumber = response.phoneNumber
                     )
                 )
             }.onFailure { error ->

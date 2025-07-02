@@ -28,8 +28,10 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
-import com.wearerommies.roomie.domain.entity.MyPageEntity
+import com.wearerommies.roomie.domain.entity.AccountEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
+import com.wearerommies.roomie.presentation.core.util.formatGender
+import com.wearerommies.roomie.presentation.core.util.formatPhoneNumber
 import com.wearerommies.roomie.presentation.type.MyAccountType
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyTopBar
 import com.wearerommies.roomie.presentation.ui.mypage.myaccount.component.MyAccountButton
@@ -55,7 +57,7 @@ fun MyAccountRoute(
     val currentCounter by rememberUpdatedState(counter)
 
     LaunchedEffect(currentCounter) {
-        viewModel.getUserInformation()
+        viewModel.getUserAccountInformation()
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
@@ -93,7 +95,7 @@ fun MyAccountScreen(
     navigateToBirth: (String) -> Unit,
     navigateToGender: (String) -> Unit,
     navigateToContact: (String) -> Unit,
-    state: MyPageEntity,
+    state: AccountEntity,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -117,28 +119,28 @@ fun MyAccountScreen(
 
             MyAccountButton(
                 myAccountType = MyAccountType.NAME,
-                userInformation = "이루미",
-                onClick = { navigateToName("이루미") },
+                userInformation = state.name.orEmpty(),
+                onClick = { navigateToName(state.name.orEmpty()) },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.NICKNAME,
-                userInformation = "카드값줘체리",
-                onClick = { navigateToNickname("카드값줘체리") },
+                userInformation = state.nickname.orEmpty(),
+                onClick = { navigateToNickname(state.nickname.orEmpty()) },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.BIRTH,
-                userInformation = "2025.03.21",
-                onClick = { navigateToBirth("2025.03.21") },
+                userInformation = state.birthDate.orEmpty(),
+                onClick = { navigateToBirth(state.birthDate.orEmpty()) },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.GENDER,
-                userInformation = "여성",
-                onClick = { navigateToGender("여성") },
+                userInformation = formatGender(state.gender.orEmpty()),
+                onClick = { navigateToGender(state.gender.orEmpty()) },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.PHONE_NUMBER,
-                userInformation = "010-0000-0000",
-                onClick = { navigateToContact("010-0000-0000") },
+                userInformation = formatPhoneNumber(state.phoneNumber.orEmpty()),
+                onClick = { navigateToContact(state.phoneNumber.orEmpty()) },
             )
 
             Spacer(
@@ -191,8 +193,13 @@ fun MyAccountScreenPreview() {
         MyAccountScreen(
             paddingValues = PaddingValues(),
             navigateUp = {},
-            state = MyPageEntity(
-                name = "루미"
+            state = AccountEntity(
+                nickname = "루미",
+                socialType = "KAKAO",
+                birthDate = "",
+                gender = "",
+                name = "",
+                phoneNumber = ""
             ),
             navigateToName = {},
             navigateToNickname = {},

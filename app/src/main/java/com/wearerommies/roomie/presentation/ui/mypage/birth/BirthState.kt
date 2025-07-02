@@ -5,5 +5,5 @@ data class BirthState(
     val updatedBirth: String = "",
     val isShowBirthDateModal: Boolean = false,
 ) {
-    val isEnabled = birth.isNotEmpty() && birth != updatedBirth
+    val isEnabled = updatedBirth.isNotEmpty() && birth != updatedBirth
 }

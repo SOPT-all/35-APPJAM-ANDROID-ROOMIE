@@ -115,7 +115,7 @@ fun MyScreen(
                         color = RoomieTheme.colors.grayScale4
                     ),
                 profileImgUrl = "",
-                nickname = state.name,
+                nickname = state.nickname,
                 onClick = navigateToMyAccount
             )
 
@@ -194,7 +194,8 @@ fun MyScreenPreview() {
             navigateToMyAccount = {},
             navigateToBookmark = {},
             state = MyPageEntity(
-                name = "루미"
+                nickname = "루미",
+                socialType = "KAKAO"
             )
         )
     }

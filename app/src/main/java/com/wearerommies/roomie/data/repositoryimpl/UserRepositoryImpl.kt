@@ -1,8 +1,15 @@
 package com.wearerommies.roomie.data.repositoryimpl
 
 import com.wearerommies.roomie.data.datasource.UserDataSource
+import com.wearerommies.roomie.data.dto.request.toDto
+import com.wearerommies.roomie.domain.entity.AccountEntity
+import com.wearerommies.roomie.domain.entity.BirthEntity
+import com.wearerommies.roomie.domain.entity.ContactEntity
+import com.wearerommies.roomie.domain.entity.GenderEntity
 import com.wearerommies.roomie.domain.entity.HomeDataEntity
 import com.wearerommies.roomie.domain.entity.MyPageEntity
+import com.wearerommies.roomie.domain.entity.NameEntity
+import com.wearerommies.roomie.domain.entity.NicknameEntity
 import com.wearerommies.roomie.domain.repository.UserRepository
 import javax.inject.Inject
 
@@ -17,5 +24,35 @@ internal class UserRepositoryImpl @Inject constructor(
     override suspend fun getUserInformation(): Result<MyPageEntity> =
         runCatching {
             userDataSource.getUserInformation().data.toEntity()
+        }
+
+    override suspend fun getUserAccountInformation(): Result<AccountEntity> =
+        runCatching {
+            userDataSource.getUserAccountInformation().data.toEntity()
+        }
+
+    override suspend fun editUserName(name: NameEntity): Result<NameEntity> =
+        runCatching {
+            userDataSource.editUserName(request = name.toDto()).data.toEntity()
+        }
+
+    override suspend fun editUserNickname(nickname: NicknameEntity): Result<NicknameEntity> =
+        runCatching {
+            userDataSource.editUserNickname(request = nickname.toDto()).data.toEntity()
+        }
+
+    override suspend fun editUserBirth(birthDay: BirthEntity): Result<BirthEntity> =
+        runCatching {
+            userDataSource.editUserBirth(request = birthDay.toDto()).data.toEntity()
+        }
+
+    override suspend fun editUserContact(phoneNumber: ContactEntity): Result<ContactEntity> =
+        runCatching {
+            userDataSource.editUserContact(request = phoneNumber.toDto()).data.toEntity()
+        }
+
+    override suspend fun editUserGender(gender: GenderEntity): Result<GenderEntity> =
+        runCatching {
+            userDataSource.editUserGender(request = gender.toDto()).data.toEntity()
         }
 }
