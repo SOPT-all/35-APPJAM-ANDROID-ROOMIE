@@ -26,9 +26,9 @@ import com.wearerommies.roomie.presentation.ui.mood.navigation.navigateToMood
 import com.wearerommies.roomie.presentation.ui.mypage.birth.navigation.navigateToBirth
 import com.wearerommies.roomie.presentation.ui.mypage.contact.navigation.navigateToContact
 import com.wearerommies.roomie.presentation.ui.mypage.gender.navigation.navigateToGender
+import com.wearerommies.roomie.presentation.ui.mypage.my.navigation.navigateToMy
 import com.wearerommies.roomie.presentation.ui.mypage.myaccount.navigation.navigateToMyAccount
 import com.wearerommies.roomie.presentation.ui.mypage.name.navigation.navigateToName
-import com.wearerommies.roomie.presentation.ui.mypage.my.navigation.navigateToMy
 import com.wearerommies.roomie.presentation.ui.mypage.nickname.navigation.navigateToNickname
 import com.wearerommies.roomie.presentation.ui.onboarding.navigation.navigateToOnboarding
 import com.wearerommies.roomie.presentation.ui.search.navigation.navigateToSearch
@@ -99,7 +99,14 @@ class MainNavigator(
     }
 
     fun navigateToLogin() {
-        navController.navigateToLogin()
+        navController.navigateToLogin(
+            navOptions = navOptions {
+                popUpTo(0) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
+        )
     }
 
     fun navigateToMap(filter: FilterEntity, result: SearchResultEntity) {

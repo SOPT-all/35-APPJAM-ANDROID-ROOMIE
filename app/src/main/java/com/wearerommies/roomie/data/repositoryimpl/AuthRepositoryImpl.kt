@@ -24,4 +24,9 @@ internal class AuthRepositoryImpl @Inject constructor(
                 refreshToken = refreshToken
             ).data.toEntity()
         }
+
+    override suspend fun deleteLogout(refreshToken: String) =
+        runCatching {
+            authDataSource.deleteLogout(refreshToken = refreshToken)
+        }
 }

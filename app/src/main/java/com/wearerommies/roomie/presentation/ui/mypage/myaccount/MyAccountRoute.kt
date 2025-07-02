@@ -47,6 +47,7 @@ fun MyAccountRoute(
     navigateToBirth: (String) -> Unit,
     navigateToGender: (String) -> Unit,
     navigateToContact: (String) -> Unit,
+    navigateToLogin: () -> Unit,
     viewModel: MyAccountViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -69,6 +70,7 @@ fun MyAccountRoute(
                     is MyAccountSideEffect.NavigateToContact -> navigateToContact(sideEffect.contact)
                     is MyAccountSideEffect.NavigateToGender -> navigateToGender(sideEffect.gender)
                     is MyAccountSideEffect.NavigateToName -> navigateToName(sideEffect.name)
+                    is MyAccountSideEffect.NavigateToLogin -> navigateToLogin()
                 }
             }
     }
@@ -82,6 +84,8 @@ fun MyAccountRoute(
         navigateToBirth = viewModel::navigateToBirth,
         navigateToGender = viewModel::navigateToGender,
         navigateToContact = viewModel::navigateToContact,
+        deleteLogout = viewModel::deleteLogout
+
     )
 }
 
@@ -95,6 +99,7 @@ fun MyAccountScreen(
     navigateToBirth: (String) -> Unit,
     navigateToGender: (String) -> Unit,
     navigateToContact: (String) -> Unit,
+    deleteLogout: () -> Unit,
     state: AccountEntity,
     modifier: Modifier = Modifier
 ) {
@@ -161,9 +166,7 @@ fun MyAccountScreen(
                 backgroundColor = RoomieTheme.colors.grayScale1,
                 textColor = RoomieTheme.colors.grayScale7,
                 textStyle = RoomieTheme.typography.body2Sb14,
-                onClick = {
-                    //todo: logout
-                },
+                onClick = deleteLogout,
                 borderColor = RoomieTheme.colors.grayScale5,
                 borderWidth = 1.dp
             )
@@ -206,6 +209,7 @@ fun MyAccountScreenPreview() {
             navigateToBirth = {},
             navigateToGender = {},
             navigateToContact = {},
+            deleteLogout = {}
         )
     }
 }
