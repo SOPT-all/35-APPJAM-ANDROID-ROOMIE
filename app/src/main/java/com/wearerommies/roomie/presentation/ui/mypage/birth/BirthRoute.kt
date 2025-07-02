@@ -90,7 +90,8 @@ fun BirthScreen(
                 updateDateModalState()
             },
             modifier = Modifier.padding(horizontal = 36.dp),
-            inLimited = false
+            inLimited = false,
+            birthLimited = true
         )
 
     Column(

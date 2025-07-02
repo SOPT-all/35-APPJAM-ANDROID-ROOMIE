@@ -28,14 +28,16 @@ const val UTC: String = "UTC"
 fun RoomieDatePicker(
     onConfirm: (selectedDateMillis: Long?) -> Unit,
     onDismiss: () -> Unit,
+    modifier: Modifier = Modifier,
     inLimited: Boolean = true,
-    modifier: Modifier = Modifier
+    birthLimited: Boolean = false
 ) {
     DatePickerModal(
         onConfirm = onConfirm,
         onDismiss = onDismiss,
         inLimited = inLimited,
-        modifier = modifier
+        modifier = modifier,
+        birthLimited = birthLimited
     )
 }
 
@@ -45,27 +47,29 @@ fun DatePickerModal(
     onConfirm: (Long?) -> Unit,
     onDismiss: () -> Unit,
     inLimited: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    birthLimited: Boolean = false,
 ) {
-    val todayMillisUtc = LocalDate.now().atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli() ?: System.currentTimeMillis()
+    val todayMillisUtc = LocalDate.now().atStartOfDay(ZoneOffset.UTC)?.toInstant()?.toEpochMilli()
+        ?: System.currentTimeMillis()
 
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = todayMillisUtc,
         selectableDates = object : SelectableDates {
             override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-                return if (inLimited) {
-                    utcTimeMillis >= todayMillisUtc
-                } else {
-                    true
+                return when {
+                    birthLimited -> utcTimeMillis <= todayMillisUtc
+                    inLimited -> utcTimeMillis >= todayMillisUtc
+                    else -> true
                 }
             }
 
             override fun isSelectableYear(year: Int): Boolean {
-                return if (inLimited) {
-                    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-                    year >= currentYear
-                } else {
-                    true
+                val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+                return when {
+                    birthLimited -> year <= currentYear
+                    inLimited -> year >= currentYear
+                    else -> true
                 }
             }
         }
