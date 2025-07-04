@@ -1,7 +1,7 @@
 package com.wearerommies.roomie.presentation.ui.login
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -13,9 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -84,45 +81,68 @@ fun LoginScreen(
     onLoginClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
-            .background(RoomieTheme.colors.grayScale1)
-            .padding(paddingValues),
-        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Icon(
-            modifier = Modifier.padding(top = (LocalConfiguration.current.screenHeightDp * 0.134).dp),
-            imageVector = ImageVector.vectorResource(R.drawable.ic_roomie_logo),
-            contentDescription = stringResource(R.string.roomie_logo),
-            tint = Color.Unspecified
-        )
-        Text(
-            modifier = Modifier
-                .padding(top = 20.dp),
-            text = stringResource(R.string.login_title),
-            style = RoomieTheme.typography.title2Sb16,
-            color = RoomieTheme.colors.gradientPrimary
-        )
-
-        //todo: image 추가 예정
-
-        Spacer(
-            modifier = Modifier
-                .weight(1f)
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(R.drawable.img_login_background),
+            contentDescription = null,
+            contentScale = ContentScale.FillWidth
         )
 
         Image(
             modifier = Modifier
+                .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp, bottom = 42.dp)
+                .padding(
+                    start = 20.dp,
+                    end = 20.dp,
+                    bottom = paddingValues.calculateBottomPadding() + 55.dp
+                )
                 .noRippleClickable(onClick = onLoginClick),
             painter = painterResource(R.drawable.img_kakao_login),
             contentDescription = stringResource(R.string.kakao_login),
             contentScale = ContentScale.Crop
         )
-    }
 
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Icon(
+                modifier = Modifier.padding(top = (LocalConfiguration.current.screenHeightDp * 0.134).dp),
+                imageVector = ImageVector.vectorResource(R.drawable.ic_roomie_logo),
+                contentDescription = stringResource(R.string.roomie_logo),
+                tint = Color.Unspecified
+            )
+
+            Text(
+                modifier = Modifier
+                    .padding(top = 20.dp),
+                text = stringResource(R.string.login_title),
+                style = RoomieTheme.typography.title2Sb16,
+                color = RoomieTheme.colors.grayScale1
+            )
+
+            Image(
+                painter = painterResource(R.drawable.img_onboarding_login),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 0.5.dp)
+                    .padding(top = 11.dp)
+            )
+
+            Spacer(
+                modifier = Modifier
+                    .weight(1f)
+            )
+        }
+    }
 }
 
 @Preview

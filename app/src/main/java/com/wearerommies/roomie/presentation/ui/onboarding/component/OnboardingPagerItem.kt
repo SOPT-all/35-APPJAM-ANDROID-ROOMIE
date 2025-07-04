@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,13 +51,10 @@ internal fun OnboardingPagerItem(
             textAlign = TextAlign.Center
         )
 
-        Spacer(
-            modifier = Modifier.height(68.dp)
-        )
-
         Image(
             modifier = Modifier
-                .width((screenWeight * 0.667).dp),
+                .width(if (image == R.drawable.img_onboarding3) screenWeight.dp else (screenWeight * 0.667f).dp)
+                .padding(top = if (image == R.drawable.img_onboarding3) 24.dp else 68.dp),
             painter = painterResource(image),
             contentDescription = null,
             contentScale = ContentScale.Crop
