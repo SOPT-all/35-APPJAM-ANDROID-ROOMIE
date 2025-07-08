@@ -8,4 +8,5 @@ interface AuthRepository {
     suspend fun postSocialLogin(loginData: SocialLoginEntity): Result<TokenEntity>
     suspend fun postTokenReissue(refreshToken: String): Result<ReissueTokenEntity>
     suspend fun deleteLogout(refreshToken: String): Result<Unit>
+    suspend fun deleteWithdraw(refreshToken: String): Result<Unit>
 }

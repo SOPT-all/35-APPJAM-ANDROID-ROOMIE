@@ -62,6 +62,17 @@ class MyAccountViewModel @Inject constructor(
             }
     }
 
+    fun deleteWithdraw() = viewModelScope.launch {
+        authRepository.deleteWithdraw(refreshToken = "Bearer ${tokenRepository.getRefreshToken()}")
+            .onSuccess {
+                tokenRepository.clearInfo()
+                navigateToLogin()
+            }
+            .onFailure { error ->
+                Timber.e(error)
+            }
+    }
+
     fun navigateToName(name: String) {
         viewModelScope.launch {
             _sideEffect.emit(

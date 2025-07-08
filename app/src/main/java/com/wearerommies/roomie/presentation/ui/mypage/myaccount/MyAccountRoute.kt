@@ -84,7 +84,8 @@ fun MyAccountRoute(
         navigateToBirth = viewModel::navigateToBirth,
         navigateToGender = viewModel::navigateToGender,
         navigateToContact = viewModel::navigateToContact,
-        deleteLogout = viewModel::deleteLogout
+        deleteLogout = viewModel::deleteLogout,
+        deleteWithdraw = viewModel::deleteWithdraw
 
     )
 }
@@ -100,6 +101,7 @@ fun MyAccountScreen(
     navigateToGender: (String) -> Unit,
     navigateToContact: (String) -> Unit,
     deleteLogout: () -> Unit,
+    deleteWithdraw: () -> Unit,
     state: AccountEntity,
     modifier: Modifier = Modifier
 ) {
@@ -174,7 +176,7 @@ fun MyAccountScreen(
             Text(
                 modifier = Modifier
                     .clickable {
-                        //todo: withdraw
+                       deleteWithdraw()
                     }
                     .padding(horizontal = 4.dp),
                 text = stringResource(R.string.withdraw),
@@ -209,7 +211,8 @@ fun MyAccountScreenPreview() {
             navigateToBirth = {},
             navigateToGender = {},
             navigateToContact = {},
-            deleteLogout = {}
+            deleteLogout = {},
+            deleteWithdraw = {}
         )
     }
 }

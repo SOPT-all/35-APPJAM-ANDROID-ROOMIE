@@ -24,4 +24,9 @@ interface AuthService {
     suspend fun deleteLogout(
         @Header("Authorization") refreshToken: String
     )
+
+    @DELETE("/v1/users/delete")
+    suspend fun deleteWithdraw(
+        @Header("Authorization") refreshToken: String
+    )
 }
