@@ -126,4 +126,16 @@ class MyAccountViewModel @Inject constructor(
     private fun navigateToLogin() = viewModelScope.launch {
         _sideEffect.emit(MyAccountSideEffect.NavigateToLogin)
     }
+
+    fun updateLogoutDialogState() = viewModelScope.launch {
+        _state.value = _state.value.copy(
+            isShowLogoutDialog = !_state.value.isShowLogoutDialog
+        )
+    }
+
+    fun updateWithdrawDialogState() = viewModelScope.launch {
+        _state.value = _state.value.copy(
+            isShowWithdrawDialog = !_state.value.isShowWithdrawDialog
+        )
+    }
 }
