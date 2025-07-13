@@ -57,11 +57,11 @@ fun SearchResultCard(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        SearchResultRow(stringResource(R.string.roadAddress), address)
+        SearchResultRow(stringResource(R.string.roadAddress), roadAddress)
 
         Spacer(modifier = Modifier.height(7.dp))
 
-        SearchResultRow(stringResource(R.string.address), roadAddress)
+        SearchResultRow(stringResource(R.string.address), address)
     }
 }
 
