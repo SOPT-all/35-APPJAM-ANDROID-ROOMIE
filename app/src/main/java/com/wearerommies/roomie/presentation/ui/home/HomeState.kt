@@ -22,5 +22,6 @@ data class HomeState(
                 mainImgUrl = ""
             ),
         )
-    )
+    ),
+    val isShowBottomSheet: Boolean = false
 )

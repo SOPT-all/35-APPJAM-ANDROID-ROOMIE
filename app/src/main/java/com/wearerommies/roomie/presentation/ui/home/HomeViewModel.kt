@@ -1,5 +1,6 @@
 package com.wearerommies.roomie.presentation.ui.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wearerommies.roomie.R
@@ -118,6 +119,12 @@ class HomeViewModel @Inject constructor(
             HomeSideEffect.SnackBar(
                 message = R.string.exit_application
             )
+        )
+    }
+
+    fun updateBottomSheetState() {
+        _state.value = _state.value.copy(
+            isShowBottomSheet = !_state.value.isShowBottomSheet
         )
     }
 }
