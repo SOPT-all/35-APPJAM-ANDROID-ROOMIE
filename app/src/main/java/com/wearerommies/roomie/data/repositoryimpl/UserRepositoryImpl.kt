@@ -7,6 +7,7 @@ import com.wearerommies.roomie.domain.entity.BirthEntity
 import com.wearerommies.roomie.domain.entity.ContactEntity
 import com.wearerommies.roomie.domain.entity.GenderEntity
 import com.wearerommies.roomie.domain.entity.HomeDataEntity
+import com.wearerommies.roomie.domain.entity.LocationEntity
 import com.wearerommies.roomie.domain.entity.MyPageEntity
 import com.wearerommies.roomie.domain.entity.NameEntity
 import com.wearerommies.roomie.domain.entity.NicknameEntity
@@ -54,5 +55,10 @@ internal class UserRepositoryImpl @Inject constructor(
     override suspend fun editUserGender(gender: GenderEntity): Result<GenderEntity> =
         runCatching {
             userDataSource.editUserGender(request = gender.toDto()).data.toEntity()
+        }
+
+    override suspend fun editUserLocation(location: LocationEntity): Result<LocationEntity> =
+        runCatching {
+            userDataSource.editUserLocation(request = location.toDto()).data.toEntity()
         }
 }
