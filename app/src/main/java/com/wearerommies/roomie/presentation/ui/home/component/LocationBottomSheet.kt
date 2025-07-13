@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.SearchResultEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieEmptyView
+import com.wearerommies.roomie.presentation.core.component.RoomieLoadingView
 import com.wearerommies.roomie.presentation.core.util.EmptyUiState
 import com.wearerommies.roomie.presentation.type.EmptyViewType
 import com.wearerommies.roomie.presentation.ui.search.component.SearchResultCard
@@ -47,7 +48,7 @@ fun LocationBottomSheet(
     searchKeyword: String,
     setSearchKeyword: (String) -> Unit,
     fetchResult: (String) -> Unit,
-    applySearchResult: (String, Float, Float) -> Unit,
+    applyUserLocation: (Float, Float, String) -> Unit,
     onDismissRequest: () -> Unit,
     modifier : Modifier = Modifier
 ) {
@@ -121,6 +122,32 @@ fun LocationBottomSheet(
                 EmptyUiState.Failure -> {}
 
                 EmptyUiState.Loading -> {
+                    RoomieLoadingView()
+                }
+
+                is EmptyUiState.Success -> {
+                    LazyColumn {
+                        items(state.data) { result ->
+                            SearchResultCard(
+                                location = result.location,
+                                address = result.address,
+                                roadAddress = result.roadAddress,
+                                modifier = Modifier
+                                    .padding(horizontal = 12.dp)
+                                    .padding(top = 12.dp),
+                                onClick = {
+                                    applyUserLocation(
+                                        result.latitude,
+                                        result.longitude,
+                                        result.address,
+                                    )
+                                }
+                            )
+                        }
+                    }
+                }
+
+                EmptyUiState.Initial -> {
                     Column(
                         modifier = Modifier
                             .fillMaxSize(),
@@ -152,28 +179,6 @@ fun LocationBottomSheet(
                         )
 
                         Spacer(Modifier.weight(1f))
-                    }
-                }
-
-                is EmptyUiState.Success -> {
-                    LazyColumn {
-                        items(state.data) { result ->
-                            SearchResultCard(
-                                location = result.location,
-                                address = result.address,
-                                roadAddress = result.roadAddress,
-                                modifier = Modifier
-                                    .padding(horizontal = 12.dp)
-                                    .padding(top = 12.dp),
-                                onClick = {
-                                    applySearchResult(
-                                        result.roadAddress,
-                                        result.longitude,
-                                        result.latitude
-                                    )
-                                }
-                            )
-                        }
                     }
                 }
             }
@@ -210,7 +215,7 @@ fun LocationBottomSheetSuccessPreview() {
             searchKeyword = "",
             setSearchKeyword = {},
             fetchResult = {},
-            applySearchResult = { _, _, _ -> },
+            applyUserLocation = { _, _, _ -> },
             onDismissRequest = {}
         )
     }

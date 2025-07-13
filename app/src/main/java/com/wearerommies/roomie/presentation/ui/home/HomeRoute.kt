@@ -2,7 +2,6 @@ package com.wearerommies.roomie.presentation.ui.home
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -64,7 +63,6 @@ import com.wearerommies.roomie.presentation.core.component.RoomieSnackbar
 import com.wearerommies.roomie.presentation.core.component.RoomieTopBar
 import com.wearerommies.roomie.presentation.core.extension.bottomBorder
 import com.wearerommies.roomie.presentation.core.extension.noRippleClickable
-import com.wearerommies.roomie.presentation.core.util.EmptyUiState
 import com.wearerommies.roomie.presentation.core.util.convertDpToFloat
 import com.wearerommies.roomie.presentation.type.HomeMoodCardType
 import com.wearerommies.roomie.presentation.type.NavigateButtonType
@@ -150,7 +148,11 @@ fun HomeRoute(
         navigateToWebView = viewModel::navigateToWebView,
         onLikeClick = viewModel::bookmarkHouse,
         updateBottomSheetState = viewModel::updateBottomSheetState,
-        state = state.uiState
+        setSearchKeyWord = viewModel::setSearchKeyword,
+        fetchSearchResult = viewModel::fetchSearchResult,
+        applyUserLocation = viewModel::applyUserLocation,
+        state = state.uiState,
+        bottomSheetState = state.bottomSheetState
     )
 }
 
@@ -167,7 +169,11 @@ fun HomeScreen(
     navigateToWebView: (String) -> Unit,
     onLikeClick: (Long) -> Unit,
     updateBottomSheetState: () -> Unit,
+    setSearchKeyWord: (String) -> Unit,
+    fetchSearchResult: (String) -> Unit,
+    applyUserLocation: (Float, Float, String) -> Unit,
     state: HomeDataEntity,
+    bottomSheetState: LocationBottomSheetState,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberLazyListState()
@@ -395,12 +401,12 @@ fun HomeScreen(
 
         if (isShowBottomSheet) {
             LocationBottomSheet(
-                state = EmptyUiState.Loading,
+                state = bottomSheetState.searchResults,
                 location = state.location,
-                searchKeyword = "",
-                setSearchKeyword = {},
-                fetchResult = {},
-                applySearchResult = { _, _, _ -> },
+                searchKeyword = bottomSheetState.searchKeyword,
+                setSearchKeyword = setSearchKeyWord,
+                fetchResult = fetchSearchResult,
+                applyUserLocation = applyUserLocation,
                 onDismissRequest = updateBottomSheetState
             )
         }
@@ -615,9 +621,13 @@ fun HomeScreenPreview() {
                         moodTag = "#차분한",
                         contractTerm = 6,
                         mainImgUrl = "https://i.pinimg.com/236x/12/95/67/1295676da767fa8171baf8a307b5786c.jpg"
-                    ),
+                    )
                 )
-            )
+            ),
+            bottomSheetState = LocationBottomSheetState(),
+            fetchSearchResult = {},
+            setSearchKeyWord = {},
+            applyUserLocation = { _, _, _ -> }
         )
     }
 }
