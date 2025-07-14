@@ -1,6 +1,5 @@
 package com.wearerommies.roomie.presentation.ui.mypage.myaccount
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +30,7 @@ import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.AccountEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
 import com.wearerommies.roomie.presentation.core.component.RoomieTwoButtonDialog
+import com.wearerommies.roomie.presentation.core.util.UserConstants.NO_DATA
 import com.wearerommies.roomie.presentation.core.util.formatGender
 import com.wearerommies.roomie.presentation.core.util.formatPhoneNumber
 import com.wearerommies.roomie.presentation.type.MyAccountType
@@ -95,7 +95,6 @@ fun MyAccountRoute(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MyAccountScreen(
     paddingValues: PaddingValues,
@@ -135,17 +134,17 @@ fun MyAccountScreen(
 
             MyAccountButton(
                 myAccountType = MyAccountType.NAME,
-                userInformation = state.name.orEmpty(),
+                userInformation = state.name ?: NO_DATA,
                 onClick = { navigateToName(state.name.orEmpty()) },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.NICKNAME,
-                userInformation = state.nickname.orEmpty(),
+                userInformation = state.nickname ?: NO_DATA,
                 onClick = { navigateToNickname(state.nickname.orEmpty()) },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.BIRTH,
-                userInformation = state.birthDate.orEmpty(),
+                userInformation = state.birthDate ?: NO_DATA,
                 onClick = { navigateToBirth(state.birthDate.orEmpty()) },
             )
             MyAccountButton(
