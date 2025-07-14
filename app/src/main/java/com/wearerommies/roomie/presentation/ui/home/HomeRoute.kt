@@ -94,6 +94,7 @@ fun HomeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackBarHost = remember { SnackbarHostState() }
+    val bottomSheetSnackBarHost = remember { SnackbarHostState() }
     val counter by remember { mutableIntStateOf(0) }
 
     val currentCounter by rememberUpdatedState(counter)
@@ -127,6 +128,16 @@ fun HomeRoute(
                         }
                     }
 
+                    is HomeSideEffect.BottomSheetSnackBar -> {
+                        bottomSheetSnackBarHost.currentSnackbarData?.dismiss()
+                        coroutineScope.launch {
+                            bottomSheetSnackBarHost.showSnackbar(
+                                message = context.getString(sideEffect.message),
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
+
                     is HomeSideEffect.NavigateToBookMark -> navigateToBookmark()
                     is HomeSideEffect.NavigateToMood -> navigateToMood(sideEffect.moodTag)
                     is HomeSideEffect.NavigateToMap -> navigateToMap()
@@ -139,6 +150,7 @@ fun HomeRoute(
     HomeScreen(
         paddingValues = paddingValues,
         snackBarHost = snackBarHost,
+        bottomSheetSnackBarHost = bottomSheetSnackBarHost,
         isShowBottomSheet = state.isShowBottomSheet,
         navigateUp = navigateUp,
         navigateToBookmark = viewModel::navigateToBookmark,
@@ -160,6 +172,7 @@ fun HomeRoute(
 fun HomeScreen(
     paddingValues: PaddingValues,
     snackBarHost: SnackbarHostState,
+    bottomSheetSnackBarHost: SnackbarHostState,
     isShowBottomSheet: Boolean,
     navigateUp: () -> Unit,
     navigateToBookmark: () -> Unit,
@@ -404,6 +417,7 @@ fun HomeScreen(
                 state = bottomSheetState.searchResults,
                 location = state.location,
                 searchKeyword = bottomSheetState.searchKeyword,
+                snackBarHost = bottomSheetSnackBarHost,
                 setSearchKeyword = setSearchKeyWord,
                 fetchResult = fetchSearchResult,
                 applyUserLocation = applyUserLocation,
@@ -627,7 +641,8 @@ fun HomeScreenPreview() {
             bottomSheetState = LocationBottomSheetState(),
             fetchSearchResult = {},
             setSearchKeyWord = {},
-            applyUserLocation = { _, _, _ -> }
+            applyUserLocation = { _, _, _ -> },
+            bottomSheetSnackBarHost = SnackbarHostState()
         )
     }
 }

@@ -176,7 +176,7 @@ class HomeViewModel @Inject constructor(
         )
             .onSuccess {
                 if(it.location.isEmpty()){
-                    _sideEffect.emit(HomeSideEffect.SnackBar(R.string.location_bottom_sheet_error))
+                    _sideEffect.emit(HomeSideEffect.BottomSheetSnackBar(R.string.location_bottom_sheet_error))
                 } else {
                     getHomeData()
 
