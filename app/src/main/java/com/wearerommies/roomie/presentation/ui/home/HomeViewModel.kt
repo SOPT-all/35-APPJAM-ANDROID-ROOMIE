@@ -1,16 +1,13 @@
 package com.wearerommies.roomie.presentation.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.HomeDataEntity
 import com.wearerommies.roomie.domain.entity.LocationEntity
 import com.wearerommies.roomie.domain.entity.RoomCardEntity
-import com.wearerommies.roomie.domain.entity.SearchResultEntity
 import com.wearerommies.roomie.domain.repository.HouseRepository
 import com.wearerommies.roomie.domain.repository.MapRepository
-import com.wearerommies.roomie.domain.repository.TokenRepository
 import com.wearerommies.roomie.domain.repository.UserRepository
 import com.wearerommies.roomie.presentation.core.util.EmptyUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.serialization.ExperimentalSerializationApi
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -177,16 +175,20 @@ class HomeViewModel @Inject constructor(
             )
         )
             .onSuccess {
-                getHomeData()
+                if(it.location.isEmpty()){
+                    _sideEffect.emit(HomeSideEffect.SnackBar(R.string.location_bottom_sheet_error))
+                } else {
+                    getHomeData()
 
-                updateBottomSheetState()
+                    updateBottomSheetState()
 
-                _state.value = _state.value.copy(
-                    bottomSheetState = LocationBottomSheetState()
-                )
+                    _state.value = _state.value.copy(
+                        bottomSheetState = LocationBottomSheetState()
+                    )
+                }
             }
-            .onFailure {
-                Timber.e(it)
+            .onFailure { error ->
+               Timber.e(error)
             }
     }
 
