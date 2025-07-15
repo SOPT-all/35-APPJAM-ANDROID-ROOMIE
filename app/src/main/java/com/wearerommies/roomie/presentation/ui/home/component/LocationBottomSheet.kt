@@ -127,10 +127,16 @@ fun LocationBottomSheet(
         ) {
             when (state) {
                 EmptyUiState.Empty -> {
+
+                    Spacer(Modifier.weight(1F))
+
                     RoomieEmptyView(
                         viewType = EmptyViewType.SEARCH,
-                        modifier = Modifier.padding(top = (LocalWindowInfo.current.containerSize.height * 0.1795).dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
                     )
+
+                    Spacer(Modifier.weight(1F))
                 }
 
                 EmptyUiState.Failure -> {}
