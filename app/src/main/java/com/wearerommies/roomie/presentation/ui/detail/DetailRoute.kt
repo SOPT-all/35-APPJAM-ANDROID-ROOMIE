@@ -1,5 +1,8 @@
 package com.wearerommies.roomie.presentation.ui.detail
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,7 +46,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
@@ -62,7 +64,6 @@ import com.wearerommies.roomie.presentation.core.component.RoomieSnackbar
 import com.wearerommies.roomie.presentation.core.component.RoomieTopBar
 import com.wearerommies.roomie.presentation.core.extension.bottomBorder
 import com.wearerommies.roomie.presentation.core.extension.noRippleClickable
-import com.wearerommies.roomie.presentation.core.extension.roundedBackgroundWithBorder
 import com.wearerommies.roomie.presentation.core.extension.topBorder
 import com.wearerommies.roomie.presentation.core.util.PriceFormatter.formatPriceWon
 import com.wearerommies.roomie.presentation.core.util.UiState
@@ -73,7 +74,6 @@ import com.wearerommies.roomie.presentation.ui.detail.component.DetailContentHea
 import com.wearerommies.roomie.presentation.ui.detail.component.DetailInnerFacilityCard
 import com.wearerommies.roomie.presentation.ui.detail.component.DetailMoodCard
 import com.wearerommies.roomie.presentation.ui.detail.component.DetailRoomInfoCard
-import com.wearerommies.roomie.presentation.ui.detail.component.DetailRoomMateCard
 import com.wearerommies.roomie.presentation.ui.webview.WebViewUrl
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
@@ -135,6 +135,17 @@ fun DetailRoute(
                         )
                     }
                 }
+
+                is DetailSideEffect.NavigateToChannel -> {
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(WebViewUrl.KAKAO_APP))
+                        context.startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        val webIntent =
+                            Intent(Intent.ACTION_VIEW, Uri.parse(WebViewUrl.KAKAO_WEB))
+                        context.startActivity(webIntent)
+                    }
+                }
             }
         }
     }
@@ -147,6 +158,7 @@ fun DetailRoute(
         navigateDetailHouse = viewModel::navigateToHouse,
         navigateTourApply = viewModel::navigateToTourApply,
         navigateToWebView = viewModel::navigateToWebView,
+        navigateToChannel = viewModel::navigateToChannel,
         state = state.uiState,
         isShowBottomSheet = state.isShowBottomSheet,
         isLivingExpanded = state.isLivingExpanded,
@@ -184,6 +196,7 @@ fun DetailScreen(
     navigateDetailHouse: (Long, String) -> Unit,
     navigateTourApply: (Long, Long, String, String) -> Unit,
     navigateToWebView: (String) -> Unit,
+    navigateToChannel: () -> Unit,
     onLikeClick: (Long) -> Unit
 ) {
     val scrollState = rememberLazyListState()
@@ -510,7 +523,7 @@ fun DetailScreen(
                                 tint = RoomieTheme.colors.grayScale6
                             )
                         },
-                        onClickButton = { navigateToWebView(WebViewUrl.KAKAO) }
+                        onClickButton = navigateToChannel
                     )
                     RoomieButton(
                         text = stringResource(R.string.tour_apply_button),
@@ -626,6 +639,7 @@ fun DetailScreenPreview() {
             selectedTourName = "",
             updateSelectedTourRoomName = {},
             navigateToWebView = {},
+            navigateToChannel = {},
             onLikeClick = {}
         )
     }

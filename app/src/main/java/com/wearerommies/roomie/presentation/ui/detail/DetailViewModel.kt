@@ -129,4 +129,8 @@ class DetailViewModel @Inject constructor(
                 Timber.e(error)
             }
     }
+
+    fun navigateToChannel() = viewModelScope.launch {
+        _sideEffect.emit(DetailSideEffect.NavigateToChannel)
+    }
 }

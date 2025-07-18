@@ -27,4 +27,5 @@ sealed class DetailSideEffect {
     ) : DetailSideEffect()
 
     data class SnackBar(@StringRes val message: Int) : DetailSideEffect()
+    data object NavigateToChannel : DetailSideEffect()
 }

@@ -1,5 +1,8 @@
 package com.wearerommies.roomie.presentation.ui.mypage.my
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -69,6 +72,16 @@ fun MyRoute(
                     is MySideEffect.NavigateToBookMark -> navigateToBookmark()
                     is MySideEffect.NavigateToMyAccount -> navigateToMyAccount()
                     is MySideEffect.NavigateToWebView -> navigateToWebView(sideEffect.webViewUrl)
+                    is MySideEffect.NavigateToChannel -> {
+                        try {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(WebViewUrl.KAKAO_APP))
+                            context.startActivity(intent)
+                        } catch (e: ActivityNotFoundException) {
+                            val webIntent =
+                                Intent(Intent.ACTION_VIEW, Uri.parse(WebViewUrl.KAKAO_WEB))
+                            context.startActivity(webIntent)
+                        }
+                    }
                 }
             }
     }
@@ -79,6 +92,7 @@ fun MyRoute(
         navigateToMyAccount = viewModel::navigateToMyAccount,
         navigateToBookmark = viewModel::navigateToBookmark,
         navigateToWebView = viewModel::navigateToWebView,
+        navigateToChannel = viewModel::navigateToChannel,
         state = state.uiState
     )
 
@@ -91,6 +105,7 @@ fun MyScreen(
     navigateToMyAccount: () -> Unit,
     navigateToBookmark: () -> Unit,
     navigateToWebView: (String) -> Unit,
+    navigateToChannel: () -> Unit,
     state: MyPageEntity,
     modifier: Modifier = Modifier
 ) {
@@ -157,7 +172,7 @@ fun MyScreen(
             MyButtonWithHelperText(
                 mainText = stringResource(R.string.add_new_room),
                 helperText = stringResource(R.string.register_sharehouse_owner),
-                onClick = { navigateToWebView(WebViewUrl.KAKAO) }
+                onClick = navigateToChannel
             )
 
             RoomieNavigateButton(
@@ -199,6 +214,7 @@ fun MyScreenPreview() {
             navigateToMyAccount = {},
             navigateToBookmark = {},
             navigateToWebView = {},
+            navigateToChannel = {},
             state = MyPageEntity(
                 nickname = "루미",
                 socialType = "KAKAO"

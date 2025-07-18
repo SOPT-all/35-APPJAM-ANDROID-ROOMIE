@@ -58,4 +58,8 @@ class MyViewModel @Inject constructor(
     fun navigateToWebView(webViewUrl: String) = viewModelScope.launch {
         _sideEffect.emit(MySideEffect.NavigateToWebView(webViewUrl = webViewUrl))
     }
+
+    fun navigateToChannel() = viewModelScope.launch {
+        _sideEffect.emit(MySideEffect.NavigateToChannel)
+    }
 }
