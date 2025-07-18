@@ -202,7 +202,10 @@
     <string name="account_connect">계정 연동</string>
     <string name="kakaotalk">카카오톡</string>
     <string name="logout">로그아웃</string>
-    <string name="withdraw">탈퇴 하기</string>
+    <string name="logout_dialog_title">로그아웃 하시겠습니까?</string>
+    <string name="withdraw">탈퇴하기</string>
+    <string name="withdraw_dismiss">유지하기</string>
+    <string name="withdraw_dialog_title">회원 탈퇴 시, 고미와 찾았던\n셰어하우스는 모두 사라져요</string>
 
     // name
     <string name="name_edit">이름 수정하기</string>

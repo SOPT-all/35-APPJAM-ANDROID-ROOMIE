@@ -10,5 +10,7 @@ data class MyAccountState(
         gender = "",
         name = "",
         phoneNumber = ""
-    )
+    ),
+    val isShowLogoutDialog: Boolean = false,
+    val isShowWithdrawDialog: Boolean = false,
 )

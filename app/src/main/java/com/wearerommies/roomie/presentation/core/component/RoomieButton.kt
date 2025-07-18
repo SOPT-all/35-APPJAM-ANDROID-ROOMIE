@@ -36,6 +36,7 @@ fun RoomieButton(
     borderColor: Color = Color.Transparent,
     borderWidth: Dp = 0.dp,
     verticalPadding: Dp = 18.dp,
+    horizontalPadding: Dp = 0.dp,
     textStyle: TextStyle = RoomieTheme.typography.title2Sb16
 ) {
     Text(
@@ -53,7 +54,7 @@ fun RoomieButton(
             .run {
                 if (isEnabled) clickable(onClick = onClick) else this
             }
-            .padding(vertical = verticalPadding)
+            .padding(vertical = verticalPadding, horizontal = horizontalPadding)
 
     )
 }

@@ -3,6 +3,8 @@ package com.wearerommies.roomie.presentation.ui.mypage.myaccount
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wearerommies.roomie.domain.entity.AccountEntity
+import com.wearerommies.roomie.domain.repository.AuthRepository
+import com.wearerommies.roomie.domain.repository.TokenRepository
 import com.wearerommies.roomie.domain.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,6 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MyAccountViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val authRepository: AuthRepository,
+    private val tokenRepository: TokenRepository
 ) : ViewModel() {
     // state 관리
     private val _state = MutableStateFlow(MyAccountState())
@@ -43,6 +47,28 @@ class MyAccountViewModel @Inject constructor(
                     )
                 )
             }.onFailure { error ->
+                Timber.e(error)
+            }
+    }
+
+    fun deleteLogout() = viewModelScope.launch {
+        authRepository.deleteLogout(refreshToken = "Bearer ${tokenRepository.getRefreshToken()}")
+            .onSuccess {
+                tokenRepository.clearInfo()
+                navigateToLogin()
+            }
+            .onFailure { error ->
+                Timber.e(error)
+            }
+    }
+
+    fun deleteWithdraw() = viewModelScope.launch {
+        authRepository.deleteWithdraw(refreshToken = "Bearer ${tokenRepository.getRefreshToken()}")
+            .onSuccess {
+                tokenRepository.clearInfo()
+                navigateToLogin()
+            }
+            .onFailure { error ->
                 Timber.e(error)
             }
     }
@@ -95,5 +121,21 @@ class MyAccountViewModel @Inject constructor(
                 )
             )
         }
+    }
+
+    private fun navigateToLogin() = viewModelScope.launch {
+        _sideEffect.emit(MyAccountSideEffect.NavigateToLogin)
+    }
+
+    fun updateLogoutDialogState() = viewModelScope.launch {
+        _state.value = _state.value.copy(
+            isShowLogoutDialog = !_state.value.isShowLogoutDialog
+        )
+    }
+
+    fun updateWithdrawDialogState() = viewModelScope.launch {
+        _state.value = _state.value.copy(
+            isShowWithdrawDialog = !_state.value.isShowWithdrawDialog
+        )
     }
 }

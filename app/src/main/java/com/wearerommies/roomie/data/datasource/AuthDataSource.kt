@@ -15,4 +15,10 @@ class AuthDataSource @Inject constructor(
 
     suspend fun postTokenReissue(refreshToken: String): BaseResponse<ResponseReissueTokenDto> =
         authService.postTokenReissue(refreshToken = refreshToken)
+
+    suspend fun deleteLogout(refreshToken: String) =
+        authService.deleteLogout(refreshToken = refreshToken)
+
+    suspend fun deleteWithdraw(refreshToken: String) =
+        authService.deleteWithdraw(refreshToken = refreshToken)
 }

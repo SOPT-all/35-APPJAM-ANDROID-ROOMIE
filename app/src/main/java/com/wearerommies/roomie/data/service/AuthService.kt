@@ -5,6 +5,7 @@ import com.wearerommies.roomie.data.dto.response.BaseResponse
 import com.wearerommies.roomie.data.dto.response.ResponseReissueTokenDto
 import com.wearerommies.roomie.data.dto.response.ResponseTokenDto
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Header
 import retrofit2.http.POST
 
@@ -18,4 +19,14 @@ interface AuthService {
     suspend fun postTokenReissue(
         @Header("Authorization") refreshToken: String
     ): BaseResponse<ResponseReissueTokenDto>
+
+    @DELETE("/v1/auth/oauth/logout")
+    suspend fun deleteLogout(
+        @Header("Authorization") refreshToken: String
+    )
+
+    @DELETE("/v1/users/delete")
+    suspend fun deleteWithdraw(
+        @Header("Authorization") refreshToken: String
+    )
 }

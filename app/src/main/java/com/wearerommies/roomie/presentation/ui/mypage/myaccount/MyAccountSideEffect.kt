@@ -6,4 +6,5 @@ sealed class MyAccountSideEffect {
     data class NavigateToBirth(val birth: String) : MyAccountSideEffect()
     data class NavigateToGender(val gender: String) : MyAccountSideEffect()
     data class NavigateToContact(val contact: String) : MyAccountSideEffect()
+    data object NavigateToLogin : MyAccountSideEffect()
 }

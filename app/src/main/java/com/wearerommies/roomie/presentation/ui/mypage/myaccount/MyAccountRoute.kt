@@ -1,6 +1,5 @@
 package com.wearerommies.roomie.presentation.ui.mypage.myaccount
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,9 +29,12 @@ import androidx.lifecycle.flowWithLifecycle
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.AccountEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieButton
+import com.wearerommies.roomie.presentation.core.component.RoomieTwoButtonDialog
+import com.wearerommies.roomie.presentation.core.util.UserConstants.NO_DATA
 import com.wearerommies.roomie.presentation.core.util.formatGender
 import com.wearerommies.roomie.presentation.core.util.formatPhoneNumber
 import com.wearerommies.roomie.presentation.type.MyAccountType
+import com.wearerommies.roomie.presentation.type.TwoButtonDialogType
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyTopBar
 import com.wearerommies.roomie.presentation.ui.mypage.myaccount.component.MyAccountButton
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
@@ -47,6 +49,7 @@ fun MyAccountRoute(
     navigateToBirth: (String) -> Unit,
     navigateToGender: (String) -> Unit,
     navigateToContact: (String) -> Unit,
+    navigateToLogin: () -> Unit,
     viewModel: MyAccountViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -69,6 +72,7 @@ fun MyAccountRoute(
                     is MyAccountSideEffect.NavigateToContact -> navigateToContact(sideEffect.contact)
                     is MyAccountSideEffect.NavigateToGender -> navigateToGender(sideEffect.gender)
                     is MyAccountSideEffect.NavigateToName -> navigateToName(sideEffect.name)
+                    is MyAccountSideEffect.NavigateToLogin -> navigateToLogin()
                 }
             }
     }
@@ -77,15 +81,20 @@ fun MyAccountRoute(
         paddingValues = paddingValues,
         navigateUp = navigateUp,
         state = state.uiState,
+        isShowLogoutDialog = state.isShowLogoutDialog,
+        isShowWithdrawDialog = state.isShowWithdrawDialog,
         navigateToName = viewModel::navigateToName,
         navigateToNickname = viewModel::navigateToNickname,
         navigateToBirth = viewModel::navigateToBirth,
         navigateToGender = viewModel::navigateToGender,
         navigateToContact = viewModel::navigateToContact,
+        deleteLogout = viewModel::deleteLogout,
+        deleteWithdraw = viewModel::deleteWithdraw,
+        updateLogoutDialog = viewModel::updateLogoutDialogState,
+        updateWithdrawDialog = viewModel::updateWithdrawDialogState
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MyAccountScreen(
     paddingValues: PaddingValues,
@@ -95,7 +104,13 @@ fun MyAccountScreen(
     navigateToBirth: (String) -> Unit,
     navigateToGender: (String) -> Unit,
     navigateToContact: (String) -> Unit,
+    updateLogoutDialog: () -> Unit,
+    updateWithdrawDialog: () -> Unit,
+    deleteLogout: () -> Unit,
+    deleteWithdraw: () -> Unit,
     state: AccountEntity,
+    isShowLogoutDialog: Boolean,
+    isShowWithdrawDialog: Boolean,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -119,17 +134,17 @@ fun MyAccountScreen(
 
             MyAccountButton(
                 myAccountType = MyAccountType.NAME,
-                userInformation = state.name.orEmpty(),
+                userInformation = state.name ?: NO_DATA,
                 onClick = { navigateToName(state.name.orEmpty()) },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.NICKNAME,
-                userInformation = state.nickname.orEmpty(),
+                userInformation = state.nickname ?: NO_DATA,
                 onClick = { navigateToNickname(state.nickname.orEmpty()) },
             )
             MyAccountButton(
                 myAccountType = MyAccountType.BIRTH,
-                userInformation = state.birthDate.orEmpty(),
+                userInformation = state.birthDate ?: NO_DATA,
                 onClick = { navigateToBirth(state.birthDate.orEmpty()) },
             )
             MyAccountButton(
@@ -161,9 +176,7 @@ fun MyAccountScreen(
                 backgroundColor = RoomieTheme.colors.grayScale1,
                 textColor = RoomieTheme.colors.grayScale7,
                 textStyle = RoomieTheme.typography.body2Sb14,
-                onClick = {
-                    //todo: logout
-                },
+                onClick = updateLogoutDialog,
                 borderColor = RoomieTheme.colors.grayScale5,
                 borderWidth = 1.dp
             )
@@ -171,7 +184,7 @@ fun MyAccountScreen(
             Text(
                 modifier = Modifier
                     .clickable {
-                        //todo: withdraw
+                        updateWithdrawDialog()
                     }
                     .padding(horizontal = 4.dp),
                 text = stringResource(R.string.withdraw),
@@ -183,6 +196,24 @@ fun MyAccountScreen(
                 modifier = Modifier.height(30.dp)
             )
         }
+    }
+
+    if (isShowLogoutDialog) {
+        RoomieTwoButtonDialog(
+            twoButtonDialogType = TwoButtonDialogType.LOGOUT,
+            onDismissRequest = updateLogoutDialog,
+            onClickDismiss = updateLogoutDialog,
+            onClickConfirm = deleteLogout
+        )
+    }
+
+    if (isShowWithdrawDialog) {
+        RoomieTwoButtonDialog(
+            twoButtonDialogType = TwoButtonDialogType.WITHDRAW,
+            onDismissRequest = updateWithdrawDialog,
+            onClickDismiss = updateWithdrawDialog,
+            onClickConfirm = deleteWithdraw
+        )
     }
 }
 
@@ -206,6 +237,12 @@ fun MyAccountScreenPreview() {
             navigateToBirth = {},
             navigateToGender = {},
             navigateToContact = {},
+            deleteLogout = {},
+            deleteWithdraw = {},
+            isShowLogoutDialog = false,
+            isShowWithdrawDialog = false,
+            updateLogoutDialog = {},
+            updateWithdrawDialog = {},
         )
     }
 }
