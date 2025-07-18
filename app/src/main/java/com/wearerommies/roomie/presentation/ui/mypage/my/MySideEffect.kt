@@ -4,4 +4,7 @@ sealed class MySideEffect {
     data class ShowToast(val message: String) : MySideEffect()
     data object NavigateToBookMark: MySideEffect()
     data object NavigateToMyAccount: MySideEffect()
+    data class NavigateToWebView(
+        val webViewUrl: String
+    ) : MySideEffect()
 }

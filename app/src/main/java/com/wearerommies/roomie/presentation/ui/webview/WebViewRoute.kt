@@ -7,8 +7,13 @@ import com.wearerommies.roomie.presentation.core.component.RoomieWebView
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 
 object WebViewUrl {
-    const val GAME = "https://1401kms-70595.waveon.me/"
+    const val QUIZ = "https://smore.im/quiz/mDC9DH57g2"
     const val KAKAO = "https://pf.kakao.com/_WviTn"
+    const val SEARCH = "https://tally.so/r/3y8ygX"
+    const val FEEDBACK = "https://tally.so/r/megeRl"
+    const val SERVICE = "https://automatic-protocol-11a.notion.site/23336a29f06280a394ceea5f51b2d09b"
+    const val UPDATE = "https://automatic-protocol-11a.notion.site/23336a29f06280e4b956f3dc6bf963bc"
+    const val POLICY = "https://automatic-protocol-11a.notion.site/23336a29f06280d5a4f0c622c73a5121"
 }
 
 @Composable

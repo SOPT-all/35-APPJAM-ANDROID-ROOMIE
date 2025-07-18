@@ -1,6 +1,5 @@
 package com.wearerommies.roomie.presentation.ui.mypage.my
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +37,7 @@ import com.wearerommies.roomie.presentation.type.NavigateButtonType
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyButtonWithHelperText
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyProfileCard
 import com.wearerommies.roomie.presentation.ui.mypage.component.MyTitleBox
+import com.wearerommies.roomie.presentation.ui.webview.WebViewUrl
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
 
@@ -47,6 +47,7 @@ fun MyRoute(
     navigateUp: () -> Unit,
     navigateToMyAccount: () -> Unit,
     navigateToBookmark: () -> Unit,
+    navigateToWebView: (String) -> Unit,
     viewModel: MyViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -67,6 +68,7 @@ fun MyRoute(
                     is MySideEffect.ShowToast -> context.showToast(message = sideEffect.message)
                     is MySideEffect.NavigateToBookMark -> navigateToBookmark()
                     is MySideEffect.NavigateToMyAccount -> navigateToMyAccount()
+                    is MySideEffect.NavigateToWebView -> navigateToWebView(sideEffect.webViewUrl)
                 }
             }
     }
@@ -76,18 +78,19 @@ fun MyRoute(
         navigateUp = navigateUp,
         navigateToMyAccount = viewModel::navigateToMyAccount,
         navigateToBookmark = viewModel::navigateToBookmark,
+        navigateToWebView = viewModel::navigateToWebView,
         state = state.uiState
     )
 
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MyScreen(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
     navigateToMyAccount: () -> Unit,
     navigateToBookmark: () -> Unit,
+    navigateToWebView: (String) -> Unit,
     state: MyPageEntity,
     modifier: Modifier = Modifier
 ) {
@@ -148,18 +151,19 @@ fun MyScreen(
             MyButtonWithHelperText(
                 mainText = stringResource(R.string.find_sharehouses),
                 helperText = stringResource(R.string.request_new_room),
-                onClick = {}
+                onClick = { navigateToWebView(WebViewUrl.SEARCH) }
             )
 
             MyButtonWithHelperText(
                 mainText = stringResource(R.string.add_new_room),
                 helperText = stringResource(R.string.register_sharehouse_owner),
-                onClick = {}
+                onClick = { navigateToWebView(WebViewUrl.KAKAO) }
             )
 
             RoomieNavigateButton(
                 type = NavigateButtonType.MY,
-                text = stringResource(R.string.send_feedback)
+                text = stringResource(R.string.send_feedback),
+                onClick = { navigateToWebView(WebViewUrl.FEEDBACK) }
             )
 
             Spacer(
@@ -177,7 +181,8 @@ fun MyScreen(
             MyType.entries.forEach { type ->
                 RoomieNavigateButton(
                     type = NavigateButtonType.MY,
-                    text = stringResource(type.title)
+                    text = stringResource(type.title),
+                    onClick = { navigateToWebView(type.webViewUrl) }
                 )
             }
         }
@@ -193,6 +198,7 @@ fun MyScreenPreview() {
             navigateUp = {},
             navigateToMyAccount = {},
             navigateToBookmark = {},
+            navigateToWebView = {},
             state = MyPageEntity(
                 nickname = "루미",
                 socialType = "KAKAO"
