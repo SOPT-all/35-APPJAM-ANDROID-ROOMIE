@@ -7,7 +7,7 @@ import com.wearerommies.roomie.presentation.core.component.RoomieWebView
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 
 object WebViewUrl {
-    const val GAME = "https://1401kms-70595.waveon.me/"
+    const val QUIZ = "https://smore.im/quiz/mDC9DH57g2"
     const val KAKAO = "https://pf.kakao.com/_WviTn"
 }
 

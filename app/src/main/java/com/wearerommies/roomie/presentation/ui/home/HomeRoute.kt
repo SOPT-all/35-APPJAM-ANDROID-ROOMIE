@@ -327,7 +327,7 @@ fun HomeScreen(
                         text = stringResource(R.string.home_banner_message),
                         textStyle = RoomieTheme.typography.body3M14,
                         textColor = RoomieTheme.colors.grayScale10,
-                        onClick = { navigateToWebView(WebViewUrl.GAME) }
+                        onClick = { navigateToWebView(WebViewUrl.QUIZ) }
                     )
 
                     Spacer(
