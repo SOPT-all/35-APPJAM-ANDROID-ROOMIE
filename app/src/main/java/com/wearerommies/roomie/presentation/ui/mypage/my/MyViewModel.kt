@@ -54,4 +54,8 @@ class MyViewModel @Inject constructor(
             _sideEffect.emit(MySideEffect.NavigateToBookMark)
         }
     }
+
+    fun navigateToWebView(webViewUrl: String) = viewModelScope.launch {
+        _sideEffect.emit(MySideEffect.NavigateToWebView(webViewUrl = webViewUrl))
+    }
 }

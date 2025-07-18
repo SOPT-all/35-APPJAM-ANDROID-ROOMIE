@@ -80,7 +80,8 @@ fun RoomieNavHost(
         myNavGraph(
             paddingValues = padding,
             navigateToMyAccount = navigator::navigateToMyAccount,
-            navigateToBookmark = navigator::navigateToBookmark
+            navigateToBookmark = navigator::navigateToBookmark,
+            navigateToWebView = navigator::navigateToWebView
         )
         myAccountNavGraph(
             paddingValues = padding,
