@@ -22,10 +22,6 @@ sealed class DetailSideEffect {
         val roomName: String
     ) : DetailSideEffect()
 
-    data class NavigateToWebView(
-        val webViewUrl: String
-    ) : DetailSideEffect()
-
     data class SnackBar(@StringRes val message: Int) : DetailSideEffect()
     data object NavigateToChannel : DetailSideEffect()
 }

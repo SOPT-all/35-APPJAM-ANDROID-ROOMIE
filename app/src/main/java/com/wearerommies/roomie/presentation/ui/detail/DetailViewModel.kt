@@ -109,10 +109,6 @@ class DetailViewModel @Inject constructor(
         )
     }
 
-    fun navigateToWebView(webViewUrl: String) = viewModelScope.launch {
-        _sideEffect.emit(DetailSideEffect.NavigateToWebView(webViewUrl = webViewUrl))
-    }
-
     fun bookmarkHouse(houseId: Long) = viewModelScope.launch {
         houseRepository.bookmarkHouse(houseId = houseId)
             .onSuccess { response ->

@@ -88,7 +88,6 @@ fun DetailRoute(
     navigateDetailRoom: (Long, Long, String) -> Unit,
     navigateDetailHouse: (Long, String) -> Unit,
     navigateTourApply: (TourEntity, String, String) -> Unit,
-    navigateToWebView: (String) -> Unit,
     viewModel: DetailViewModel = hiltViewModel(),
 ) {
     val counter by remember { mutableIntStateOf(0) }
@@ -125,7 +124,6 @@ fun DetailRoute(
                     sideEffect.roomName
                 )
 
-                is DetailSideEffect.NavigateToWebView -> navigateToWebView(sideEffect.webViewUrl)
                 is DetailSideEffect.SnackBar -> {
                     snackBarHost.currentSnackbarData?.dismiss()
                     coroutineScope.launch {
@@ -157,7 +155,6 @@ fun DetailRoute(
         navigateDetailRoom = viewModel::navigateToDetail,
         navigateDetailHouse = viewModel::navigateToHouse,
         navigateTourApply = viewModel::navigateToTourApply,
-        navigateToWebView = viewModel::navigateToWebView,
         navigateToChannel = viewModel::navigateToChannel,
         state = state.uiState,
         isShowBottomSheet = state.isShowBottomSheet,
@@ -195,7 +192,6 @@ fun DetailScreen(
     navigateDetailRoom: (Long, Long, String) -> Unit,
     navigateDetailHouse: (Long, String) -> Unit,
     navigateTourApply: (Long, Long, String, String) -> Unit,
-    navigateToWebView: (String) -> Unit,
     navigateToChannel: () -> Unit,
     onLikeClick: (Long) -> Unit
 ) {
@@ -638,7 +634,6 @@ fun DetailScreenPreview() {
             updateSelecetedTourRoomId = {},
             selectedTourName = "",
             updateSelectedTourRoomName = {},
-            navigateToWebView = {},
             navigateToChannel = {},
             onLikeClick = {}
         )
