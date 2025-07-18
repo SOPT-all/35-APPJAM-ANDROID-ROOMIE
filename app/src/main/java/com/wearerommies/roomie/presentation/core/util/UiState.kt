@@ -7,6 +7,7 @@ sealed class UiState<out T> {
 }
 
 sealed class EmptyUiState<out T> {
+    data object Initial: EmptyUiState<Nothing>()
     data object Loading : EmptyUiState<Nothing>()
     data object Empty : EmptyUiState<Nothing>()
     data class Success<T>(val data: T) : EmptyUiState<T>()

@@ -2,7 +2,6 @@ package com.wearerommies.roomie.presentation.ui.home
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -68,6 +67,7 @@ import com.wearerommies.roomie.presentation.core.util.convertDpToFloat
 import com.wearerommies.roomie.presentation.type.HomeMoodCardType
 import com.wearerommies.roomie.presentation.type.NavigateButtonType
 import com.wearerommies.roomie.presentation.ui.home.component.HomeMoodCard
+import com.wearerommies.roomie.presentation.ui.home.component.LocationBottomSheet
 import com.wearerommies.roomie.presentation.ui.webview.WebViewUrl
 import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 import com.wearerommies.roomie.ui.theme.RoomieTheme
@@ -94,6 +94,7 @@ fun HomeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackBarHost = remember { SnackbarHostState() }
+    val bottomSheetSnackBarHost = remember { SnackbarHostState() }
     val counter by remember { mutableIntStateOf(0) }
 
     val currentCounter by rememberUpdatedState(counter)
@@ -127,6 +128,16 @@ fun HomeRoute(
                         }
                     }
 
+                    is HomeSideEffect.BottomSheetSnackBar -> {
+                        bottomSheetSnackBarHost.currentSnackbarData?.dismiss()
+                        coroutineScope.launch {
+                            bottomSheetSnackBarHost.showSnackbar(
+                                message = context.getString(sideEffect.message),
+                                duration = SnackbarDuration.Short
+                            )
+                        }
+                    }
+
                     is HomeSideEffect.NavigateToBookMark -> navigateToBookmark()
                     is HomeSideEffect.NavigateToMood -> navigateToMood(sideEffect.moodTag)
                     is HomeSideEffect.NavigateToMap -> navigateToMap()
@@ -139,6 +150,8 @@ fun HomeRoute(
     HomeScreen(
         paddingValues = paddingValues,
         snackBarHost = snackBarHost,
+        bottomSheetSnackBarHost = bottomSheetSnackBarHost,
+        isShowBottomSheet = state.isShowBottomSheet,
         navigateUp = navigateUp,
         navigateToBookmark = viewModel::navigateToBookmark,
         navigateToMood = viewModel::navigateToMood,
@@ -146,15 +159,21 @@ fun HomeRoute(
         navigateToDetail = viewModel::navigateToDetail,
         navigateToWebView = viewModel::navigateToWebView,
         onLikeClick = viewModel::bookmarkHouse,
-        state = state.uiState
+        updateBottomSheetState = viewModel::updateBottomSheetState,
+        setSearchKeyWord = viewModel::setSearchKeyword,
+        fetchSearchResult = viewModel::fetchSearchResult,
+        applyUserLocation = viewModel::applyUserLocation,
+        state = state.uiState,
+        bottomSheetState = state.bottomSheetState
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     paddingValues: PaddingValues,
     snackBarHost: SnackbarHostState,
+    bottomSheetSnackBarHost: SnackbarHostState,
+    isShowBottomSheet: Boolean,
     navigateUp: () -> Unit,
     navigateToBookmark: () -> Unit,
     navigateToMood: (String) -> Unit,
@@ -162,7 +181,12 @@ fun HomeScreen(
     navigateToDetail: (Long) -> Unit,
     navigateToWebView: (String) -> Unit,
     onLikeClick: (Long) -> Unit,
+    updateBottomSheetState: () -> Unit,
+    setSearchKeyWord: (String) -> Unit,
+    fetchSearchResult: (String) -> Unit,
+    applyUserLocation: (Float, Float, String) -> Unit,
     state: HomeDataEntity,
+    bottomSheetState: LocationBottomSheetState,
     modifier: Modifier = Modifier
 ) {
     val scrollState = rememberLazyListState()
@@ -196,8 +220,8 @@ fun HomeScreen(
         state = scrollState,
         modifier = modifier
             .fillMaxSize()
-            .background(color = RoomieTheme.colors.primaryLight4)
-            .padding(bottom = paddingValues.calculateBottomPadding()),
+            .padding(bottom = paddingValues.calculateBottomPadding())
+            .background(color = RoomieTheme.colors.primaryLight4),
     ) {
         stickyHeader {
             RoomieTopBar(
@@ -213,7 +237,10 @@ fun HomeScreen(
                 leadingIcon = {
                     Row(
                         modifier = Modifier
-                            .padding(all = 8.dp),
+                            .padding(all = 8.dp)
+                            .noRippleClickable {
+                                updateBottomSheetState()
+                            },
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -379,6 +406,19 @@ fun HomeScreen(
                 )
             }
         }
+    }
+
+    if (isShowBottomSheet) {
+        LocationBottomSheet(
+            state = bottomSheetState.searchResults,
+            location = state.location,
+            searchKeyword = bottomSheetState.searchKeyword,
+            snackBarHost = bottomSheetSnackBarHost,
+            setSearchKeyword = setSearchKeyWord,
+            fetchResult = fetchSearchResult,
+            applyUserLocation = applyUserLocation,
+            onDismissRequest = updateBottomSheetState
+        )
     }
 }
 
@@ -562,6 +602,7 @@ fun HomeScreenPreview() {
         HomeScreen(
             paddingValues = PaddingValues(),
             snackBarHost = remember { SnackbarHostState() },
+            isShowBottomSheet = false,
             navigateUp = {},
             navigateToBookmark = {},
             navigateToMood = {},
@@ -569,6 +610,7 @@ fun HomeScreenPreview() {
             navigateToDetail = {},
             navigateToWebView = {},
             onLikeClick = {},
+            updateBottomSheetState = {},
             state = HomeDataEntity(
                 nickname = "닉넴",
                 location = "연남동",
@@ -585,9 +627,14 @@ fun HomeScreenPreview() {
                         moodTag = "#차분한",
                         contractTerm = 6,
                         mainImgUrl = "https://i.pinimg.com/236x/12/95/67/1295676da767fa8171baf8a307b5786c.jpg"
-                    ),
+                    )
                 )
-            )
+            ),
+            bottomSheetState = LocationBottomSheetState(),
+            fetchSearchResult = {},
+            setSearchKeyWord = {},
+            applyUserLocation = { _, _, _ -> },
+            bottomSheetSnackBarHost = SnackbarHostState()
         )
     }
 }

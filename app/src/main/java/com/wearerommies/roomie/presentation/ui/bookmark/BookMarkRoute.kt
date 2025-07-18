@@ -272,6 +272,8 @@ fun BookMarkScreen(
                 }
 
             }
+
+            EmptyUiState.Initial -> {}
         }
     }
 }

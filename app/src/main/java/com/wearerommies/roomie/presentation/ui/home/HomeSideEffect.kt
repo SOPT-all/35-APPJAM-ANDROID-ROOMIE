@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 
 sealed class HomeSideEffect {
     data class SnackBar(@StringRes val message: Int) : HomeSideEffect()
+    data class BottomSheetSnackBar(@StringRes val message: Int) : HomeSideEffect()
     data object NavigateToBookMark : HomeSideEffect()
     data class NavigateToMood(
         val moodTag: String

@@ -169,6 +169,8 @@ fun SearchScreen(
                     }
                 }
             }
+
+            EmptyUiState.Initial -> {}
         }
     }
 }
