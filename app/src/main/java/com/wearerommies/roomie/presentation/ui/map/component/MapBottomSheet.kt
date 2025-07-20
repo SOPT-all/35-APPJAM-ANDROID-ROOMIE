@@ -47,7 +47,7 @@ import kotlinx.collections.immutable.persistentListOf
 fun MapBottomSheet(
     onLikeClick: (Long) -> Unit,
     navigateToDetail: (Long) -> Unit,
-    houseList: PersistentList<FilterResultEntity>,
+    houseList: PersistentList<FilterResultEntity.HouseEntity>,
     isFullSelected: Boolean,
     updateIsFull: () -> Unit,
     modifier: Modifier = Modifier
@@ -163,7 +163,7 @@ fun MapBottomSheetPreview() {
             onLikeClick = {},
             navigateToDetail = {},
             houseList = persistentListOf(
-                FilterResultEntity(
+                FilterResultEntity.HouseEntity(
                     houseId = 1,
                     monthlyRent = "30~50",
                     deposit = "200~300",
