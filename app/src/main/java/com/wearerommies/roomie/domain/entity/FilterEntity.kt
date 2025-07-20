@@ -4,14 +4,16 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FilterEntity(
-    val location: String = "서울특별시 마포구 노고산동",
+    val location: String? = null,
     val moodTag: String? = null,
     val depositRange: DepositRange = DepositRange(),
     val monthlyRentRange: MonthlyRentRange = MonthlyRentRange(),
     val genderPolicy: List<String> = listOf(),
     val preferredDate: String? = null,
     val occupancyTypes: List<String> = listOf(),
-    val contractPeriod: List<Int> = listOf()
+    val contractPeriod: List<Int> = listOf(),
+    val latitude: Float? = null,
+    val longitude: Float? = null
 ) {
     @Serializable
     data class DepositRange(

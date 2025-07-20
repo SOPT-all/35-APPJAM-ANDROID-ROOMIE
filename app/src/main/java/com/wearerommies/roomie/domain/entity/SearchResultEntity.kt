@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SearchResultEntity(
-    val longitude: Float = 126.9377f,
-    val latitude: Float = 37.55438f,
+    val longitude: Float = -1F,
+    val latitude: Float = -1F,
     val location: String = "",
     val address: String = "",
     val roadAddress: String = ""
