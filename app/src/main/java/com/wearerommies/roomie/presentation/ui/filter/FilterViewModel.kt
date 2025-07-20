@@ -110,7 +110,7 @@ class FilterViewModel @Inject constructor(
 
     fun resetAll() {
         _state.value = _state.value.copy(
-            location = "서울특별시 마포구 노고산동",
+            location = "",
             moodTag = null,
             depositStart = "",
             depositEnd = "",

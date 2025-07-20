@@ -5,7 +5,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 data class FilterState(
     val isDateModalOpened: Boolean = false,
-    val location: String = "서울특별시 마포구 노고산동",
+    val location: String = "",
     val moodTag: String? = null,
     val depositStart: String = "",
     val depositEnd: String = "",
