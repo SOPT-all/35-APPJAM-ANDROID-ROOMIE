@@ -16,7 +16,7 @@ internal class MapRepositoryImpl @Inject constructor(
             mapDataSource.getSearchResult(query = query).data.toEntity()
         }
 
-    override suspend fun getFilterResult(filter: FilterEntity): Result<List<FilterResultEntity>> =
+    override suspend fun getFilterResult(filter: FilterEntity): Result<FilterResultEntity> =
         runCatching {
             mapDataSource.getFilterResult(filter = filter.toDto()).data.toEntity()
         }
