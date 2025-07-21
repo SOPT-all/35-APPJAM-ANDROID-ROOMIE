@@ -31,7 +31,10 @@ sealed interface Route {
     data object Bookmark : Route
 
     @Serializable
-    data object Filter : Route
+    data class Filter(
+        val filter: FilterEntity,
+        val result: SearchResultEntity
+    ) : Route
 
     @Serializable
     data class Detail(

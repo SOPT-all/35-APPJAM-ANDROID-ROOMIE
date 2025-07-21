@@ -28,7 +28,7 @@ fun NavController.navigateToMap(
 fun NavGraphBuilder.mapNavGraph(
     paddingValues: PaddingValues,
     navigateToSearch: () -> Unit,
-    navigateToFilter: () -> Unit,
+    navigateToFilter: (FilterEntity, SearchResultEntity) -> Unit,
     navigateToDetail: (Long) -> Unit
 ) {
     composable<MainTabRoute.Map>(

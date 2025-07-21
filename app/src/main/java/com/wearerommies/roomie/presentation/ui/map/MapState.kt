@@ -2,6 +2,7 @@ package com.wearerommies.roomie.presentation.ui.map
 
 import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.FilterResultEntity
+import com.wearerommies.roomie.domain.entity.SearchResultEntity
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -28,5 +29,6 @@ data class MapState(
         mainImgUrl = "",
         excludeFull = false
     ),
-    val clickedMarkerId: Long? = null
+    val clickedMarkerId: Long? = null,
+    val searchResult: SearchResultEntity = SearchResultEntity()
 )

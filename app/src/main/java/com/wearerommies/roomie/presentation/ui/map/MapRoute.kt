@@ -58,7 +58,7 @@ import kotlinx.coroutines.launch
 fun MapRoute(
     paddingValues: PaddingValues,
     navigateToSearch: () -> Unit,
-    navigateToFilter: () -> Unit,
+    navigateToFilter: (FilterEntity, SearchResultEntity) -> Unit,
     navigateToDetail: (Long) -> Unit,
     filterEntity: FilterEntity,
     searchResultEntity: SearchResultEntity,
@@ -97,14 +97,17 @@ fun MapRoute(
                     }
 
                     is MapSideEffect.NavigateToDetail -> navigateToDetail(sideEffect.houseId)
+                    is MapSideEffect.NavigateToFilter -> navigateToFilter(sideEffect.filter, sideEffect.searchResult)
+                    MapSideEffect.NavigateToSearch -> navigateToSearch()
                 }
             }
     }
 
     MapScreen(
         paddingValues = paddingValues,
-        navigateToSearch = navigateToSearch,
-        navigateToFilter = navigateToFilter,
+
+        navigateToSearch = viewModel::navigateToSearch,
+        navigateToFilter = viewModel::navigateToFilter,
         navigateToDetail = viewModel::navigateToDetail,
         snackBarHost = snackBarHost,
         isBottomSheetOpened = state.isBottomSheetOpened,

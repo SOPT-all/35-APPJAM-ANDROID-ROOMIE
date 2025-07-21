@@ -50,6 +50,8 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun FilterRoute(
     paddingValues: PaddingValues,
+    filterEntity: FilterEntity,
+    searchResultEntity: SearchResultEntity,
     navigateUp: () -> Unit,
     navigateToMap: (FilterEntity, SearchResultEntity) -> Unit,
     viewModel: FilterViewModel = hiltViewModel()
@@ -57,6 +59,10 @@ fun FilterRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(searchResultEntity){
+        viewModel.fetchSearchAndFilter(filterEntity, searchResultEntity)
+    }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)

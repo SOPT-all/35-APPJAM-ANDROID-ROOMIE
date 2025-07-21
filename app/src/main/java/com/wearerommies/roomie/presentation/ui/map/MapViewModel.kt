@@ -53,6 +53,13 @@ class MapViewModel @Inject constructor(
                 location = searchResult.address.ifEmpty { filter.location },
                 latitude = searchResult.latitude,
                 longitude = searchResult.longitude
+            ),
+            searchResult = _state.value.searchResult.copy(
+                location = searchResult.location,
+                address = searchResult.address,
+                roadAddress = searchResult.roadAddress,
+                latitude = searchResult.latitude,
+                longitude = searchResult.longitude
             )
         )
     }
@@ -112,6 +119,21 @@ class MapViewModel @Inject constructor(
         _sideEffect.emit(
             MapSideEffect.NavigateToDetail(
                 houseId = houseId
+            )
+        )
+    }
+
+    fun navigateToSearch() = viewModelScope.launch {
+        _sideEffect.emit(
+            MapSideEffect.NavigateToSearch
+        )
+    }
+
+    fun navigateToFilter() = viewModelScope.launch {
+        _sideEffect.emit(
+            MapSideEffect.NavigateToFilter(
+                searchResult = _state.value.searchResult,
+                filter = _state.value.filter
             )
         )
     }

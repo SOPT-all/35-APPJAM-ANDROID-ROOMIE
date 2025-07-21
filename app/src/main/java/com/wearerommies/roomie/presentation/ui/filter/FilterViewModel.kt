@@ -30,6 +30,16 @@ class FilterViewModel @Inject constructor(
     val sideEffect: SharedFlow<FilterSideEffect>
         get() = _sideEffect.asSharedFlow()
 
+    fun fetchSearchAndFilter(
+        filterEntity: FilterEntity,
+        searchResultEntity: SearchResultEntity
+    ) {
+        _state.value = _state.value.copy(
+            filterEntity = filterEntity,
+            searchResultEntity = searchResultEntity
+        )
+    }
+
     fun setDateModalVisible() {
         _state.value = _state.value.copy(
             isDateModalOpened = !_state.value.isDateModalOpened
@@ -142,7 +152,7 @@ class FilterViewModel @Inject constructor(
                     occupancyTypes = _state.value.occupancyType,
                     contractPeriod = _state.value.contractType
                 ),
-                searchResult = SearchResultEntity()
+                searchResult = _state.value.searchResultEntity ?: SearchResultEntity()
             )
         )
     }
