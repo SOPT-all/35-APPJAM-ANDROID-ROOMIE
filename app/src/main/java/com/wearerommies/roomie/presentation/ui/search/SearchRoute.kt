@@ -91,7 +91,7 @@ fun SearchScreen(
     searchKeyword: String,
     setSearchKeyword: (String) -> Unit,
     fetchResult: (String) -> Unit,
-    applySearchResult: (String, String, String, Float, Float) -> Unit,
+    applySearchResult: (String, String, String, Float?, Float?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(

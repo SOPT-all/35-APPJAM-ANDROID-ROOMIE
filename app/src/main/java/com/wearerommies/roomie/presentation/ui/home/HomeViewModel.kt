@@ -163,8 +163,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun applyUserLocation(
-        latitude: Float,
-        longitude: Float,
+        latitude: Float?,
+        longitude: Float?,
         location: String,
     ) = viewModelScope.launch {
         userRepository.editUserLocation(

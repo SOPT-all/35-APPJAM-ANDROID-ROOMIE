@@ -62,7 +62,7 @@ fun LocationBottomSheet(
     snackBarHost: SnackbarHostState,
     setSearchKeyword: (String) -> Unit,
     fetchResult: (String) -> Unit,
-    applyUserLocation: (Float, Float, String) -> Unit,
+    applyUserLocation: (Float?, Float?, String) -> Unit,
     onDismissRequest: () -> Unit,
     modifier : Modifier = Modifier
 ) {

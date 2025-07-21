@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RequestLocationDto(
     @SerialName("latitude")
-    val latitude: Float,
+    val latitude: Float?,
     @SerialName("longitude")
-    val longitude: Float,
+    val longitude: Float?,
     @SerialName("location")
     val location: String
 )

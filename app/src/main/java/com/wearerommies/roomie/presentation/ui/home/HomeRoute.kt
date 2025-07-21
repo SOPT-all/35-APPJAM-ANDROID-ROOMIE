@@ -184,7 +184,7 @@ fun HomeScreen(
     updateBottomSheetState: () -> Unit,
     setSearchKeyWord: (String) -> Unit,
     fetchSearchResult: (String) -> Unit,
-    applyUserLocation: (Float, Float, String) -> Unit,
+    applyUserLocation: (Float?, Float?, String) -> Unit,
     state: HomeDataEntity,
     bottomSheetState: LocationBottomSheetState,
     modifier: Modifier = Modifier
