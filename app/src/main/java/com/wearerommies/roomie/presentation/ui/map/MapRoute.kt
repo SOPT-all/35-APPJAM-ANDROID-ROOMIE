@@ -1,5 +1,6 @@
 package com.wearerommies.roomie.presentation.ui.map
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +32,7 @@ import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.compose.CircleOverlay
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.Marker
@@ -70,7 +72,7 @@ fun MapRoute(
     val initial by remember { mutableIntStateOf(0) }
     val initialKey by rememberUpdatedState(initial)
 
-    LaunchedEffect(initialKey) {
+    LaunchedEffect(searchResultEntity, filterEntity) {
         viewModel.fetchInitialLocation(searchResultEntity.longitude, searchResultEntity.latitude)
         viewModel.fetchFilterAndSearch(filterEntity, searchResultEntity)
         viewModel.fetchHouseList()
@@ -106,8 +108,8 @@ fun MapRoute(
         navigateToDetail = viewModel::navigateToDetail,
         snackBarHost = snackBarHost,
         isBottomSheetOpened = state.isBottomSheetOpened,
-        latitude = searchResultEntity.latitude,
-        longitude = searchResultEntity.longitude,
+        latitude = state.latitude ?: searchResultEntity.latitude,
+        longitude = state.longitude ?: searchResultEntity.longitude,
         searchKeyword = searchResultEntity.location,
         houseList = state.houseList,
         onMarkerClicked = viewModel::showMarkerDetail,
@@ -130,12 +132,12 @@ fun MapScreen(
     navigateToDetail: (Long) -> Unit,
     snackBarHost: SnackbarHostState,
     isBottomSheetOpened: Boolean,
-    latitude: Float,
-    longitude: Float,
+    latitude: Float?,
+    longitude: Float?,
     searchKeyword: String,
-    houseList: PersistentList<FilterResultEntity>,
+    houseList: PersistentList<FilterResultEntity.HouseEntity>,
     onMarkerClicked: (Long) -> Unit,
-    markerDetail: FilterResultEntity,
+    markerDetail: FilterResultEntity.HouseEntity,
     clickedMarkerId: Long?,
     bookMarkHouse: (Long) -> Unit,
     resetClickedMarker: () -> Unit,
@@ -144,7 +146,10 @@ fun MapScreen(
     updateIsFull: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val initialCameraPosition = LatLng(latitude.toDouble(), longitude.toDouble()) // 초기 위치 임시 고정
+
+    if (latitude == null || longitude == null) return
+
+    val initialCameraPosition = LatLng(latitude.toDouble(), longitude.toDouble())
     val initialZoomLevel = 12.0
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition(initialCameraPosition, initialZoomLevel)
@@ -173,15 +178,23 @@ fun MapScreen(
             .padding(bottom = paddingValues.calculateBottomPadding())
     ) {
         // TODO: 기획-디자인과 카메라 범위 자동 조정 -> 현재는 모든 마커가 나타나도록 조정되어 있음
-        LaunchedEffect(houseList) {
-            if (houseList.isNotEmpty() && cameraPositionState.position.target == initialCameraPosition) {
+        LaunchedEffect(latitude, longitude, houseList) {
+            if (houseList.isNotEmpty()) {
                 val bounds = LatLngBounds.Builder()
+                    .include(LatLng(latitude.toDouble(), longitude.toDouble()))
+
                 houseList.forEach { marker ->
                     bounds.include(LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()))
                 }
 
                 cameraPositionState.move(
-                    CameraUpdate.scrollAndZoomTo(initialCameraPosition, initialZoomLevel)
+                    CameraUpdate.fitBounds(bounds.build(), 150)
+                        .animate(CameraAnimation.Fly)
+                )
+            } else {
+                cameraPositionState.move(
+                    CameraUpdate.scrollTo(LatLng(latitude.toDouble(), longitude.toDouble()))
+                        .animate(CameraAnimation.Easing)
                 )
             }
         }
@@ -192,12 +205,27 @@ fun MapScreen(
             onMapClick = { _, _ ->
                 resetClickedMarker()
                 setBottomSheetState(true)
-                cameraPositionState.move(
-                    CameraUpdate.scrollAndZoomTo(initialCameraPosition, initialZoomLevel)
-                        .animate(CameraAnimation.Fly)
-                )
+                if (houseList.isNotEmpty()) {
+                    val bounds = LatLngBounds.Builder()
+                        .include(LatLng(latitude.toDouble(), longitude.toDouble()))
+
+                    houseList.forEach { marker ->
+                        bounds.include(LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()))
+                    }
+
+                    cameraPositionState.move(
+                        CameraUpdate.fitBounds(bounds.build(), 150)
+                            .animate(CameraAnimation.Fly)
+                    )
+                } else {
+                    cameraPositionState.move(
+                        CameraUpdate.scrollTo(LatLng(latitude.toDouble(), longitude.toDouble()))
+                            .animate(CameraAnimation.Easing)
+                    )
+                }
             }
         ) {
+
             houseList.forEach { marker ->
                 Marker(
                     state = MarkerState(
@@ -286,7 +314,7 @@ fun MapScreenPreview() {
             searchKeyword = "",
             houseList = persistentListOf(),
             onMarkerClicked = {},
-            markerDetail = FilterResultEntity(
+            markerDetail = FilterResultEntity.HouseEntity(
                 houseId = 1,
                 monthlyRent = "30~50",
                 deposit = "200~300",

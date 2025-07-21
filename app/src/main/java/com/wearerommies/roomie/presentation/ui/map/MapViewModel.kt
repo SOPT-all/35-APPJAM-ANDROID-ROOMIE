@@ -33,7 +33,7 @@ class MapViewModel @Inject constructor(
     val sideEffect: SharedFlow<MapSideEffect>
         get() = _sideEffect.asSharedFlow()
 
-    fun fetchInitialLocation(longitude: Float, latitude: Float) {
+    fun fetchInitialLocation(longitude: Float?, latitude: Float?) {
         _state.value = _state.value.copy(
             latitude = latitude,
             longitude = longitude
@@ -50,7 +50,9 @@ class MapViewModel @Inject constructor(
                 preferredDate = filter.preferredDate,
                 occupancyTypes = filter.occupancyTypes,
                 contractPeriod = filter.contractPeriod,
-                location = searchResult.address.ifEmpty { filter.location }
+                location = searchResult.address.ifEmpty { filter.location },
+                latitude = searchResult.latitude,
+                longitude = searchResult.longitude
             )
         )
     }
@@ -65,12 +67,14 @@ class MapViewModel @Inject constructor(
         mapRepository.getFilterResult(_state.value.filter)
             .onSuccess { resultList ->
                 _state.value = _state.value.copy(
+                    latitude = resultList.latitude,
+                    longitude = resultList.longitude,
                     houseList =
                     if (_state.value.isFullSelected)
-                        resultList.filter { it.excludeFull }.toPersistentList()
+                        resultList.house.filter { it.excludeFull }.toPersistentList()
                     else
-                        resultList.map {
-                            FilterResultEntity(
+                        resultList.house.map {
+                            FilterResultEntity.HouseEntity(
                                 houseId = it.houseId,
                                 latitude = it.latitude,
                                 longitude = it.longitude,
