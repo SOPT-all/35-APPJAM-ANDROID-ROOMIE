@@ -1,5 +1,6 @@
 package com.wearerommies.roomie.presentation.ui.filter
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wearerommies.roomie.domain.entity.FilterEntity
@@ -45,7 +46,7 @@ class FilterViewModel @Inject constructor(
             preferredDate = filter.preferredDate.orEmpty(),
             occupancyType = filter.occupancyTypes.toPersistentList(),
             contractType = filter.contractPeriod.toPersistentList(),
-            moodType = filter.moodTag?.let { tag -> persistentListOf(tag) } ?: persistentListOf()
+            moodType = filter.moodTag.toPersistentList()
         )
     }
 
@@ -130,7 +131,6 @@ class FilterViewModel @Inject constructor(
     fun resetAll() {
         _state.value = _state.value.copy(
             location = "",
-            moodTag = null,
             depositStart = "",
             depositEnd = "",
             monthlyRentStart = "",
@@ -138,7 +138,8 @@ class FilterViewModel @Inject constructor(
             genderPolicy = persistentListOf(),
             preferredDate = "",
             occupancyType = persistentListOf(),
-            contractType = persistentListOf()
+            contractType = persistentListOf(),
+            moodType = persistentListOf()
         )
     }
 
@@ -147,7 +148,7 @@ class FilterViewModel @Inject constructor(
             FilterSideEffect.navigateToMap(
                 filter = FilterEntity(
                     location = _state.value.location,
-                    moodTag = _state.value.moodTag,
+                    moodTag = _state.value.moodType,
                     depositRange = FilterEntity.DepositRange(
                         min = _state.value.depositStart.toIntOrNull() ?: 0,
                         max = _state.value.depositEnd.toIntOrNull() ?: 500
@@ -161,7 +162,7 @@ class FilterViewModel @Inject constructor(
                     occupancyTypes = _state.value.occupancyType,
                     contractPeriod = _state.value.contractType
                 ),
-                searchResult = _state.value.searchResultEntity ?: SearchResultEntity()
+                searchResult = _state.value.searchResultEntity
             )
         )
     }

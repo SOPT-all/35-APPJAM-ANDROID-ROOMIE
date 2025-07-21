@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class FilterEntity(
     val location: String? = null,
-    val moodTag: String? = null,
+    val moodTag: List<String> = listOf(),
     val depositRange: DepositRange = DepositRange(),
     val monthlyRentRange: MonthlyRentRange = MonthlyRentRange(),
     val genderPolicy: List<String> = listOf(),

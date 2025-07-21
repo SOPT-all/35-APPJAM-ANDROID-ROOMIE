@@ -8,7 +8,6 @@ import kotlinx.collections.immutable.persistentListOf
 data class FilterState(
     val isDateModalOpened: Boolean = false,
     val location: String = "",
-    val moodTag: String? = null,
     val depositStart: String = "",
     val depositEnd: String = "",
     val monthlyRentStart: String = "",

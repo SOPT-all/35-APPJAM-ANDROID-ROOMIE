@@ -19,7 +19,7 @@ data class RequestFilterDto(
     @SerialName("monthlyRentRange")
     val monthlyRentRange: MonthlyRentRange,
     @SerialName("moodTag")
-    val moodTag: String?,
+    val moodTag: List<String>?,
     @SerialName("occupancyTypes")
     val occupancyTypes: List<String>,
     @SerialName("preferredDate")
