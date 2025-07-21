@@ -27,7 +27,7 @@ fun NavController.navigateToMap(
 
 fun NavGraphBuilder.mapNavGraph(
     paddingValues: PaddingValues,
-    navigateToSearch: () -> Unit,
+    navigateToSearch: (FilterEntity) -> Unit,
     navigateToFilter: (FilterEntity, SearchResultEntity) -> Unit,
     navigateToDetail: (Long) -> Unit
 ) {

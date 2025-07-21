@@ -125,7 +125,9 @@ class MapViewModel @Inject constructor(
 
     fun navigateToSearch() = viewModelScope.launch {
         _sideEffect.emit(
-            MapSideEffect.NavigateToSearch
+            MapSideEffect.NavigateToSearch(
+                filter = _state.value.filter
+            )
         )
     }
 

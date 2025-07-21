@@ -20,7 +20,9 @@ sealed interface Route {
     data object Onboarding : Route
 
     @Serializable
-    data object Search : Route
+    data class Search(
+        val filter: FilterEntity
+    ) : Route
 
     @Serializable
     data class Mood(
@@ -33,7 +35,7 @@ sealed interface Route {
     @Serializable
     data class Filter(
         val filter: FilterEntity,
-        val result: SearchResultEntity
+        val searchResult: SearchResultEntity
     ) : Route
 
     @Serializable

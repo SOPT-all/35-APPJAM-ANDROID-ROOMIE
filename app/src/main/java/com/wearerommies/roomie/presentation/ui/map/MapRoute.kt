@@ -57,7 +57,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MapRoute(
     paddingValues: PaddingValues,
-    navigateToSearch: () -> Unit,
+    navigateToSearch: (FilterEntity) -> Unit,
     navigateToFilter: (FilterEntity, SearchResultEntity) -> Unit,
     navigateToDetail: (Long) -> Unit,
     filterEntity: FilterEntity,
@@ -98,14 +98,13 @@ fun MapRoute(
 
                     is MapSideEffect.NavigateToDetail -> navigateToDetail(sideEffect.houseId)
                     is MapSideEffect.NavigateToFilter -> navigateToFilter(sideEffect.filter, sideEffect.searchResult)
-                    MapSideEffect.NavigateToSearch -> navigateToSearch()
+                    is MapSideEffect.NavigateToSearch -> navigateToSearch(sideEffect.filter)
                 }
             }
     }
 
     MapScreen(
         paddingValues = paddingValues,
-
         navigateToSearch = viewModel::navigateToSearch,
         navigateToFilter = viewModel::navigateToFilter,
         navigateToDetail = viewModel::navigateToDetail,

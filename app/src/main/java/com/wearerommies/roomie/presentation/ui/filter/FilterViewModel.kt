@@ -31,7 +31,7 @@ class FilterViewModel @Inject constructor(
     val sideEffect: SharedFlow<FilterSideEffect>
         get() = _sideEffect.asSharedFlow()
 
-    fun fetchSearchAndFilter(
+    fun initSearchAndFilter(
         filter: FilterEntity,
         searchResult: SearchResultEntity
     ) {

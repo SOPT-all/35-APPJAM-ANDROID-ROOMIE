@@ -18,5 +18,5 @@ data class FilterState(
     val occupancyType: PersistentList<String> = persistentListOf(),
     val moodType: PersistentList<String> = persistentListOf(),
     val contractType: PersistentList<Int> = persistentListOf(),
-    val searchResultEntity: SearchResultEntity? = null
+    val searchResultEntity: SearchResultEntity = SearchResultEntity()
 )

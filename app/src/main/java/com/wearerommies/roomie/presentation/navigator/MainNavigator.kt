@@ -120,8 +120,10 @@ class MainNavigator(
             })
     }
 
-    fun navigateToSearch() {
-        navController.navigateToSearch()
+    fun navigateToSearch(filter: FilterEntity) {
+        navController.navigateToSearch(
+            filter = filter
+        )
     }
 
     fun navigateToMood(moodTag: String) {
