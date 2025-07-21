@@ -50,7 +50,7 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun FilterRoute(
     paddingValues: PaddingValues,
-    filterEntity: FilterEntity,
+    filter: FilterEntity,
     searchResultEntity: SearchResultEntity,
     navigateUp: () -> Unit,
     navigateToMap: (FilterEntity, SearchResultEntity) -> Unit,
@@ -61,7 +61,7 @@ fun FilterRoute(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(searchResultEntity){
-        viewModel.fetchSearchAndFilter(filterEntity, searchResultEntity)
+        viewModel.fetchSearchAndFilter(filter, searchResultEntity)
     }
 
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {

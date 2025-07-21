@@ -40,7 +40,7 @@ fun NavGraphBuilder.filterNavGraph(
             paddingValues = paddingValues,
             navigateUp = navigateUp,
             navigateToMap = navigateToMap,
-            filterEntity = backStackEntry.toRoute<Route.Filter>().filter,
+            filter = backStackEntry.toRoute<Route.Filter>().filter,
             searchResultEntity = backStackEntry.toRoute<Route.Filter>().result
         )
     }

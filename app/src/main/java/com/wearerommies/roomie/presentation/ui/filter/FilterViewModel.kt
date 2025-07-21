@@ -9,6 +9,7 @@ import com.wearerommies.roomie.presentation.core.util.toFormattedString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -31,12 +32,20 @@ class FilterViewModel @Inject constructor(
         get() = _sideEffect.asSharedFlow()
 
     fun fetchSearchAndFilter(
-        filterEntity: FilterEntity,
-        searchResultEntity: SearchResultEntity
+        filter: FilterEntity,
+        searchResult: SearchResultEntity
     ) {
         _state.value = _state.value.copy(
-            filterEntity = filterEntity,
-            searchResultEntity = searchResultEntity
+            searchResultEntity = searchResult,
+            depositStart = filter.depositRange.min.toString(),
+            depositEnd = filter.depositRange.max.toString(),
+            monthlyRentStart = filter.monthlyRentRange.min.toString(),
+            monthlyRentEnd = filter.monthlyRentRange.max.toString(),
+            genderPolicy = filter.genderPolicy.toPersistentList(),
+            preferredDate = filter.preferredDate.orEmpty(),
+            occupancyType = filter.occupancyTypes.toPersistentList(),
+            contractType = filter.contractPeriod.toPersistentList(),
+            moodType = filter.moodTag?.let { tag -> persistentListOf(tag) } ?: persistentListOf()
         )
     }
 
