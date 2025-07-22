@@ -78,10 +78,6 @@ fun MapRoute(
         viewModel.fetchHouseList()
     }
 
-    LaunchedEffect(state.isFullSelected) {
-        viewModel.fetchHouseList()
-    }
-
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.flowWithLifecycle(lifecycleOwner.lifecycle)
             .collect { sideEffect ->
@@ -110,8 +106,8 @@ fun MapRoute(
         navigateToDetail = viewModel::navigateToDetail,
         snackBarHost = snackBarHost,
         isBottomSheetOpened = state.isBottomSheetOpened,
-        latitude = state.latitude ?: searchResultEntity.latitude,
-        longitude = state.longitude ?: searchResultEntity.longitude,
+        latitude = state.latitude,
+        longitude = state.longitude,
         searchKeyword = searchResultEntity.location,
         houseList = state.houseList,
         onMarkerClicked = viewModel::showMarkerDetail,
@@ -155,22 +151,6 @@ fun MapScreen(
     val initialZoomLevel = 12.0
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition(initialCameraPosition, initialZoomLevel)
-    }
-
-    Popup(
-        alignment = Alignment.BottomCenter
-    ) {
-        SnackbarHost(hostState = snackBarHost) { snackbarData ->
-            RoomieSnackbar(
-                modifier = Modifier
-                    .padding(
-                        bottom = paddingValues.calculateBottomPadding() - 35.dp,
-                        start = 12.dp,
-                        end = 12.dp
-                    ),
-                message = snackbarData.visuals.message
-            )
-        }
     }
 
     Box(
@@ -297,6 +277,22 @@ fun MapScreen(
             isFullSelected = isFullSelected,
             updateIsFull = updateIsFull
         )
+
+        Popup(
+            alignment = Alignment.BottomCenter
+        ) {
+            SnackbarHost(hostState = snackBarHost) { snackbarData ->
+                RoomieSnackbar(
+                    modifier = Modifier
+                        .padding(
+                            bottom = paddingValues.calculateBottomPadding() - 35.dp,
+                            start = 12.dp,
+                            end = 12.dp
+                        ),
+                    message = snackbarData.visuals.message
+                )
+            }
+        }
     }
 }
 

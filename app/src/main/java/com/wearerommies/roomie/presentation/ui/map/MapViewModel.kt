@@ -10,6 +10,7 @@ import com.wearerommies.roomie.domain.repository.HouseRepository
 import com.wearerommies.roomie.domain.repository.MapRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -68,37 +69,51 @@ class MapViewModel @Inject constructor(
         _state.value = _state.value.copy(
             isFullSelected = !_state.value.isFullSelected
         )
+
+        viewModelScope.launch {
+            fetchHouseList()
+        }
     }
 
     suspend fun fetchHouseList() {
         mapRepository.getFilterResult(_state.value.filter)
-            .onSuccess { resultList ->
-                _state.value = _state.value.copy(
-                    latitude = resultList.latitude,
-                    longitude = resultList.longitude,
-                    houseList =
-                    if (_state.value.isFullSelected)
-                        resultList.house.filter { it.excludeFull }.toPersistentList()
-                    else
-                        resultList.house.map {
-                            FilterResultEntity.HouseEntity(
-                                houseId = it.houseId,
-                                latitude = it.latitude,
-                                longitude = it.longitude,
-                                monthlyRent = it.monthlyRent,
-                                deposit = it.deposit,
-                                occupancyTypes = it.occupancyTypes,
-                                location = it.location,
-                                genderPolicy = it.genderPolicy,
-                                locationDescription = it.locationDescription,
-                                isPinned = it.isPinned,
-                                moodTag = it.moodTag,
-                                contractTerm = it.contractTerm,
-                                mainImgUrl = it.mainImgUrl,
-                                excludeFull = it.excludeFull
-                            )
-                        }.toPersistentList()
-                )
+            .onSuccess { response ->
+                if(response.code == 20016) {
+
+                    delay(1000)
+                    _sideEffect.emit(
+                        MapSideEffect.SnackBar(
+                            message = R.string.location_bottom_sheet_error
+                        )
+                    )
+                } else {
+                    _state.value = _state.value.copy(
+                        latitude = response.result.latitude,
+                        longitude = response.result.longitude,
+                        houseList =
+                        if (_state.value.isFullSelected)
+                            response.result.house.filter { !it.excludeFull }.toPersistentList()
+                        else
+                            response.result.house.map {
+                                FilterResultEntity.HouseEntity(
+                                    houseId = it.houseId,
+                                    latitude = it.latitude,
+                                    longitude = it.longitude,
+                                    monthlyRent = it.monthlyRent,
+                                    deposit = it.deposit,
+                                    occupancyTypes = it.occupancyTypes,
+                                    location = it.location,
+                                    genderPolicy = it.genderPolicy,
+                                    locationDescription = it.locationDescription,
+                                    isPinned = it.isPinned,
+                                    moodTag = it.moodTag,
+                                    contractTerm = it.contractTerm,
+                                    mainImgUrl = it.mainImgUrl,
+                                    excludeFull = it.excludeFull
+                                )
+                            }.toPersistentList()
+                    )
+                }
             }.onFailure { error ->
                 Timber.e(error)
             }
