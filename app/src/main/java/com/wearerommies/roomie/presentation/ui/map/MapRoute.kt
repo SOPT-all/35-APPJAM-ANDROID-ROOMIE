@@ -1,5 +1,6 @@
 package com.wearerommies.roomie.presentation.ui.map
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -150,10 +151,60 @@ fun MapScreen(
 
     if (latitude == null || longitude == null) return
 
-    val initialCameraPosition = LatLng(latitude.toDouble(), longitude.toDouble())
-    val initialZoomLevel = 12.0
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition(initialCameraPosition, initialZoomLevel)
+    val cameraPositionState = rememberCameraPositionState()
+
+    LaunchedEffect(Unit) {
+        val location = LatLng(latitude.toDouble(), longitude.toDouble())
+
+        val bounds = LatLngBounds.Builder()
+            .include(location)
+            .apply {
+                houseList.forEach { marker ->
+                    include(LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()))
+                }
+            }
+            .build()
+
+        when {
+            houseList.isEmpty() -> {
+                cameraPositionState.move(
+                    CameraUpdate.scrollTo(location).animate(CameraAnimation.Easing)
+                )
+            }
+            else ->{
+                cameraPositionState.move(
+                    CameraUpdate.fitBounds(bounds, 150).animate(CameraAnimation.Fly)
+                )
+                updatePreviousBounds(bounds)
+            }
+        }
+    }
+
+    LaunchedEffect(latitude, longitude, houseList) {
+        val location = LatLng(latitude.toDouble(), longitude.toDouble())
+
+        val bounds = LatLngBounds.Builder()
+            .include(location)
+            .apply {
+                houseList.forEach { marker ->
+                    include(LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()))
+                }
+            }
+            .build()
+
+        when {
+            houseList.isEmpty() -> {
+                cameraPositionState.move(
+                    CameraUpdate.scrollTo(location).animate(CameraAnimation.Easing)
+                )
+            }
+            previousBounds == null || !bounds.isSameAs(previousBounds) -> {
+                cameraPositionState.move(
+                    CameraUpdate.fitBounds(bounds, 150).animate(CameraAnimation.Fly)
+                )
+                updatePreviousBounds(bounds)
+            }
+        }
     }
 
     Box(
@@ -163,33 +214,6 @@ fun MapScreen(
             .padding(bottom = paddingValues.calculateBottomPadding())
     ) {
         // TODO: 기획-디자인과 카메라 범위 자동 조정 -> 현재는 모든 마커가 나타나도록 조정되어 있음
-        LaunchedEffect(latitude, longitude, houseList) {
-            val location = LatLng(latitude.toDouble(), longitude.toDouble())
-
-            val bounds = LatLngBounds.Builder()
-                .include(location)
-                .apply {
-                    houseList.forEach { marker ->
-                        include(LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()))
-                    }
-                }
-                .build()
-
-            when {
-                houseList.isEmpty() -> {
-                    cameraPositionState.move(
-                        CameraUpdate.scrollTo(location).animate(CameraAnimation.Easing)
-                    )
-                }
-                previousBounds == null || !bounds.isSameAs(previousBounds) -> {
-                    cameraPositionState.move(
-                        CameraUpdate.fitBounds(bounds, 150).animate(CameraAnimation.Fly)
-                    )
-                    updatePreviousBounds(bounds)
-                }
-            }
-        }
-
 
         NaverMap(
             cameraPositionState = cameraPositionState,
