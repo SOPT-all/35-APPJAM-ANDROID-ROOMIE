@@ -1,6 +1,5 @@
 package com.wearerommies.roomie.presentation.ui.map
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -32,7 +31,6 @@ import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
-import com.naver.maps.map.compose.CircleOverlay
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.Marker
@@ -45,6 +43,7 @@ import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.FilterResultEntity
 import com.wearerommies.roomie.domain.entity.SearchResultEntity
 import com.wearerommies.roomie.presentation.core.component.RoomieSnackbar
+import com.wearerommies.roomie.presentation.core.util.isSameAs
 import com.wearerommies.roomie.presentation.ui.map.component.MapBottomSheet
 import com.wearerommies.roomie.presentation.ui.map.component.MapTopBar
 import com.wearerommies.roomie.presentation.ui.map.component.MarkerDetailCard
@@ -117,7 +116,9 @@ fun MapRoute(
         resetClickedMarker = viewModel::resetClickedMarker,
         setBottomSheetState = viewModel::setBottomSheetState,
         isFullSelected = state.isFullSelected,
-        updateIsFull = viewModel::updateIsFull
+        updateIsFull = viewModel::updateIsFull,
+        previousBounds = state.bounds,
+        updatePreviousBounds = viewModel::updatePreviousBounds
     )
 }
 
@@ -142,6 +143,8 @@ fun MapScreen(
     setBottomSheetState: (Boolean) -> Unit,
     isFullSelected: Boolean,
     updateIsFull: () -> Unit,
+    updatePreviousBounds: (LatLngBounds) -> Unit,
+    previousBounds: LatLngBounds?,
     modifier: Modifier = Modifier
 ) {
 
@@ -161,25 +164,32 @@ fun MapScreen(
     ) {
         // TODO: 기획-디자인과 카메라 범위 자동 조정 -> 현재는 모든 마커가 나타나도록 조정되어 있음
         LaunchedEffect(latitude, longitude, houseList) {
-            if (houseList.isNotEmpty()) {
-                val bounds = LatLngBounds.Builder()
-                    .include(LatLng(latitude.toDouble(), longitude.toDouble()))
+            val location = LatLng(latitude.toDouble(), longitude.toDouble())
 
-                houseList.forEach { marker ->
-                    bounds.include(LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()))
+            val bounds = LatLngBounds.Builder()
+                .include(location)
+                .apply {
+                    houseList.forEach { marker ->
+                        include(LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()))
+                    }
                 }
+                .build()
 
-                cameraPositionState.move(
-                    CameraUpdate.fitBounds(bounds.build(), 150)
-                        .animate(CameraAnimation.Fly)
-                )
-            } else {
-                cameraPositionState.move(
-                    CameraUpdate.scrollTo(LatLng(latitude.toDouble(), longitude.toDouble()))
-                        .animate(CameraAnimation.Easing)
-                )
+            when {
+                houseList.isEmpty() -> {
+                    cameraPositionState.move(
+                        CameraUpdate.scrollTo(location).animate(CameraAnimation.Easing)
+                    )
+                }
+                previousBounds == null || !bounds.isSameAs(previousBounds) -> {
+                    cameraPositionState.move(
+                        CameraUpdate.fitBounds(bounds, 150).animate(CameraAnimation.Fly)
+                    )
+                    updatePreviousBounds(bounds)
+                }
             }
         }
+
 
         NaverMap(
             cameraPositionState = cameraPositionState,
@@ -333,7 +343,10 @@ fun MapScreenPreview() {
             bookMarkHouse = {},
             setBottomSheetState = {},
             isFullSelected = false,
-            updateIsFull = {}
+            updateIsFull = {},
+            updatePreviousBounds = {},
+            previousBounds = null
         )
     }
 }
+

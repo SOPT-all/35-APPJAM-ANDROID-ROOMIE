@@ -2,6 +2,7 @@ package com.wearerommies.roomie.presentation.ui.map
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.naver.maps.geometry.LatLngBounds
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.FilterResultEntity
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -189,5 +191,9 @@ class MapViewModel @Inject constructor(
             }.onFailure { error ->
                 Timber.e(error)
             }
+    }
+
+    fun updatePreviousBounds(bounds: LatLngBounds) {
+        _state.update { it.copy(bounds = bounds) }
     }
 }
