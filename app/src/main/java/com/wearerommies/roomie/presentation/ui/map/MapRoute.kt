@@ -32,6 +32,7 @@ import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.compose.CameraPositionState
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
 import com.naver.maps.map.compose.MapUiSettings
 import com.naver.maps.map.compose.Marker
@@ -119,7 +120,9 @@ fun MapRoute(
         isFullSelected = state.isFullSelected,
         updateIsFull = viewModel::updateIsFull,
         previousBounds = state.bounds,
-        updatePreviousBounds = viewModel::updatePreviousBounds
+        updatePreviousBounds = viewModel::updatePreviousBounds,
+        cameraPositionState = state.cameraPositionState,
+        updateCameraPositionState = viewModel::setCameraPositionState
     )
 }
 
@@ -146,39 +149,12 @@ fun MapScreen(
     updateIsFull: () -> Unit,
     updatePreviousBounds: (LatLngBounds) -> Unit,
     previousBounds: LatLngBounds?,
+    cameraPositionState: CameraPositionState,
+    updateCameraPositionState: (CameraPositionState) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
     if (latitude == null || longitude == null) return
-
-    val cameraPositionState = rememberCameraPositionState()
-
-    LaunchedEffect(Unit) {
-        val location = LatLng(latitude.toDouble(), longitude.toDouble())
-
-        val bounds = LatLngBounds.Builder()
-            .include(location)
-            .apply {
-                houseList.forEach { marker ->
-                    include(LatLng(marker.latitude.toDouble(), marker.longitude.toDouble()))
-                }
-            }
-            .build()
-
-        when {
-            houseList.isEmpty() -> {
-                cameraPositionState.move(
-                    CameraUpdate.scrollTo(location).animate(CameraAnimation.Easing)
-                )
-            }
-            else ->{
-                cameraPositionState.move(
-                    CameraUpdate.fitBounds(bounds, 150).animate(CameraAnimation.Fly)
-                )
-                updatePreviousBounds(bounds)
-            }
-        }
-    }
 
     LaunchedEffect(latitude, longitude, houseList) {
         val location = LatLng(latitude.toDouble(), longitude.toDouble())
@@ -203,6 +179,7 @@ fun MapScreen(
                     CameraUpdate.fitBounds(bounds, 150).animate(CameraAnimation.Fly)
                 )
                 updatePreviousBounds(bounds)
+                updateCameraPositionState(cameraPositionState)
             }
         }
     }
@@ -233,11 +210,13 @@ fun MapScreen(
                         CameraUpdate.fitBounds(bounds.build(), 150)
                             .animate(CameraAnimation.Fly)
                     )
+                    updateCameraPositionState(cameraPositionState)
                 } else {
                     cameraPositionState.move(
                         CameraUpdate.scrollTo(LatLng(latitude.toDouble(), longitude.toDouble()))
                             .animate(CameraAnimation.Easing)
                     )
+                    updateCameraPositionState(cameraPositionState)
                 }
             }
         ) {
@@ -369,7 +348,9 @@ fun MapScreenPreview() {
             isFullSelected = false,
             updateIsFull = {},
             updatePreviousBounds = {},
-            previousBounds = null
+            previousBounds = null,
+            cameraPositionState = rememberCameraPositionState(),
+            updateCameraPositionState = {}
         )
     }
 }

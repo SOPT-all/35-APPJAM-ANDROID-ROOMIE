@@ -1,6 +1,7 @@
 package com.wearerommies.roomie.presentation.ui.map
 
 import com.naver.maps.geometry.LatLngBounds
+import com.naver.maps.map.compose.CameraPositionState
 import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.FilterResultEntity
 import com.wearerommies.roomie.domain.entity.SearchResultEntity
@@ -32,5 +33,6 @@ data class MapState(
     ),
     val clickedMarkerId: Long? = null,
     val searchResult: SearchResultEntity = SearchResultEntity(),
-    val bounds: LatLngBounds? = null
+    val bounds: LatLngBounds? = null,
+    val cameraPositionState: CameraPositionState = CameraPositionState()
 )

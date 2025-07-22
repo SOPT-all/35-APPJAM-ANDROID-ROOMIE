@@ -3,6 +3,7 @@ package com.wearerommies.roomie.presentation.ui.map
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.naver.maps.geometry.LatLngBounds
+import com.naver.maps.map.compose.CameraPositionState
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.FilterResultEntity
@@ -195,5 +196,9 @@ class MapViewModel @Inject constructor(
 
     fun updatePreviousBounds(bounds: LatLngBounds) {
         _state.update { it.copy(bounds = bounds) }
+    }
+
+    fun setCameraPositionState(state: CameraPositionState) {
+        _state.update { it.copy(cameraPositionState = state) }
     }
 }
