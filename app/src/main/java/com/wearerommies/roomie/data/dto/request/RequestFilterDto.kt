@@ -18,8 +18,8 @@ data class RequestFilterDto(
     val location: String?,
     @SerialName("monthlyRentRange")
     val monthlyRentRange: MonthlyRentRange,
-    @SerialName("moodTag")
-    val moodTag: List<String>?,
+    @SerialName("moodTags")
+    val moodTags: List<String>?,
     @SerialName("occupancyTypes")
     val occupancyTypes: List<String>,
     @SerialName("preferredDate")
@@ -58,7 +58,7 @@ fun FilterEntity.toDto() = RequestFilterDto(
         min = monthlyRentRange.min,
         max = monthlyRentRange.max
     ),
-    moodTag = moodTag,
+    moodTags = moodTag.map { if (it.startsWith("#")) it else "#$it" },
     occupancyTypes = occupancyTypes,
     preferredDate = preferredDate,
     latitude = latitude,
