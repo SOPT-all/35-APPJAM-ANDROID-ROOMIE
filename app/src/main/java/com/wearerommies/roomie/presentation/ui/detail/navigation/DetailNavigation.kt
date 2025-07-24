@@ -21,7 +21,11 @@ fun NavController.navigateToDetail(houseId: Long, navOptions: NavOptions? = null
     )
 }
 
-fun NavController.navigateToDetailHouse(houseId: Long, title: String, navOptions: NavOptions? = null) {
+fun NavController.navigateToDetailHouse(
+    houseId: Long,
+    title: String,
+    navOptions: NavOptions? = null
+) {
     navigate(
         route = Route.DetailHouse(
             houseId = houseId,
@@ -31,7 +35,12 @@ fun NavController.navigateToDetailHouse(houseId: Long, title: String, navOptions
     )
 }
 
-fun NavController.navigateToDetailRoom(houseId: Long, roomId: Long, title: String, navOptions: NavOptions? = null) {
+fun NavController.navigateToDetailRoom(
+    houseId: Long,
+    roomId: Long,
+    title: String,
+    navOptions: NavOptions? = null
+) {
     navigate(
         route = Route.DetailRoom(
             houseId = houseId,
@@ -48,8 +57,7 @@ fun NavGraphBuilder.detailNavGraph(
     navigateDetailRoom: (Long, Long, String) -> Unit,
     navigateDetailHouse: (Long, String) -> Unit,
     navigateTourApply: (TourEntity, String, String) -> Unit,
-    navigateToWebView: (String) -> Unit,
-    ) {
+) {
     composable<Route.Detail> { backStackEntry ->
         val houseId = backStackEntry.toRoute<Route.Detail>().houseId
         DetailRoute(
@@ -59,7 +67,6 @@ fun NavGraphBuilder.detailNavGraph(
             navigateDetailRoom = navigateDetailRoom,
             navigateDetailHouse = navigateDetailHouse,
             navigateTourApply = navigateTourApply,
-            navigateToWebView = navigateToWebView
         )
     }
     composable<Route.DetailHouse> { backStackEntry ->
@@ -77,12 +84,12 @@ fun NavGraphBuilder.detailNavGraph(
         val houseId = backStackEntry.toRoute<Route.DetailRoom>().houseId
         val roomId = backStackEntry.toRoute<Route.DetailRoom>().roomId
         val title = backStackEntry.toRoute<Route.DetailRoom>().title
-            DetailRoomRoute(
-                paddingValues = paddingValues,
-                houseId = houseId,
-                roomId = roomId,
-                title = title,
-                navigateUp = navigateUp,
-            )
+        DetailRoomRoute(
+            paddingValues = paddingValues,
+            houseId = houseId,
+            roomId = roomId,
+            title = title,
+            navigateUp = navigateUp,
+        )
     }
 }

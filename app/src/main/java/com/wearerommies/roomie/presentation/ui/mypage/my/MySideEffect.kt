@@ -7,4 +7,5 @@ sealed class MySideEffect {
     data class NavigateToWebView(
         val webViewUrl: String
     ) : MySideEffect()
+    data object NavigateToChannel: MySideEffect()
 }

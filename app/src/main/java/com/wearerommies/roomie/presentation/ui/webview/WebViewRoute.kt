@@ -8,7 +8,8 @@ import com.wearerommies.roomie.ui.theme.RoomieAndroidTheme
 
 object WebViewUrl {
     const val QUIZ = "https://smore.im/quiz/mDC9DH57g2"
-    const val KAKAO = "https://pf.kakao.com/_WviTn"
+    const val KAKAO_APP = "kakaoplus://plusfriend/friend/_WviTn"
+    const val KAKAO_WEB = "https://pf.kakao.com/_WviTn"
     const val SEARCH = "https://tally.so/r/3y8ygX"
     const val FEEDBACK = "https://tally.so/r/megeRl"
     const val SERVICE = "https://automatic-protocol-11a.notion.site/23336a29f06280a394ceea5f51b2d09b"
