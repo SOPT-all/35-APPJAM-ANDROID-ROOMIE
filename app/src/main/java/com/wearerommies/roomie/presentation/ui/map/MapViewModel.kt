@@ -29,6 +29,11 @@ class MapViewModel @Inject constructor(
     private val mapRepository: MapRepository,
     private val houseRepository: HouseRepository
 ) : ViewModel() {
+
+    private companion object {
+        const val ERROR_CODE_UNSUPPORTED_REGION = 20016
+    }
+
     private val _state = MutableStateFlow(MapState())
     val state: StateFlow<MapState>
         get() = _state.asStateFlow()
@@ -81,7 +86,7 @@ class MapViewModel @Inject constructor(
     suspend fun fetchHouseList() {
         mapRepository.getFilterResult(_state.value.filter)
             .onSuccess { response ->
-                if(response.code == 20016) {
+                if(response.code == ERROR_CODE_UNSUPPORTED_REGION) {
 
                     delay(1000)
                     _sideEffect.emit(
