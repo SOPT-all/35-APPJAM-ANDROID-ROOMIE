@@ -15,15 +15,19 @@ data class RequestFilterDto(
     @SerialName("genderPolicy")
     val genderPolicy: List<String>,
     @SerialName("location")
-    val location: String,
+    val location: String?,
     @SerialName("monthlyRentRange")
     val monthlyRentRange: MonthlyRentRange,
-    @SerialName("moodTag")
-    val moodTag: String?,
+    @SerialName("moodTags")
+    val moodTags: List<String>?,
     @SerialName("occupancyTypes")
     val occupancyTypes: List<String>,
     @SerialName("preferredDate")
-    val preferredDate: String?
+    val preferredDate: String?,
+    @SerialName("latitude")
+    val latitude: Float? = null,
+    @SerialName("longitude")
+    val longitude: Float? = null
 ) {
     @Serializable
     data class DepositRange(
@@ -54,7 +58,9 @@ fun FilterEntity.toDto() = RequestFilterDto(
         min = monthlyRentRange.min,
         max = monthlyRentRange.max
     ),
-    moodTag = moodTag,
+    moodTags = moodTag.map { if (it.startsWith("#")) it else "#$it" },
     occupancyTypes = occupancyTypes,
-    preferredDate = preferredDate
+    preferredDate = preferredDate,
+    latitude = latitude,
+    longitude = longitude
 )

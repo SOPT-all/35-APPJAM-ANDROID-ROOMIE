@@ -1,18 +1,21 @@
 package com.wearerommies.roomie.presentation.ui.map
 
+import com.naver.maps.geometry.LatLngBounds
+import com.naver.maps.map.compose.CameraPositionState
 import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.FilterResultEntity
+import com.wearerommies.roomie.domain.entity.SearchResultEntity
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 
 data class MapState(
-    val longitude: Float = 126.9377f,
-    val latitude: Float = 37.55438f,
+    val longitude: Float? = null,
+    val latitude: Float? = null,
     val isBottomSheetOpened: Boolean = true,
     val filter: FilterEntity = FilterEntity(),
     val isFullSelected: Boolean = false,
-    val houseList: PersistentList<FilterResultEntity> = persistentListOf(),
-    val markerDetail: FilterResultEntity = FilterResultEntity(
+    val houseList: PersistentList<FilterResultEntity.HouseEntity> = persistentListOf(),
+    val markerDetail: FilterResultEntity.HouseEntity = FilterResultEntity.HouseEntity(
         latitude = 0F,
         longitude = 0F,
         houseId = 0,
@@ -28,5 +31,8 @@ data class MapState(
         mainImgUrl = "",
         excludeFull = false
     ),
-    val clickedMarkerId: Long? = null
+    val clickedMarkerId: Long? = null,
+    val searchResult: SearchResultEntity = SearchResultEntity(),
+    val bounds: LatLngBounds? = null,
+    val cameraPositionState: CameraPositionState = CameraPositionState()
 )

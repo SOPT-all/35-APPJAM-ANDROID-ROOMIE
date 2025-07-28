@@ -30,6 +30,12 @@ class SearchViewModel @Inject constructor(
     val sideEffect: SharedFlow<SearchSideEffect>
         get() = _sideEffect.asSharedFlow()
 
+    fun initFilter(filter: FilterEntity) {
+        _state.value = _state.value.copy(
+            filter = filter
+        )
+    }
+
     fun setSearchKeyword(keyword: String) {
         _state.value = _state.value.copy(
             searchKeyword = keyword
@@ -55,7 +61,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun applySearchResult(resultLocation: String, resultAddress: String, resultRoadAddress: String, resultLongitude: Float, resultLatitude: Float) =
+    fun applySearchResult(resultLocation: String, resultAddress: String, resultRoadAddress: String, resultLongitude: Float?, resultLatitude: Float?) =
         viewModelScope.launch {
             _state.value = _state.value.copy(
                 searchResult = SearchResultEntity(
@@ -70,7 +76,16 @@ class SearchViewModel @Inject constructor(
             _sideEffect.emit(
                 SearchSideEffect.navigateToMap(
                     FilterEntity(
-                        location = _state.value.searchResult.address
+                        location = _state.value.searchResult.location,
+                        latitude = _state.value.searchResult.latitude,
+                        longitude = _state.value.searchResult.longitude,
+                        moodTag = _state.value.filter.moodTag,
+                        depositRange = _state.value.filter.depositRange,
+                        monthlyRentRange = _state.value.filter.monthlyRentRange,
+                        genderPolicy = _state.value.filter.genderPolicy,
+                        preferredDate = _state.value.filter.preferredDate,
+                        occupancyTypes = _state.value.filter.occupancyTypes,
+                        contractPeriod = _state.value.filter.contractPeriod
                     ),
                     SearchResultEntity(
                         longitude = _state.value.searchResult.longitude,

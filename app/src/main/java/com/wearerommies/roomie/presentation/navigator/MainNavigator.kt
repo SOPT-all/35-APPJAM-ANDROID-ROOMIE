@@ -120,8 +120,10 @@ class MainNavigator(
             })
     }
 
-    fun navigateToSearch() {
-        navController.navigateToSearch()
+    fun navigateToSearch(filter: FilterEntity) {
+        navController.navigateToSearch(
+            filter = filter
+        )
     }
 
     fun navigateToMood(moodTag: String) {
@@ -132,8 +134,14 @@ class MainNavigator(
         navController.navigateToBookmark()
     }
 
-    fun navigateToFilter() {
-        navController.navigateToFilter()
+    fun navigateToFilter(
+        filter: FilterEntity,
+        result: SearchResultEntity
+    ) {
+        navController.navigateToFilter(
+            filter = filter,
+            searchResult = result
+        )
     }
 
     fun navigateToDetail(houseId: Long) {

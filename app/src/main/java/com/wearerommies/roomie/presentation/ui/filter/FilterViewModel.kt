@@ -1,5 +1,6 @@
 package com.wearerommies.roomie.presentation.ui.filter
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wearerommies.roomie.domain.entity.FilterEntity
@@ -9,6 +10,7 @@ import com.wearerommies.roomie.presentation.core.util.toFormattedString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -29,6 +31,24 @@ class FilterViewModel @Inject constructor(
     private val _sideEffect: MutableSharedFlow<FilterSideEffect> = MutableSharedFlow()
     val sideEffect: SharedFlow<FilterSideEffect>
         get() = _sideEffect.asSharedFlow()
+
+    fun initSearchAndFilter(
+        filter: FilterEntity,
+        searchResult: SearchResultEntity
+    ) {
+        _state.value = _state.value.copy(
+            searchResultEntity = searchResult,
+            depositStart = filter.depositRange.min.toString(),
+            depositEnd = filter.depositRange.max.toString(),
+            monthlyRentStart = filter.monthlyRentRange.min.toString(),
+            monthlyRentEnd = filter.monthlyRentRange.max.toString(),
+            genderPolicy = filter.genderPolicy.toPersistentList(),
+            preferredDate = filter.preferredDate.orEmpty(),
+            occupancyType = filter.occupancyTypes.toPersistentList(),
+            contractType = filter.contractPeriod.toPersistentList(),
+            moodType = filter.moodTag.toPersistentList()
+        )
+    }
 
     fun setDateModalVisible() {
         _state.value = _state.value.copy(
@@ -110,8 +130,7 @@ class FilterViewModel @Inject constructor(
 
     fun resetAll() {
         _state.value = _state.value.copy(
-            location = "서울특별시 마포구 노고산동",
-            moodTag = null,
+            location = "",
             depositStart = "",
             depositEnd = "",
             monthlyRentStart = "",
@@ -119,7 +138,8 @@ class FilterViewModel @Inject constructor(
             genderPolicy = persistentListOf(),
             preferredDate = "",
             occupancyType = persistentListOf(),
-            contractType = persistentListOf()
+            contractType = persistentListOf(),
+            moodType = persistentListOf()
         )
     }
 
@@ -128,7 +148,7 @@ class FilterViewModel @Inject constructor(
             FilterSideEffect.navigateToMap(
                 filter = FilterEntity(
                     location = _state.value.location,
-                    moodTag = _state.value.moodTag,
+                    moodTag = _state.value.moodType,
                     depositRange = FilterEntity.DepositRange(
                         min = _state.value.depositStart.toIntOrNull() ?: 0,
                         max = _state.value.depositEnd.toIntOrNull() ?: 500
@@ -142,7 +162,7 @@ class FilterViewModel @Inject constructor(
                     occupancyTypes = _state.value.occupancyType,
                     contractPeriod = _state.value.contractType
                 ),
-                searchResult = SearchResultEntity()
+                searchResult = _state.value.searchResultEntity
             )
         )
     }

@@ -14,7 +14,7 @@ data class MarkerDetailModel(
     val moodTag: String,
 )
 
-fun FilterResultEntity.toMarkerDetailModel() = MarkerDetailModel(
+fun FilterResultEntity.HouseEntity.toMarkerDetailModel() = MarkerDetailModel(
     houseId = houseId,
     monthlyRent = monthlyRent,
     deposit = deposit,

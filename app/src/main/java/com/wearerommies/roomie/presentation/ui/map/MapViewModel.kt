@@ -2,6 +2,8 @@ package com.wearerommies.roomie.presentation.ui.map
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.naver.maps.geometry.LatLngBounds
+import com.naver.maps.map.compose.CameraPositionState
 import com.wearerommies.roomie.R
 import com.wearerommies.roomie.domain.entity.FilterEntity
 import com.wearerommies.roomie.domain.entity.FilterResultEntity
@@ -10,12 +12,14 @@ import com.wearerommies.roomie.domain.repository.HouseRepository
 import com.wearerommies.roomie.domain.repository.MapRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,6 +29,11 @@ class MapViewModel @Inject constructor(
     private val mapRepository: MapRepository,
     private val houseRepository: HouseRepository
 ) : ViewModel() {
+
+    private companion object {
+        const val ERROR_CODE_UNSUPPORTED_REGION = 20016
+    }
+
     private val _state = MutableStateFlow(MapState())
     val state: StateFlow<MapState>
         get() = _state.asStateFlow()
@@ -33,7 +42,7 @@ class MapViewModel @Inject constructor(
     val sideEffect: SharedFlow<MapSideEffect>
         get() = _sideEffect.asSharedFlow()
 
-    fun fetchInitialLocation(longitude: Float, latitude: Float) {
+    fun fetchInitialLocation(longitude: Float?, latitude: Float?) {
         _state.value = _state.value.copy(
             latitude = latitude,
             longitude = longitude
@@ -50,7 +59,16 @@ class MapViewModel @Inject constructor(
                 preferredDate = filter.preferredDate,
                 occupancyTypes = filter.occupancyTypes,
                 contractPeriod = filter.contractPeriod,
-                location = searchResult.address.ifEmpty { filter.location }
+                location = searchResult.address.ifEmpty { filter.location },
+                latitude = searchResult.latitude,
+                longitude = searchResult.longitude
+            ),
+            searchResult = _state.value.searchResult.copy(
+                location = searchResult.location,
+                address = searchResult.address,
+                roadAddress = searchResult.roadAddress,
+                latitude = searchResult.latitude,
+                longitude = searchResult.longitude
             )
         )
     }
@@ -59,35 +77,51 @@ class MapViewModel @Inject constructor(
         _state.value = _state.value.copy(
             isFullSelected = !_state.value.isFullSelected
         )
+
+        viewModelScope.launch {
+            fetchHouseList()
+        }
     }
 
     suspend fun fetchHouseList() {
         mapRepository.getFilterResult(_state.value.filter)
-            .onSuccess { resultList ->
-                _state.value = _state.value.copy(
-                    houseList =
-                    if (_state.value.isFullSelected)
-                        resultList.filter { it.excludeFull }.toPersistentList()
-                    else
-                        resultList.map {
-                            FilterResultEntity(
-                                houseId = it.houseId,
-                                latitude = it.latitude,
-                                longitude = it.longitude,
-                                monthlyRent = it.monthlyRent,
-                                deposit = it.deposit,
-                                occupancyTypes = it.occupancyTypes,
-                                location = it.location,
-                                genderPolicy = it.genderPolicy,
-                                locationDescription = it.locationDescription,
-                                isPinned = it.isPinned,
-                                moodTag = it.moodTag,
-                                contractTerm = it.contractTerm,
-                                mainImgUrl = it.mainImgUrl,
-                                excludeFull = it.excludeFull
-                            )
-                        }.toPersistentList()
-                )
+            .onSuccess { response ->
+                if(response.code == ERROR_CODE_UNSUPPORTED_REGION) {
+
+                    delay(1000)
+                    _sideEffect.emit(
+                        MapSideEffect.SnackBar(
+                            message = R.string.location_bottom_sheet_error
+                        )
+                    )
+                } else {
+                    _state.value = _state.value.copy(
+                        latitude = response.result.latitude,
+                        longitude = response.result.longitude,
+                        houseList =
+                        if (_state.value.isFullSelected)
+                            response.result.house.filter { !it.excludeFull }.toPersistentList()
+                        else
+                            response.result.house.map {
+                                FilterResultEntity.HouseEntity(
+                                    houseId = it.houseId,
+                                    latitude = it.latitude,
+                                    longitude = it.longitude,
+                                    monthlyRent = it.monthlyRent,
+                                    deposit = it.deposit,
+                                    occupancyTypes = it.occupancyTypes,
+                                    location = it.location,
+                                    genderPolicy = it.genderPolicy,
+                                    locationDescription = it.locationDescription,
+                                    isPinned = it.isPinned,
+                                    moodTag = it.moodTag,
+                                    contractTerm = it.contractTerm,
+                                    mainImgUrl = it.mainImgUrl,
+                                    excludeFull = it.excludeFull
+                                )
+                            }.toPersistentList()
+                    )
+                }
             }.onFailure { error ->
                 Timber.e(error)
             }
@@ -108,6 +142,23 @@ class MapViewModel @Inject constructor(
         _sideEffect.emit(
             MapSideEffect.NavigateToDetail(
                 houseId = houseId
+            )
+        )
+    }
+
+    fun navigateToSearch() = viewModelScope.launch {
+        _sideEffect.emit(
+            MapSideEffect.NavigateToSearch(
+                filter = _state.value.filter
+            )
+        )
+    }
+
+    fun navigateToFilter() = viewModelScope.launch {
+        _sideEffect.emit(
+            MapSideEffect.NavigateToFilter(
+                searchResult = _state.value.searchResult,
+                filter = _state.value.filter
             )
         )
     }
@@ -146,5 +197,13 @@ class MapViewModel @Inject constructor(
             }.onFailure { error ->
                 Timber.e(error)
             }
+    }
+
+    fun updatePreviousBounds(bounds: LatLngBounds) {
+        _state.update { it.copy(bounds = bounds) }
+    }
+
+    fun setCameraPositionState(state: CameraPositionState) {
+        _state.update { it.copy(cameraPositionState = state) }
     }
 }

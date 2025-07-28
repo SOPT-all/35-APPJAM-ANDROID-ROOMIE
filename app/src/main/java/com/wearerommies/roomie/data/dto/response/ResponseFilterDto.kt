@@ -1,13 +1,18 @@
 package com.wearerommies.roomie.data.dto.response
 
 import com.wearerommies.roomie.domain.entity.FilterResultEntity
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class ResponseFilterDto(
     @SerialName("houses")
-    val houses: List<House>
+    val houses: List<House>,
+    @SerialName("latitude")
+    val latitude: Float,
+    @SerialName("longitude")
+    val longitude: Float
 ) {
     @Serializable
     data class House(
@@ -40,7 +45,7 @@ data class ResponseFilterDto(
         @SerialName("excludeFull")
         val excludeFull: Boolean
     ) {
-        fun toEntity() = FilterResultEntity(
+        fun toEntity() = FilterResultEntity.HouseEntity(
             houseId = houseId,
             latitude = latitude,
             longitude = longitude,
@@ -58,5 +63,9 @@ data class ResponseFilterDto(
         )
     }
 
-    fun toEntity() = houses.map { it.toEntity() }
+    fun toEntity() = FilterResultEntity(
+        latitude = latitude,
+        longitude = longitude,
+        house = houses.map { it.toEntity() }
+    )
 }
