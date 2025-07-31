@@ -32,6 +32,7 @@ import com.wearerommies.roomie.ui.theme.RoomieTheme
 fun TourCompletedStepRoute(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
+    navigateToMap: () -> Unit,
     navigateToHome: () -> Unit,
     viewModel: TourCompletedStepViewModel = hiltViewModel()
 ) {
@@ -40,7 +41,10 @@ fun TourCompletedStepRoute(
     LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
         viewModel.sideEffect.collect { sideEffect ->
             when (sideEffect) {
-                is TourCompletedSideEffect.NavigateUp -> navigateUp()
+                TourCompletedSideEffect.NavigateUp -> navigateUp()
+
+                is TourCompletedSideEffect.NavigateToMap -> navigateToMap()
+
                 is TourCompletedSideEffect.NavigateToHome -> navigateToHome()
             }
         }
@@ -50,6 +54,7 @@ fun TourCompletedStepRoute(
         paddingValues = paddingValues,
         navigateUp = viewModel::navigateUp,
         navigateToHome = viewModel::navigateHome,
+        navigateToMap = viewModel::navigateToMap
     )
 }
 
@@ -58,6 +63,7 @@ fun TourCompletedStepScreen(
     paddingValues: PaddingValues,
     navigateUp: () -> Unit,
     navigateToHome: () -> Unit,
+    navigateToMap: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -68,7 +74,7 @@ fun TourCompletedStepScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Spacer(modifier=Modifier.height((LocalConfiguration.current.screenHeightDp * 0.235).dp))
+        Spacer(modifier = Modifier.height((LocalConfiguration.current.screenHeightDp * 0.235).dp))
 
         Text(
             text = stringResource(R.string.tour_apply_complete),
@@ -107,7 +113,7 @@ fun TourCompletedStepScreen(
                 text = stringResource(R.string.tour_other_room),
                 backgroundColor = RoomieTheme.colors.grayScale1,
                 textColor = RoomieTheme.colors.grayScale8,
-                onClick = navigateUp,
+                onClick = navigateToMap,
                 modifier = Modifier
                     .weight(0.4613F),
                 borderColor = RoomieTheme.colors.grayScale6,
@@ -134,7 +140,8 @@ fun TourCompletedStepScreenPreview() {
         TourCompletedStepScreen(
             paddingValues = PaddingValues(0.dp),
             navigateUp = {},
-            navigateToHome = {}
+            navigateToHome = {},
+            navigateToMap = {}
         )
     }
 }

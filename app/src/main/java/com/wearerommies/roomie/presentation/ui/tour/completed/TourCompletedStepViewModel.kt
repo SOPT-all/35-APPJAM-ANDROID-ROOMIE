@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TourCompletedStepViewModel@Inject constructor(
+class TourCompletedStepViewModel @Inject constructor(
 
-): ViewModel() {
+) : ViewModel() {
     private val _sideEffect = MutableSharedFlow<TourCompletedSideEffect>()
     val sideEffect: SharedFlow<TourCompletedSideEffect>
         get() = _sideEffect.asSharedFlow()
@@ -21,5 +21,9 @@ class TourCompletedStepViewModel@Inject constructor(
 
     fun navigateHome() = viewModelScope.launch {
         _sideEffect.emit(TourCompletedSideEffect.NavigateToHome)
+    }
+
+    fun navigateToMap() = viewModelScope.launch {
+        _sideEffect.emit(TourCompletedSideEffect.NavigateToMap)
     }
 }
