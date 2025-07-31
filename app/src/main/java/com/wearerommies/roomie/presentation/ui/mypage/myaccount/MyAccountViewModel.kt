@@ -55,7 +55,7 @@ class MyAccountViewModel @Inject constructor(
         authRepository.deleteLogout(refreshToken = "Bearer ${tokenRepository.getRefreshToken()}")
             .onSuccess {
                 tokenRepository.clearInfo()
-                navigateToLogin()
+                navigateToOnboarding()
             }
             .onFailure { error ->
                 Timber.e(error)
@@ -66,7 +66,7 @@ class MyAccountViewModel @Inject constructor(
         authRepository.deleteWithdraw(refreshToken = "Bearer ${tokenRepository.getRefreshToken()}")
             .onSuccess {
                 tokenRepository.clearInfo()
-                navigateToLogin()
+                navigateToOnboarding()
             }
             .onFailure { error ->
                 Timber.e(error)
@@ -123,8 +123,8 @@ class MyAccountViewModel @Inject constructor(
         }
     }
 
-    private fun navigateToLogin() = viewModelScope.launch {
-        _sideEffect.emit(MyAccountSideEffect.NavigateToLogin)
+    private fun navigateToOnboarding() = viewModelScope.launch {
+        _sideEffect.emit(MyAccountSideEffect.NavigateToOnboarding)
     }
 
     fun updateLogoutDialogState() = viewModelScope.launch {
