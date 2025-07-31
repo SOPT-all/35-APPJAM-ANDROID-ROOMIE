@@ -86,7 +86,7 @@ class MainNavigator(
     fun navigateToOnboarding() {
         navController.navigateToOnboarding(
             navOptions = navOptions {
-                popUpTo(navController.graph.findStartDestination().id) {
+                popUpTo(0) {
                     inclusive = true
                 }
                 launchSingleTop = true

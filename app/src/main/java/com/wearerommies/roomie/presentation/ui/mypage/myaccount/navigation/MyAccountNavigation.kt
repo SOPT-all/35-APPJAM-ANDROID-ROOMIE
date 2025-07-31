@@ -23,7 +23,7 @@ fun NavGraphBuilder.myAccountNavGraph(
     navigateToBirth: (String) -> Unit,
     navigateToGender: (String) -> Unit,
     navigateToContact: (String) -> Unit,
-    navigateToLogin: () -> Unit,
+    navigateToOnboarding: () -> Unit,
 ) {
     composable<Route.MyAccount> {
         MyAccountRoute(
@@ -34,7 +34,7 @@ fun NavGraphBuilder.myAccountNavGraph(
             navigateToBirth = navigateToBirth,
             navigateToGender = navigateToGender,
             navigateToContact = navigateToContact,
-            navigateToLogin = navigateToLogin
+            navigateToOnboarding = navigateToOnboarding
         )
     }
 }

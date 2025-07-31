@@ -49,7 +49,7 @@ fun MyAccountRoute(
     navigateToBirth: (String) -> Unit,
     navigateToGender: (String) -> Unit,
     navigateToContact: (String) -> Unit,
-    navigateToLogin: () -> Unit,
+    navigateToOnboarding: () -> Unit,
     viewModel: MyAccountViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -72,7 +72,7 @@ fun MyAccountRoute(
                     is MyAccountSideEffect.NavigateToContact -> navigateToContact(sideEffect.contact)
                     is MyAccountSideEffect.NavigateToGender -> navigateToGender(sideEffect.gender)
                     is MyAccountSideEffect.NavigateToName -> navigateToName(sideEffect.name)
-                    is MyAccountSideEffect.NavigateToLogin -> navigateToLogin()
+                    is MyAccountSideEffect.NavigateToOnboarding -> navigateToOnboarding()
                 }
             }
     }

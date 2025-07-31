@@ -13,7 +13,12 @@ import com.wearerommies.roomie.presentation.ui.tour.first.TourFirstStepRoute
 import com.wearerommies.roomie.presentation.ui.tour.second.TourSecondStepRoute
 import com.wearerommies.roomie.presentation.ui.tour.third.TourThirdStepRoute
 
-fun NavController.navigateToTourFirstStep(tourApply: TourEntity, houseName: String, roomName: String, navOptions: NavOptions? = null) {
+fun NavController.navigateToTourFirstStep(
+    tourApply: TourEntity,
+    houseName: String,
+    roomName: String,
+    navOptions: NavOptions? = null
+) {
     navigate(
         route = Route.TourFirstStep(
             tourApply = tourApply,
@@ -56,12 +61,13 @@ fun NavGraphBuilder.tourNavGraph(
     navigateToSecondStep: (TourEntity) -> Unit,
     navigateToThirdStep: (TourEntity) -> Unit,
     navigateToCompleteStep: () -> Unit,
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    navigateToMap: () -> Unit
 ) {
 
-    composable<Route.TourFirstStep> (
+    composable<Route.TourFirstStep>(
         typeMap = Route.TourFirstStep.typeMap
-    ){ backStackEntry ->
+    ) { backStackEntry ->
         TourFirstStepRoute(
             paddingValues = paddingValues,
             navigateUp = navigateUp,
@@ -101,6 +107,7 @@ fun NavGraphBuilder.tourNavGraph(
         TourCompletedStepRoute(
             paddingValues = paddingValues,
             navigateUp = navigateUp,
+            navigateToMap = navigateToMap,
             navigateToHome = navigateToHome
         )
     }

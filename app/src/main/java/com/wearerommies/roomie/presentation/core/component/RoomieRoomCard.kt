@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -175,7 +176,9 @@ private fun DotWithText(
         Text(
             text = firstText,
             style = RoomieTheme.typography.body4R12,
-            color = RoomieTheme.colors.grayScale7
+            color = RoomieTheme.colors.grayScale7,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_middle_dot),
@@ -185,7 +188,9 @@ private fun DotWithText(
         Text(
             text = secondText,
             style = RoomieTheme.typography.body4R12,
-            color = RoomieTheme.colors.grayScale7
+            color = RoomieTheme.colors.grayScale7,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
