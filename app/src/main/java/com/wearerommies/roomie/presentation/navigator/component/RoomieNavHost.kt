@@ -91,7 +91,7 @@ fun RoomieNavHost(
             navigateToBirth = navigator::navigateToBirth,
             navigateToGender = navigator::navigateToGender,
             navigateToContact = navigator::navigateToContact,
-            navigateToLogin = navigator::navigateToLogin
+            navigateToOnboarding = navigator::navigateToOnboarding
         )
         nameNavGraph(
             paddingValues = padding,
@@ -146,7 +146,8 @@ fun RoomieNavHost(
             navigateToSecondStep = navigator::navigateToTourSecondStep,
             navigateToThirdStep = navigator::navigateToTourThirdStep,
             navigateToCompleteStep = navigator::navigateToCompleteStep,
-            navigateToHome = navigator::navigateToHome
+            navigateToHome = navigator::navigateToHome,
+            navigateToMap = { navigator.navigate(tab = MainTabType.MAP) }
         )
         webViewNavGraph(
             paddingValues = padding,
