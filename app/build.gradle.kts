@@ -40,6 +40,7 @@ android {
         release {
             isMinifyEnabled = false
             buildConfigField("String", "BASE_URL", properties["prod.base.url"].toString())
+            manifestPlaceholders["NAVER_MAP_CLIENT_ID"] = properties.getProperty("naverMapProdClientId")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
